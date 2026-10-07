@@ -1,0 +1,8 @@
+# Panneau macOS Assets (7 October 2026)
+
+- Le panneau natif vit dans `~/Applications/ZenRay Assets.app` et s’ouvre depuis « Assets » dans la barre des menus. Il suit Upload, LOAD et UNLOAD avec AnthropicSerif ; les opérations actives précèdent l’état de repos. (7 October 2026)
+- Sources : `scripts/Assets/NativeDashboard/` dans ZenRayProgress. `node scripts/Assets/NativeDashboard/Install.mjs` compile et installe l’application ; les paramètres du panneau sont centralisés dans son Settings.json. Le LaunchAgent propre au panneau le relance à la connexion, sans remplacer le service Assets. (7 October 2026)
+- Adapter.mjs appelle requestAssets avec l’action list : même pont authentifié que les autres outils, sans moteur de transfert ni file supplémentaire. Le panneau suit les opérations, tandis que la page Assets lance les actions. (7 October 2026)
+- Chaque opération conserve son identité et son vrai état. Les événements de préparation, envoi et vérification restent distincts : aucun pourcentage global, débit ou temps restant n’est inventé à partir d’événements incomplets. (7 October 2026)
+- Une perte du service conserve les dernières données en les indiquant périmées ; un échec demeure visible et la reprise se détecte au prochain relevé. Le délai maximal du processus et la fréquence de lecture sont configurés, avec une seule requête à la fois. (7 October 2026)
+- La police doit être réellement disponible ; un repli est signalé. Les preuves runtime, captures du panneau et fixtures de panne sont conservées dans l’atelier du projet ; une capture de la vue ne prouve pas que les archives sont terminées. (7 October 2026)

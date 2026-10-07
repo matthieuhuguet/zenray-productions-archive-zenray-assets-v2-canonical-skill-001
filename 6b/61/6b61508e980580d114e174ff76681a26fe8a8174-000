@@ -1,0 +1,44 @@
+# Utiliser ZenRay Assets V2 (3 October 2026)
+
+## Commencer ou reprendre (3 October 2026)
+
+Dis simplement à ton agent : « Utilise zenray-assets-v2 pour commencer ou reprendre mon projet Louisiana Bayou. » Il retrouve le projet existant, prépare son atelier et sa mémoire, relit son contexte et lie cette conversation au bon feedback. Aucun terminal à utiliser toi-même. (3 October 2026)
+
+Pour un nouveau projet, donne son nom une fois. Pour reprendre, garde le même nom ; une nouvelle conversation ou une nouvelle itération ne crée pas un nouveau projet. (3 October 2026)
+
+## Travailler chaque jour (3 October 2026)
+
+1. Ouvre Assets dans ZenRayProgress et choisis ton projet. La page locale est http://127.0.0.1:5199/?view=assets ; elle fonctionne quand le serveur local est lancé. La page publiée est https://zenray-progress.pages.dev/?view=assets. (3 October 2026)
+2. Dans **Emplacements**, clique **Ouvrir l’atelier**. Mets tes nouveaux fichiers dans cet atelier : textures, références, notes, exports, posts ou séquences. Après LOAD, ce bouton ouvre l’atelier de la copie active. Il évite de travailler dans un ancien TMP. (3 October 2026)
+3. Continue à utiliser tes dossiers Houdini et Unreal habituels lorsqu’ils sont reliés au projet. Demande à l’agent de relier les dossiers concernés une fois ; le projet mémorise ces liens. Un dossier Unreal partagé reste partagé, avec seulement le contenu concerné associé à chaque projet. (3 October 2026)
+4. Laisse **Auto activée**. Les fichiers admis dans les dossiers reliés sont détectés et indexés automatiquement ; la sauvegarde démarre après environ deux minutes sans modification, puis dépend du volume à envoyer et de la file d’attente. **À sauvegarder** signifie que les nouveaux octets ne sont pas encore confirmés dans le cloud. **Sauvegardé** confirme leur archivage. **Sauvegarder** permet de lancer l’envoi immédiatement. (3 October 2026)
+
+Tu n’as pas à déplacer les originaux pour constituer une archive. Le cloud conserve le classement par projet et par origine ; il ne devine pas la catégorie artistique de chaque fichier ni l’appartenance d’un dossier non relié. Les caches, fichiers exclus et secrets ne sont pas exportés automatiquement. (3 October 2026)
+
+## Retrouver le travail (3 October 2026)
+
+- **Fichiers** : recherche un fichier, sélectionne plusieurs éléments ou télécharge tout ce qui est sauvegardé. Un téléchargement ordinaire récupère les fichiers ; LOAD crée une copie de travail suivie. (3 October 2026)
+- **Chronologie** : retrouve les événements du projet. Le journal global reste unique ; le projet n’en crée pas un second. (3 October 2026)
+- **Prompts et feedbacks** : retrouve les consignes et réponses finales des conversations Codex ou Claude réellement liées au projet. Elles rejoignent son FEEDBACK.md canonique, sans effacer les anciennes entrées. Une conversation non liée, les outils et toutes les autres applications ne sont pas capturés universellement. (3 October 2026)
+- **Emplacements** : retrouve les liens TMP, Memory, Houdini et Unreal, l’atelier actif et l’état des ressources des scènes. (3 October 2026)
+
+## Charger et libérer une copie (3 October 2026)
+
+1. Sélectionne les fichiers voulus, puis clique **Charger sur le Mac**. Sans sélection, le programme propose le projet entier. Le téléchargement crée une copie gérée et vérifie les octets ; les originaux restent en place. (3 October 2026)
+2. Utilise **Compléter la copie** pour ajouter des fichiers à cette même copie, sans écraser ceux déjà présents. Pour les nouveaux fichiers de travail, reviens à **Ouvrir l’atelier**. (3 October 2026)
+3. Quand tu veux libérer cette copie, clique **Décharger la copie chargée**. L’action concerne toute la copie gérée, même si quelques fichiers sont sélectionnés. Elle refuse de supprimer des fichiers dont la récupération n’est pas prouvée, des modifications non archivées ou des fichiers imprévus. Tes dossiers de production restent présents. (3 October 2026)
+4. Utilise **Récupérer la copie déchargée** pour retrouver la version libérée. Si un original change pendant le travail dans sa copie, le programme conserve automatiquement les deux versions dans l’archive avant de poursuivre. (3 October 2026)
+
+LOAD ne garantit pas encore qu’une scène Houdini ou un projet Unreal s’exécute immédiatement sur un autre ordinateur. La vérification Houdini actuelle contrôle certaines ressources en session isolée ; elle ne sauvegarde pas une scène entièrement reconnectée et ne prouve pas un rendu complet. (3 October 2026)
+
+## La seule habitude à garder (3 October 2026)
+
+Nomme le projet au début, travaille dans l’atelier ouvert depuis sa page et regarde son état de sauvegarde avant de libérer une copie. Le service du Mac doit être connecté pour détecter les nouveaux fichiers ; hors connexion, la page montre l’archive connue. Si une erreur apparaît, demande à l’agent de la réparer plutôt que de considérer un dossier créé comme une sauvegarde. (3 October 2026)
+
+## Explorateur et identite du projet (3 October 2026)
+
+Dans Emplacements, telecharge la fiche .md du projet : elle recense son identifiant, ses sources locales et cloud, sa memoire et ses dependances. Les fichiers restent attribues par les dossiers relies, sans inference de leur projet a partir de leur nom. (3 October 2026)
+
+Dans Fichiers, choisis Icones, Liste, Colonnes ou Galerie. Combine les filtres de famille, extension, origine et etat ; Filtres precis ajoute recherche par nom, dates avec heure et taille. Nom, Type, Date et Taille se trient dans les deux sens. Sans selection, Telecharger recupere les resultats filtres disponibles. (3 October 2026)
+
+Correction des anciens noms d onglets de ce guide : Historique et discussions reunit chronologie, prompts et feedbacks avec filtre. Conversation capturee indique une source Codex ou Claude liee ; Compte rendu de fin de tour est la consignation explicite par un agent et ne remplace pas une conversation native Antigravity ou Gemini complete. Le skill demande cette consignation en fin de chaque tour de travail ; le service ne peut pas forcer une autre application a invoquer un skill. (3 October 2026)

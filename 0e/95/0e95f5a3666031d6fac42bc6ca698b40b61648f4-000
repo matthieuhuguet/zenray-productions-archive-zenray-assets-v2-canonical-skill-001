@@ -1,0 +1,66 @@
+---
+name: zenray-assets
+description: Initialiser, reprendre, archiver et restaurer les projets ZenRay Assets, leurs sources et conversations. Intègre le feedback canonique, le mapping, les preuves cloud et LOAD/UNLOAD ; gouverne le service et son panneau macOS. Les médias vers Create passent par zenray-upload.
+---
+
+# ZenRay Assets (7 October 2026)
+
+## Entrée unique (7 October 2026)
+
+- Ce skill remplace les procédures actives de zenray-assets-v2 et intègre zenray-feedback. L’ancien moteur zenray-assets est archivé, pas réactivé. Les identifiants de projet, notamment zenray-assets-v2, restent inchangés. (7 October 2026)
+- Source du programme : `/Users/zenray/Create/Build/Productions/GithubProductions/ZenRayProgress`. Exécuter les commandes ci-dessous depuis ce dépôt. Le service existant est le seul moteur de transfert et de LOAD/UNLOAD. (7 October 2026)
+- À chaque conversation, exécuter `node scripts/Assets/BeginConversation.mjs --agent=codex --session-id=<vrai-id-hôte> --project-id=<id-existant>`, en adaptant l’agent réel. Sans projet, omettre project-id et donner `--name=<sujet>`. Les identifiants exposés par l’hôte peuvent être lus automatiquement ; aucun identifiant de session ne s’invente. (7 October 2026)
+- Lire le contexte et le FEEDBACK.md retournés, puis la mémoire, les documents et les conversations originales utiles. `node scripts/Assets/Client.mjs context <id-ou-chemin-local>` actualise le mapping. Une nouvelle demande ne crée pas un nouveau projet. Une session liée ailleurs ne se réattribue pas. (7 October 2026)
+- Produire dans l’atelier actif retourné, ou dans une source de production explicitement reliée. Relier les nouvelles sources avec leurs sélections ; ne jamais reprendre un dossier mixte entier par facilité. (7 October 2026)
+
+## Feedback intégré (7 October 2026)
+
+- Le suivi fait partie du démarrage Assets, sans invocation séparée : FEEDBACK.md conserve les prompts, consignes, corrections et preuves dans `Memory1/Projects/<id>/`. Relire l’objectif avant une action et après une reprise. Le registre Assets remplace toute nouvelle liste de projets dans CLAUDE.md. (7 October 2026)
+- Le service capture les messages Codex/Claude des sessions réellement liées. Vérifier le prompt original et sa provenance avant d’ajouter quoi que ce soit manuellement ; ne pas recopier les messages déjà capturés. La capture n’est pas un hook universel pour tous les hôtes. (7 October 2026)
+- Le seul writer est `~/.claude/skills/zenray-feedback/scripts/feedback.py`, configuré dans AssetsConfig.json. Pour une règle, une mesure ou un prompt absent de la capture native : `python3 ~/.claude/skills/zenray-feedback/scripts/feedback.py add <project-id> "<texte>" --kind rule --event-id <id-stable>`. Utiliser prompt, log ou order selon le contenu ; préserver le texte humain. (7 October 2026)
+- Le writer verrouille, ajoute à la fin et synchronise l’écriture ; le même event-id n’ajoute rien deux fois. Les corrections citent une entrée ancienne dans une nouvelle entrée. Les anciens feedbacks sont reliés avec link-legacy, jamais réécrits. (7 October 2026)
+- Fin de tour : `node scripts/Assets/Client.mjs checkpoint <project-id> '<payload-json>'`, avec agent réel, sessionId réel, checkpointId stable et summary des faits vérifiés et prochain geste. Le service refuse une liaison incompatible. Un checkpoint reste un compte rendu, pas un original de conversation. `backupConfirmed=false` signifie une écriture locale sans preuve cloud. (7 October 2026)
+- Gemini/Antigravity et tout hôte sans import natif vérifié consignent leurs vrais prompts via ce writer et leurs résultats via checkpoint. Si l’identifiant réel manque, signaler la limite au feedback sans prétendre lier une session. (7 October 2026)
+
+## Archiver et reprendre (7 October 2026)
+
+- `node scripts/Assets/Client.mjs inventory <id>` puis `node scripts/Assets/Client.mjs archive <id>` utilisent la file existante. Un jobId prouve la mise en file seulement. Lire job.state, erreurs et preuves par fichier avant d’annoncer une sauvegarde. (7 October 2026)
+- Client status affiche un résumé. Pour le détail, le bridge requestAssets renvoie le snapshot complet ; `Project-<id>.json` dans `~/Library/Application Support/ZenRayAssets/` expose inventory.localFiles et backups par sourceId:relativePath. Comparer SHA256 et taille aux octets actuels. (7 October 2026)
+- `load-plan` puis `restore` créent une copie LOAD gérée, vérifiée indépendamment ; `unload-plan` puis `unload` libèrent seulement cette copie si le cycle du service le permet. `recover` restitue sa version archivée. Aucun ancien free ni effacement des originaux de production. (7 October 2026)
+- Une archive validée prouve les octets, pas l’exécution d’une scène Houdini/Unreal sur une autre machine. Inventaire local, publication d’index, archive et restauration sont des preuves distinctes. Les erreurs et dépendances manquantes restent visibles. (7 October 2026)
+
+## Références à lire selon le geste (7 October 2026)
+
+- Usage quotidien, page Assets, ateliers et cycle LOAD/UNLOAD : [DailyUse.md](references/DailyUse.md). Ses noms d’onglets historiques sont corrigés en fin de document. (7 October 2026)
+- Migration d’un ancien plan, sélections partagées, payload start exact et preuve par fichier : [LegacyMigration.md](references/LegacyMigration.md). (7 October 2026)
+- Développement du service, contrats, ressources Houdini, conversations, chronologie ou décision historique : rechercher le sujet daté dans [AssetsV2History.md](references/AssetsV2History.md), puis lire les sections pertinentes et le code courant. Cette référence conserve intégralement les exigences et leurs corrections ; les mesures anciennes ne prouvent pas l’état présent. (7 October 2026)
+- Reprise documentaire d’un projet : LinkConversations.mjs --project <id> --write-memory, ConversationIndex.md, puis ConversationDigest.mjs pour les originaux utiles ; les chiffres se vérifient contre les fichiers. (7 October 2026)
+- Recherche : FindInProject.mjs <id-ou-chemin> "<phrase>" --limit 10 ; FileMap.md est une carte dérivée de l’inventaire, pas un second registre. (7 October 2026)
+
+## Contrat du logiciel (7 October 2026)
+
+- Toute modification du programme met à jour cette documentation dans le même travail. Modifier seulement la source `~/.claude/skills/zenray-assets/`, puis skill-sync et CheckSkillContract.mjs --record, suivi du contrôle sans --record. Un contrat vert signifie des fichiers concordants, pas que tous les scénarios ont été exécutés. (7 October 2026)
+- Conserver les preuves de comportement, y compris les refus attendus, dans le projet concerné. Tester la fonction modifiée avant d’enregistrer son contrat ; ne jamais effacer une erreur de validation pour fabriquer du vert. (7 October 2026)
+
+## Cas de démarrage et preuves de capture (7 October 2026)
+
+- Pour un projet réellement nouveau, choisir son ID stable une fois et exécuter `node scripts/Assets/BeginProject.mjs <new-project-id> --name="<nom>" --session-id=<vrai-id-hôte>`, puis BeginConversation avec l’agent réel et ce même ID. Pour une reprise, résoudre l’ID existant par le mapping avant BeginConversation ; ne pas recréer une identité depuis le titre. Une session déjà liée ailleurs conserve son projet. (7 October 2026)
+- Les seuls agents acceptés par BeginConversation et checkpoint sont claude, codex, gemini et antigravity. Si l’hôte ou son identifiant réel n’est pas pris en charge, conserver la limite visible dans le feedback existant via le writer canonique ; ne pas fabriquer un fournisseur ou une session pour faire passer la commande. (7 October 2026)
+- Pour une sélection dans un dossier partagé, enregistrer des chemins include relatifs précis selon LegacyMigration.md ; archiver seulement les fileIds sélectionnés avec `node scripts/Assets/Client.mjs archive <id> '{"fileIds":["<source-id>:first.txt","<source-id>:second.txt"]}'`. Ces exemples sont remplacés par les identités de l’inventaire courant. (7 October 2026)
+- Exemple exact de checkpoint : `node scripts/Assets/Client.mjs checkpoint <id> '{"agent":"codex","sessionId":"<vrai-id-hôte>","checkpointId":"<id-stable-du-tour>","summary":"<faits vérifiés et prochain geste>"}'`. La garde du service refuse une session liée à un autre projet ; une session non liée n’est pas automatiquement liée par ce checkpoint. (7 October 2026)
+- Pour retrouver un prompt original, lire ConversationIndex.md et le transcript via ConversationDigest.mjs avec son reader ID ; vérifier le texte et sa provenance dans le feedback capturé. Un checkpoint ou une reformulation ne devient jamais l’original. (7 October 2026)
+
+## Mapping des skills courants (7 October 2026)
+
+- Le contexte généré recommande désormais zenray-assets ; les projets conservent leurs IDs et leurs sources. Les skills propres au projet sont ajoutés au registre, sans déplacer ses fichiers ni réattribuer une session. (7 October 2026)
+
+## Suivi macOS (7 October 2026)
+
+- Pour installer, vérifier ou réparer le panneau de la barre des menus, lire [NativeDashboard.md](references/NativeDashboard.md). Il affiche les opérations du service existant avec leurs états et leurs erreurs ; la page Assets conserve les commandes de transfert. (7 October 2026)
+
+## 7 October 2026 : Retrouver un fichier depuis une phrase, carte des fichiers, index qui se regenere, fusion des rebuilds
+
+- 7 October 2026 : `node scripts/Assets/FindInProject.mjs <projet ou chemin> "<phrase>"` classe l inventaire vivant par les mots de la phrase (synonymes francais et anglais, prefixes Unreal M_ T_ SM_), regroupe par etape de travail (dossier), prefere les originaux aux copies restaurees de LOAD et renforce les fichiers que la memoire du projet nomme dans un passage qui correspond. Un mot jamais ecrit nulle part (par exemple « concept ») ne peut pas etre devine : nommer le moment dans un dossier ou dans FEEDBACK.md. (7 October 2026)
+- 7 October 2026 : `Memory1/Projects/<id>/FileMap.md` est ecrit par le service apres chaque inventaire (chaque dossier, fichiers comptes une fois, reecrit seulement s il change) : un modele ou une personne comprend le projet en une lecture. Ne pas l editer. (7 October 2026)
+- 7 October 2026 : `ConversationIndex.md/json` se regenere seul (ConversationIndexSync : liaison de session, balayage de 60 s, demarrage), ecriture atomique puis relecture avec invariants, erreur visible. Detail : references/AssetsV2History.md et le code. (7 October 2026)
+- 7 October 2026 : audit de performance (rapports dans `~/.claude/tmp/tmp-zenray-assets-v2/perf-audit-7-October-2026/`, constats NON verifies sauf le premier) : `refreshContextIndex` fusionne desormais les appels simultanes et n ecrit un contexte que s il change (commit 030ad7b7). Restent, par ordre : snapshot() qui recombine tous les fichiers de tous les projets, inventaires non fusionnes par evenement, republication du registre cloud de 36 Mo a chaque archive, statut de 31 Mo toutes les 6 s. Chaque correction a son test et son redemarrage du service. (7 October 2026)
