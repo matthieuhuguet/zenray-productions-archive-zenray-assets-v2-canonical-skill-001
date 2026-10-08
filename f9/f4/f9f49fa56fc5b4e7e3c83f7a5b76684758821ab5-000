@@ -1,22 +1,22 @@
 {
  "schemaVersion": 1,
  "projectId": "zenray-assets-v2",
- "scannedAt": "2026-10-08T22:15:16.904Z",
+ "scannedAt": "2026-10-08T22:31:12.270Z",
  "conversations": [
   {
    "projectId": "zenray-assets-v2",
-   "lines": 1378,
-   "work": 670,
-   "prompts": 52,
+   "lines": 1390,
+   "work": 675,
+   "prompts": 53,
    "first": "2026-10-07T12:25:29.615Z",
-   "last": "2026-10-08T22:13:23.098Z",
+   "last": "2026-10-08T22:30:56.459Z",
    "strength": "strong",
    "conversationId": "codex:01a11653-69f5-7492-b80e-dbcc6a785d87",
    "provider": "codex",
    "sessionId": "01a11653-69f5-7492-b80e-dbcc6a785d87",
    "title": "Conversation codex 01a11653",
-   "updatedAt": "2026-10-08T22:15:05.622Z",
-   "bytes": 216997159,
+   "updatedAt": "2026-10-08T22:30:56.459Z",
+   "bytes": 220280114,
    "boundProject": "zenray-assets-v2"
   },
   {
@@ -399,8 +399,8 @@
    "provider": "claude",
    "sessionId": "fa4b854c-d32b-463e-9994-34b34d998356",
    "title": "Montage vidéo pot tournage",
-   "updatedAt": "2026-10-08T22:11:21.164Z",
-   "bytes": 20652,
+   "updatedAt": "2026-10-08T22:31:07.133Z",
+   "bytes": 25614130,
    "boundProject": "poisson-gloss-matthieu-poterie-aix-8-octobre-2026"
   },
   {
