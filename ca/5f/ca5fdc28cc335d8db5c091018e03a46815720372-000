@@ -6,3 +6,52 @@
 - Chaque opération conserve son identité et son vrai état. Les événements de préparation, envoi et vérification restent distincts : aucun pourcentage global, débit ou temps restant n’est inventé à partir d’événements incomplets. (7 October 2026)
 - Une perte du service conserve les dernières données en les indiquant périmées ; un échec demeure visible et la reprise se détecte au prochain relevé. Le délai maximal du processus et la fréquence de lecture sont configurés, avec une seule requête à la fois. (7 October 2026)
 - La police doit être réellement disponible ; un repli est signalé. Les preuves runtime, captures du panneau et fixtures de panne sont conservées dans l’atelier du projet ; une capture de la vue ne prouve pas que les archives sont terminées. (7 October 2026)
+
+## Correction et état vérifié (8 October 2026)
+
+- Correction de la première ligne du 7 October 2026 : les libellés utilisent InterVariable, le titre et les nombres AnthropicSerif-Regular, et l’état visible se lit en français courant. (8 October 2026)
+- Le panneau montre un résumé, les opérations actives et leurs erreurs utiles dans des cartes courtes ; les échecs historiques disparaissent après une réussite plus récente. (8 October 2026)
+- La fenêtre mesure 360 points de large, se réduit au contenu et reste plafonnée à 320 points de haut ; les opérations supplémentaires restent accessibles par défilement. (8 October 2026)
+- Après `Install.mjs`, vérifier puis rouvrir le processus natif si le bouton n’est pas visible ; le LaunchAgent de connexion n’oblige pas un processus déjà arrêté à revenir immédiatement. (8 October 2026)
+- Preuve réelle du 8 October 2026 : `NativeDashboardLive-20261008.json` indique statut présent, pont connecté et panneau visible ; sa capture est `NativeDashboardLive-20261008.json.png`. (8 October 2026)
+
+## Message d’interruption reprenable (8 October 2026)
+
+- Le message service `Previous service stopped before completion; backup can resume` devient « Sauvegarde interrompue, reprise possible » ; une erreur inconnue renvoie au détail porté par l’infobulle du bouton Assets. (8 October 2026)
+- La fixture `current-errors` vérifie ce libellé ; la capture réelle `NativeDashboardLive-20261008-final.json.png` confirme qu’il apparaît dans le panneau relié au service. (8 October 2026)
+
+## Résumé compact des files chargées (8 October 2026)
+
+- 8 October 2026 : L’en-tête tient en trois faits : service connecté, opérations en cours, opérations en attente. Une sauvegarde, un chargement et une libération d’espace ont chacun une carte au maximum. (8 October 2026)
+- 8 October 2026 : Les projets à vérifier sont regroupés dans une seule carte avec les causes connues comptées ; le survol de « Assets » affiche les noms et causes par projet. (8 October 2026)
+- 8 October 2026 : La fixture `busy-queue` prouve que quatre sauvegardes en attente restent dans une seule carte ; `current-errors` garde visibles une reprise possible et une erreur de registre. (8 October 2026)
+- 8 October 2026 : La preuve `NativeDashboardLive-20261008-verified.json.png` conserve le rendu natif connecté ; son JSON indique aussi le status item, la fenêtre du popover et leur état mesuré, sans confondre rendu et capture du bureau. (8 October 2026)
+
+## 8 October 2026 : Bouton visible et accessible
+
+- 8 October 2026 : Le bouton de la barre des menus est explicitement visible, avec le symbole système `externaldrive.fill` et le texte Assets, puis une infobulle « Ouvrir ZenRay Assets ». (8 October 2026)
+- 8 October 2026 : Le contrôle d’accessibilité porte le nom « ZenRay Assets » et l’aide « Afficher les sauvegardes et leur état » ; les sept fixtures vérifient son icône, sa visibilité et son nom. (8 October 2026)
+- 8 October 2026 : Après rechargement, une mesure réelle System Events donne le bouton activé à la position `(950, 4)`, taille `84 × 24` ; le clic ouvre le popover natif sous la barre des menus, fenêtre `386 × 346`. (8 October 2026)
+
+
+## 8 October 2026 : Fond opaque et bouton masqué par macOS
+
+- 8 October 2026 : Le popover repose sur une vue opaque de couleur système ; `Verify.mjs` confirme `contentOpaque=true` dans les sept fixtures natives. (8 October 2026)
+- 8 October 2026 : Le status item demande 18 points et garde l’icône `externaldrive.fill` à 14 points ; une capture de `current-errors` prouve que le panneau reste lisible. (8 October 2026)
+- 8 October 2026 : L’accessibilité macOS expose le bouton à `(996, 4)`, taille `20 × 24`, mais la capture recadrée montre le chevron de débordement au même endroit et aucune icône Assets. (8 October 2026)
+- 8 October 2026 : Modifier `AXPosition` par System Events n’a pas déplacé le bouton hors du groupe masqué ; `isVisible=true` n’est donc pas une preuve d’affichage. (8 October 2026)
+- 8 October 2026 : La visibilité physique reste à finir ; après déplacement manuel dans la partie visible de la barre, contrôler une capture réelle et conserver `com.zenray.assets.dashboard.status` pour mémoriser sa position. (8 October 2026)
+
+## 8 October 2026 : Réorganiser le bouton avec macOS (8 October 2026)
+
+- 8 October 2026 : Pour sortir Assets du débordement, maintenir Command et faire glisser son icône jusqu’à la partie visible de la barre ; macOS mémorise ensuite la position grâce au `autosaveName`. [Guide Apple, personnaliser la barre des menus](https://support.apple.com/en-gb/guide/mac-help/mchl4af84660/mac) (8 October 2026)
+- 8 October 2026 : Après le déplacement, vérifier une capture réelle du bureau ; `AXPosition` et `NSStatusItem.isVisible` ne prouvent pas le placement visible. (8 October 2026)
+
+## 8 October 2026 : Lecture plus simple et bouton nommé
+
+- 8 October 2026 : Si une carte décrit déjà les opérations, ne pas répéter les mêmes compteurs dans un résumé au-dessus ; garder une seule ligne par action et supprimer l’instruction de survol devenue redondante. (8 October 2026)
+- 8 October 2026 : Une ligne d’action donne son nom, son état, le projet actif, une phase courte et le nombre d’opérations qui attendent ; une carte d’erreur montre au plus deux causes en français courant et garde le détail par projet dans l’infobulle. (8 October 2026)
+- 8 October 2026 : Le bouton de barre affiche `externaldrive.fill` et le mot « Assets » à largeur variable ; les fixtures vérifient son nom et sa largeur, tandis que seule une capture réelle du bureau prouve qu’il est hors du débordement macOS. (8 October 2026)
+- 8 October 2026 : Le popover et sa vue racine prennent la même hauteur mesurée ; cela évite de laisser un grand espace blanc après une opération courte. (8 October 2026)
+- 8 October 2026 : Sept états natifs passent dans `node scripts/Assets/NativeDashboard/Verify.mjs <Assets-workshop-path>` ; les captures locales `NativeDashboardProof-20261008/` montrent la file regroupée et les erreurs simplifiées. (8 October 2026)
+- 8 October 2026 : Le LaunchAgent `com.zenray.assets.dashboard` a été rechargé séparément du service d’archives ; System Events retrouve le bouton intitulé « Assets », mais le bureau verrouillé ne permet pas de certifier son placement physique. (8 October 2026)

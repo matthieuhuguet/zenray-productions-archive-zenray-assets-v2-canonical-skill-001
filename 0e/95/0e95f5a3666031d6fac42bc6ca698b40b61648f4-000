@@ -58,9 +58,89 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 
 - Pour installer, vérifier ou réparer le panneau de la barre des menus, lire [NativeDashboard.md](references/NativeDashboard.md). Il affiche les opérations du service existant avec leurs états et leurs erreurs ; la page Assets conserve les commandes de transfert. (7 October 2026)
 
+## 8 October 2026 : Lecture efficace du registre cloud volumineux
+
+- 8 October 2026 : Pour `pages/.zr-assets-workspaces.json`, `AssetsCloudPublisher` lit directement les métadonnées GitHub Contents afin d’obtenir SHA et taille sans transférer le corps complet par `/api/page`; si GitHub omet le corps, lire le blob immuable correspondant au SHA avant l’écriture avec contrôle de conflit.
+- 8 October 2026 : Le registre mesuré fait 41 899 884 octets ; sa lecture entière par Pages échoue alors que les métadonnées GitHub reviennent en 1,3 seconde. Vérifier le contrat avec `node scripts/Assets/CheckSkillContract.mjs --record`, puis sans `--record`.
+- 8 October 2026 : `./node_modules/.bin/vitest run scripts/AssetsCloudPublisher.test.js` doit garder le test rouge si la lecture passe par Pages et vert si la lecture utilise les métadonnées GitHub ; ne pas annoncer un job en file comme une sauvegarde achevée.
+
 ## 7 October 2026 : Retrouver un fichier depuis une phrase, carte des fichiers, index qui se regenere, fusion des rebuilds
 
 - 7 October 2026 : `node scripts/Assets/FindInProject.mjs <projet ou chemin> "<phrase>"` classe l inventaire vivant par les mots de la phrase (synonymes francais et anglais, prefixes Unreal M_ T_ SM_), regroupe par etape de travail (dossier), prefere les originaux aux copies restaurees de LOAD et renforce les fichiers que la memoire du projet nomme dans un passage qui correspond. Un mot jamais ecrit nulle part (par exemple « concept ») ne peut pas etre devine : nommer le moment dans un dossier ou dans FEEDBACK.md. (7 October 2026)
 - 7 October 2026 : `Memory1/Projects/<id>/FileMap.md` est ecrit par le service apres chaque inventaire (chaque dossier, fichiers comptes une fois, reecrit seulement s il change) : un modele ou une personne comprend le projet en une lecture. Ne pas l editer. (7 October 2026)
 - 7 October 2026 : `ConversationIndex.md/json` se regenere seul (ConversationIndexSync : liaison de session, balayage de 60 s, demarrage), ecriture atomique puis relecture avec invariants, erreur visible. Detail : references/AssetsV2History.md et le code. (7 October 2026)
 - 7 October 2026 : audit de performance (rapports dans `~/.claude/tmp/tmp-zenray-assets-v2/perf-audit-7-October-2026/`, constats NON verifies sauf le premier) : `refreshContextIndex` fusionne desormais les appels simultanes et n ecrit un contexte que s il change (commit 030ad7b7). Restent, par ordre : snapshot() qui recombine tous les fichiers de tous les projets, inventaires non fusionnes par evenement, republication du registre cloud de 36 Mo a chaque archive, statut de 31 Mo toutes les 6 s. Chaque correction a son test et son redemarrage du service. (7 October 2026)
+
+## 8 October 2026 : Écriture directe du registre cloud volumineux
+
+- 8 October 2026 : Si GitHub Contents fournit le SHA mais omet le corps de `pages/.zr-assets-workspaces.json`, `AssetsCloudPublisher` lit le blob immuable correspondant à ce SHA, puis garde sa version comme base de mutation.
+- 8 October 2026 : `saveGitDataText` écrit le registre en texte UTF-8 par Git Data, puis crée l’arbre, le commit et avance la référence ; le corps volumineux ne passe plus dans le JSON envoyé à `/api/page`.
+- 8 October 2026 : Avant l’envoi, sur chaque HEAD frais avant le commit, puis après l’avancement de la référence, comparer le SHA du même chemin pour refuser tout écrasement concurrent ; garder le retry fast-forward et le journal `cmdlog`.
+- 8 October 2026 : L’API GitHub accepte `encoding: "utf-8"` pour créer un blob ; voir [Git blobs REST API](https://docs.github.com/en/rest/git/blobs). Préférer cette forme pour du texte volumineux afin d’éviter l’expansion base64.
+- 8 October 2026 : Vérifier `./node_modules/.bin/vitest run scripts/AssetsCloudPublisher.test.js server/page-large-save.test.js`, puis `./node_modules/.bin/vitest run scripts/AssetsService.test.js` et `npm run build`.
+- 8 October 2026 : La preuve réelle est le job `2e86f4ee-e82e-40f8-8f06-42c4ccd4593d` terminé ; GitHub renvoie 201 pour blob, arbre et commit, 200 pour la référence, puis `gh api` confirme le SHA `9a1f75b1ba9ff0836a84c27e9ff6bfcc33590eea` et 41 941 886 octets.
+- 8 October 2026 : Une première écriture base64 a reçu 401 avec le même jeton que `gh` ; Contents pouvait déjà écrire. Vérifier le format et le volume de la requête avant de conclure à un jeton invalide.
+
+## 8 October 2026 : Dépôt Git local pour les registres au-delà de la limite REST
+
+- 8 October 2026 : Correction de la section précédente : le blob UTF-8 Git Data REST échoue quand le registre dépasse la limite d’entrée GitHub, avec HTTP 422 « input was too large ». Pour le gros registre partagé, `AssetsCloudPublisher` utilise `scripts/AssetsCloudGitWriter.mjs`, qui garde un clone Git sparse dans `AssetsConfig.storage.stateDir/repositories/`.
+- 8 October 2026 : Le clone ne contient que `pages/.zr-assets-workspaces.json`; chaque écriture synchronise `origin/<branche>`, compare le SHA distant au SHA attendu, ajoute ce seul fichier, crée un commit et pousse sans force.
+- 8 October 2026 : Quand Contents omet le corps, le publisher compare d’abord son SHA à celui du clone sparse puis lit le texte localement; le gros blob ne passe donc ni par GitHub Blob REST ni par le bridge Pages.
+- 8 October 2026 : Un push refusé est un conflit seulement si la référence distante a avancé, ce qui fait relire et recomposer le registre; sinon l’erreur remonte. Après un push réussi, le publisher relit le SHA GitHub Contents avant de poursuivre.
+- 8 October 2026 : Le clone utilise le credential helper Git du compte macOS et coupe les invites interactives; son identité de commit est `ZenRay Assets <assets@zenray.local>`.
+- 8 October 2026 : Test de preuve locale : un dépôt bare reçoit et relit un registre UTF-8 de 2,2 Mo, puis refuse un second writer basé sur un SHA ancien. Contrôles : `vitest run scripts/AssetsCloudGitWriter.test.js scripts/AssetsCloudPublisher.test.js server/page-large-save.test.js`, `vitest run scripts/AssetsService.test.js`, et `npm run build`.
+
+## 8 October 2026 : Vue native Assets simple et rétablie
+
+- 8 October 2026 : Le panneau de la barre des menus présente les opérations par cartes courtes, avec les mots « sauvegarde », « chargement » et « libérer de l’espace », leur état, puis un détail mesuré quand il aide.
+- 8 October 2026 : InterVariable sert l’interface ; AnthropicSerif-Regular sert au titre et aux nombres. La fenêtre se réduit au contenu, avec une largeur de 360 points et une hauteur maximale de 320 points.
+- 8 October 2026 : Quand le panneau manque, contrôler le processus `com.zenray.assets.dashboard` et le relancer ; `RunAtLoad` ne redémarre pas un processus arrêté durant la même session.
+- 8 October 2026 : Référence, tests natifs, états d’installation et preuve runtime sont dans `references/NativeDashboard.md` et `scripts/Assets/NativeDashboard/` du dépôt ZenRayProgress.
+- 8 October 2026 : Une interruption de service reprenable s’affiche « Sauvegarde interrompue, reprise possible » ; les autres erreurs donnent le détail dans l’infobulle du bouton Assets.
+- 8 October 2026 : La fixture native `current-errors` et la capture `NativeDashboardLive-20261008-final.json.png` vérifient le message affiché.
+
+## 8 October 2026 : Résumé très simple du panneau natif
+
+- 8 October 2026 : Le panneau affiche l’état du service, le nombre d’opérations en cours et en attente, une carte par type actif et une seule carte « À vérifier ». Les jobs en file ne produisent plus chacun une carte. (8 October 2026)
+- 8 October 2026 : Une sauvegarde en cours garde le nom du projet et la phase mesurée ; les chargements et libérations d’espace restent regroupés séparément. Aucun débit ni délai restant n’est inventé. (8 October 2026)
+- 8 October 2026 : La carte d’erreur compte les projets et les causes connues ; le survol du bouton Assets révèle les noms de projet et les causes résumées. (8 October 2026)
+- 8 October 2026 : `Verify.mjs` vérifie sept états natifs, dont quatre sauvegardes en attente regroupées dans une seule carte et plusieurs erreurs dans une seule synthèse. (8 October 2026)
+- 8 October 2026 : Pour prouver le status item et son contenu live, conserver la capture de la vue rendue avec son JSON ; distinguer cette capture d’une capture du bureau et contrôler séparément l’accessibilité du bouton Assets. (8 October 2026)
+
+## 8 October 2026 : Bouton Assets visible dans la barre des menus
+
+- 8 October 2026 : Le LaunchAgent doit rendre le status item explicitement visible, avec le symbole système `externaldrive.fill` avant le libellé Assets, une infobulle claire et le nom d’accessibilité « ZenRay Assets ». (8 October 2026)
+- 8 October 2026 : `Verify.mjs` contrôle que le bouton existe, qu’il est visible, qu’il porte son icône et qu’il expose ce nom d’accessibilité dans chacun des sept états natifs. (8 October 2026)
+- 8 October 2026 : Après `Install.mjs`, recharger uniquement `com.zenray.assets.dashboard`, puis contrôler le bouton avec System Events et confirmer l’ouverture du popover par sa fenêtre native ; ne pas redémarrer le service d’archives pour un changement d’interface. (8 October 2026)
+
+## 8 October 2026 : Publication des métadonnées de projet par Git sparse
+
+- 8 October 2026 : Quand `AssetsCloudGitWriter` est disponible, `.workspace.json` et `.context.md` sont lus puis écrits par le clone Git sparse local, comme le registre commun ; cette route évite l’identifiant GitHub refusé par l’API Pages. (8 October 2026)
+- 8 October 2026 : Le writer n’accepte que le registre commun et les deux fichiers de métadonnées d’un ID projet validé ; une lecture peut obtenir son SHA sur place, tandis que chaque écriture compare le SHA attendu et relit le résultat publié. (8 October 2026)
+- 8 October 2026 : Un appelant qui ne connaît pas encore le SHA peut lire le fichier courant ; un SHA est comparé seulement s’il a été fourni, et la sauvegarde exige toujours sa valeur de départ. (8 October 2026)
+- 8 October 2026 : Tests ciblés : `vitest run scripts/AssetsCloudGitWriter.test.js scripts/AssetsCloudPublisher.test.js server/page-large-save.test.js`, puis `vitest run scripts/AssetsService.test.js` et `npm run build`. Après chargement du nouveau daemon, vérifier une publication réelle par son job, son état de synchronisation et le SHA Git distant. (8 October 2026)
+
+
+## 8 October 2026 : Lisibilité native et visibilité réelle du bouton
+
+- 8 October 2026 : Le popover utilise un fond système opaque qui reste lisible au-dessus d’autres applications et suit le mode clair ou sombre. (8 October 2026)
+- 8 October 2026 : Les sept fixtures natives contrôlent `contentOpaque` ; la capture de `current-errors` montre les libellés et causes sans transparence du bureau. (8 October 2026)
+- 8 October 2026 : Le bouton compact utilise le symbole `externaldrive.fill`, une largeur de 18 points, le nom accessible « ZenRay Assets » et l’infobulle « Ouvrir ZenRay Assets ». (8 October 2026)
+- 8 October 2026 : `NSStatusItem.isVisible` et la présence du bouton dans Accessibility ne prouvent pas son affichage physique ; une capture recadrée du menu montre encore le chevron de débordement à sa place. (8 October 2026)
+- 8 October 2026 : System Events mesure le bouton à `(996, 4)`, taille `20 × 24` ; les demandes Accessibility de positions `(1050, 4)`, `(1090, 4)` et `(1300, 4)` reviennent à une position masquée. (8 October 2026)
+- 8 October 2026 : Ne déclarer le bouton visible dans la barre qu’après une capture du bureau où son icône apparaît hors du groupe de débordement ; le nom `autosaveName` seul ne déplace pas le bouton. (8 October 2026)
+
+## 8 October 2026 : Déplacer le status item depuis le débordement (8 October 2026)
+
+- 8 October 2026 : La documentation Apple indique que maintenir Command et faire glisser une icône réorganise les status menus ; déplacer Assets hors du groupe masqué puis refaire une capture prouve sa visibilité réelle. [Guide Apple, personnaliser la barre des menus](https://support.apple.com/en-gb/guide/mac-help/mchl4af84660/mac) (8 October 2026)
+
+## 8 October 2026 : Authentification des archives sans secret dans les arguments (8 October 2026)
+
+- 8 October 2026 : `scripts/archive-folder.mjs` clone des URL GitHub sans jeton ; `scripts/lib/GitHubAskpass.sh` fournit `GITHUB_TOKEN` à Git par son canal askpass, et le repli `curl` lit son en-tête Authorization sur stdin avec `-H @-`. (8 October 2026)
+- 8 October 2026 : Vérifier avec `vitest run scripts/archive-folder-credentials.test.js` ; le test utilise un faux jeton, `git credential fill` et un serveur HTTP local, sans requête externe. (8 October 2026)
+
+## 8 October 2026 : Ctime modifié sans changement des octets
+
+- 8 October 2026 : Lorsqu’un fichier archivé garde la même taille et la même date de modification mais change de ctime, comparer son SHA local au SHA cloud avant de le déclarer en attente. Le SHA doit être lu depuis le descripteur sécurisé et le jeton complet doit rester stable pendant la lecture. (8 October 2026)
+- 8 October 2026 : Si les empreintes correspondent, actualiser le jeton local de la sauvegarde ; si les octets diffèrent, conserver le statut à sauvegarder même quand la taille et la date sont identiques. Les anciens jetons retrouvent la date par leur avant-dernier champ ; les nouveaux enregistrements gardent aussi `mtimeMs`. (8 October 2026)
+- 8 October 2026 : Les tests de `scripts/AssetsService.test.js` prouvent les deux sens avec chmod, date restaurée et octets comparés ; recharger le daemon seulement après la fin de ses archives actives, puis relire `Client.mjs inventory <project-id>`. (8 October 2026)

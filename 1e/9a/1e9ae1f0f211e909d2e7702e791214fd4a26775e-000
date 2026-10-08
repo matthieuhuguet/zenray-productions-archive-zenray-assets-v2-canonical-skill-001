@@ -837,3 +837,10 @@ Le [journal global](/Users/zenray/.claude/PROGRESS.md) conserve les étapes, les
 - Le contrat vérifie désormais les empreintes du point d’entrée et de `references/LegacyMigration.md`. Une référence modifiée ou absente ne conserve pas un contrôle vert sous prétexte que SKILL.md ne change pas. L’enregistrement capture ces fichiers séparément ; une modification du programme exige toujours une nouvelle révision du skill. (7 October 2026)
 
 - Le contrôle refuse aussi le réenregistrement après changement du vérificateur lui-même sans nouvelle révision du skill : refus constaté après correction d’un horodatage de commentaire. Cette garde reste active, même pour un changement documentaire du code couvert. (7 October 2026)
+
+## 8 October 2026 : Métadonnées de projet dans le clone sparse
+
+- 8 October 2026 : `AssetsCloudPublisher` lit et écrit les chemins exacts `pages/ZenRayAssets/<id>/.workspace.json` et `.context.md` avec le writer Git sparse, en plus du catalogue partagé `pages/.zr-assets-workspaces.json`. (8 October 2026)
+- 8 October 2026 : Chaque chemin d’un projet exige un ID accepté par `assertWorkspaceId`; les autres chemins sont refusés. La lecture sans SHA demandé retourne le contenu courant, mais toute écriture conserve une comparaison du SHA attendu pour éviter l’écrasement d’une version concurrente. (8 October 2026)
+- 8 October 2026 : Le publisher ne passe plus ces métadonnées par `/api/page`, évitant l’erreur GitHub 401 de Pages sans lire ni transmettre de secret supplémentaire. (8 October 2026)
+- 8 October 2026 : Preuves locales : `AssetsCloudGitWriter.test.js` valide les deux chemins et le refus d’un writer périmé ; `AssetsCloudPublisher.test.js` confirme l’absence d’écriture Pages et préserve un registre partagé de plus d’un mégaoctet. (8 October 2026)
