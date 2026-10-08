@@ -216,6 +216,14 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 - 8 October 2026 : `statusItemWidth` est retiré des réglages ; `NSStatusItem.variableLength` mesure la place requise par `externaldrive.fill` et « Assets ». (8 October 2026)
 - 8 October 2026 : Les fixtures natives contrôlent un titre « Assets » sur 50 à 100 points ; le rendu mesuré est de 82 points et System Events lit 84 points. (8 October 2026)
 
+## 8 October 2026 : Panneau Assets réduit à l’essentiel
+
+- 8 October 2026 : Le bouton de barre garde seulement le texte « Assets », son nom accessible et son infobulle ; retirer l’image le ramène à 62 points et lui laisse plus de place dans la barre. (8 October 2026)
+- 8 October 2026 : Le panneau normal n’affiche que l’action utile, le projet, l’étape, l’attente et un problème éventuel ; il retire le titre, la connexion verte et l’heure de contrôle répétitifs. (8 October 2026)
+- 8 October 2026 : L’état vide mesure 64 points ; le service indisponible s’annonce sur une seule ligne, et une ancienne lecture n’apparaît que si elle existe. (8 October 2026)
+- 8 October 2026 : Les sept fixtures natives passent après installation ; une capture de fixture prouve le rendu du panneau, mais seul un bureau déverrouillé prouve que macOS place le bouton hors du débordement. (8 October 2026)
+- 8 October 2026 : Garder cette preuve et les commandes dans `references/NativeDashboard.md`. (8 October 2026)
+
 ## 8 October 2026 : Popover centré sur l’action
 
 - 8 October 2026 : Le popover ne répète plus le titre « Assets » ni « Connecté » quand le service fonctionne ; il commence directement par l’opération ou par « Tout est à jour ». (8 October 2026)

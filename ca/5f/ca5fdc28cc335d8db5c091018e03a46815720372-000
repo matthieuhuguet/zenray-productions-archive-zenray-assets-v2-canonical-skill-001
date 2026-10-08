@@ -64,6 +64,14 @@
 - Le bouton natif garde le texte « Assets » et son nom d’accessibilité, mais retire l’image décorative du disque pour occuper moins de place. (8 October 2026)
 - Vérification du code : 81 tests du service et du writer, quatre tests du modèle, contrôle de type Swift et compilation de production passent. Les fixtures natives et une capture réelle du bureau restent à faire après le rechargement du service ; la position physique reste non vérifiée tant que le Mac est verrouillé. (8 October 2026)
 
+## 8 October 2026 : Vue Assets réduite à l’essentiel
+
+- 8 October 2026 : Le bouton de la barre affiche seulement « Assets », sans icône ; les fixtures mesurent une largeur de 62 points, qui laisse plus de place aux autres icônes de la barre. (8 October 2026)
+- 8 October 2026 : Le panneau repose sur une ligne d’état ; le projet, l’étape, la file et les problèmes n’apparaissent que lorsqu’ils aident à comprendre l’action. (8 October 2026)
+- 8 October 2026 : L’état vide mesure maintenant 64 points et dit « Tout est à jour » ; l’heure de contrôle disparaît quand le service répond. (8 October 2026)
+- 8 October 2026 : Si le service tombe, une seule ligne annonce « Service indisponible » ; si les dernières données existent, leur âge reste visible. (8 October 2026)
+- 8 October 2026 : Les sept états natifs passent après installation ; la capture de fixture vérifie le panneau, et le placement physique attend toujours le déverrouillage du Mac. (8 October 2026)
+
 ## 8 October 2026 : Correction de largeur du bouton texte
 
 - 8 October 2026 : Le bouton garde le texte « Assets » et son nom accessible « ZenRay Assets », sans image décorative ; la fixture simultanée mesure 62 points. (8 October 2026)
