@@ -127,3 +127,14 @@
 - 8 October 2026, 21:40 CEST : L’état `busy-queue` affiche exactement `Sauvegarde de ZenRayProgress`, `Vérification des fichiers`, puis `4 opérations en attente · 1 projet à vérifier`. (8 October 2026)
 - 8 October 2026, 21:40 CEST : `Install.mjs` reconstruit l’application et `Verify.mjs` confirme les sept états natifs, bouton « Assets » compris. (8 October 2026)
 - 8 October 2026, 21:40 CEST : Le LaunchAgent relance le nouveau binaire avec le PID 64154 ; System Events ne retourne aucun élément Assets dans cette session verrouillée, donc la capture physique reste à faire après déverrouillage. (8 October 2026)
+
+## 9 October 2026 : Panneau Lego et transferts mesurés
+
+- 9 October 2026 : Le résumé supérieur compte les projets et les fichiers connus ; il signale combien d’inventaires attendent au lieu de prétendre qu’ils contiennent zéro fichier. (9 October 2026)
+- 9 October 2026 : Les briques de chaque projet gardent le nom et affichent deux nombres, Mac et Cloud ; le sélecteur « Tout / Mac / Cloud » filtre leur présence. (9 October 2026)
+- 9 October 2026 : `AssetsService.dashboard` ne renvoie que les comptes, tailles et états utiles au panneau, sans liste de chemins locaux. (9 October 2026)
+- 9 October 2026 : Upload et Download mesurent les différences entre deux compteurs d’octets pendant un transfert actif ; le panneau les arrondit en entiers KB/s ou MB/s. (9 October 2026)
+- 9 October 2026 : « Sauvegarder » appelle l’archive ; « Charger sur Mac » et « Ajouter au Mac » ne restaurent que les entrées marquées prêtes par le plan ; « Décharger du Mac » vérifie son plan et retire uniquement une copie gérée. (9 October 2026)
+- 9 October 2026 : Les actions restent désactivées pendant les jobs actifs ; le dialogue de déchargement explique que les sources et la copie cloud restent intactes. (9 October 2026)
+- 9 October 2026 : `Actions.test.mjs` vérifie les actions et leurs refus sûrs ; `Verify.mjs` contrôle neuf rendus, dont les vues Mac et Cloud. (9 October 2026)
+- 9 October 2026 : Les fixtures prouvent le rendu de la fenêtre, pas le placement physique du bouton dans la barre macOS. Pour voir le nouveau service, attendre la fin de ses archives avant de le recharger ; le LaunchAgent de la vue native se recharge séparément. (9 October 2026)

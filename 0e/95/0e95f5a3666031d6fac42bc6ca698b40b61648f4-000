@@ -307,3 +307,11 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 - 9 October 2026 : La priorité de file `background` ne signifie pas que le job dépend d’un watcher ; seul `scheduleBackup` passe aussi `requireWatched: true`, contrôlé avant et après le verrou global du writer. (9 October 2026)
 - 9 October 2026 : Un job automatique en attente devient `interrupted` si la surveillance s’arrête avant son démarrage ; les archives d’arrière-plan explicites gardent leur comportement. (9 October 2026)
 - 9 October 2026 : Le contrôle de contrat doit être enregistré puis vérifié avec `node scripts/Assets/CheckSkillContract.mjs --record` et `node scripts/Assets/CheckSkillContract.mjs`. (9 October 2026)
+
+## 9 October 2026 : Comprendre Assets depuis le panneau macOS
+
+- 9 October 2026 : Le panneau natif affiche les projets et fichiers connus, une brique par projet, le nombre de fichiers Mac et Cloud, et les débits mesurés en KB/s ou MB/s entiers. (9 October 2026)
+- 9 October 2026 : Ses filtres « Tout », « Mac » et « Cloud » séparent les emplacements ; le panneau garde « ? » lorsqu’un inventaire manque et ne fabrique pas un zéro. (9 October 2026)
+- 9 October 2026 : Les actions « Sauvegarder », « Charger sur Mac » / « Ajouter au Mac » et « Décharger du Mac » passent par le service Assets, avec plans vérifiés et aucune suppression cloud. (9 October 2026)
+- 9 October 2026 : Lire `references/NativeDashboard.md` pour l’architecture, les tests, l’installation et les preuves ; `scripts/Assets/NativeDashboard/README.md` porte les commandes opératoires du dépôt. (9 October 2026)
+- 9 October 2026 : Le panneau natif peut être reconstruit et relancé séparément ; ne recharger le daemon d’archives qu’après la fin des écritures actives. (9 October 2026)
