@@ -109,3 +109,14 @@
 - 8 October 2026 : Au démarrage ou en cas de panne, le message de connexion reste visible ; sinon la vue montre l’action, le projet, une étape expliquée, l’attente et les erreurs connues. (8 October 2026)
 - 8 October 2026 : La phase générique est précisée en « Vérification des fichiers » ; `Verify.mjs` valide les sept états natifs et écrit les images des vues rendues. (8 October 2026)
 - 8 October 2026 : Ces images vérifient le contenu du panneau, pas la présence physique du bouton hors du chevron macOS ; cette preuve attend le déverrouillage du bureau. (8 October 2026)
+
+## 8 October 2026 : Mesure de la zone supérieure droite
+
+- 8 October 2026, 20:06 CEST : System Events lit le bouton `Assets` à `(960, 4)`, sur `64 × 24` points, et le processus `ZenRayAssets` le signale visible. (8 October 2026)
+- 8 October 2026, 20:06 CEST : AppKit mesure l’écran à `1728 × 1117` points et sa zone de barre supérieure droite commence à `x = 956,5` ; la position Accessibility tombe dans cette zone. (8 October 2026)
+- 8 October 2026, 20:06 CEST : Cette géométrie confirme la zone rapportée par le système, mais la capture du bureau reste requise pour la preuve visuelle ; le Mac est verrouillé. (8 October 2026)
+
+## 8 October 2026 : Source facultative absente
+
+- 8 October 2026, 20:06 CEST : `japanese-environment` déclare `game-assets` facultatif, mais le chemin `Content/ModelingJapan_01` est absent et contient zéro fichier enregistré. (8 October 2026)
+- 8 October 2026, 20:06 CEST : Le test du service vérifie que `setWatch` saute ce dossier absent sans arrêter les sources présentes ; les balayages périodiques restent actifs. (8 October 2026)

@@ -230,3 +230,10 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 - 8 October 2026 : La connexion n’apparaît en première ligne qu’au démarrage ou quand le service est indisponible ; les opérations, leur projet, leur étape, l’attente et les erreurs restent visibles. (8 October 2026)
 - 8 October 2026 : La phase de vérification dit « Vérification des fichiers » pour préciser ce qui se passe. (8 October 2026)
 - 8 October 2026 : Les sept fixtures natives et leur capture rendue vérifient le nouvel ordre ; l’emplacement réel du bouton attend le déverrouillage du Mac. (8 October 2026)
+
+## 8 October 2026 : Sources facultatives absentes
+
+- 8 October 2026, 20:06 CEST : Si une source marquée `optional` n’existe pas, `setWatch` ne la passe pas au watcher ; l’erreur ENOENT ne tourne donc plus en boucle. (8 October 2026)
+- 8 October 2026, 20:06 CEST : Les balayages périodiques gardent l’inventaire et découvrent la source si son dossier est créé plus tard. (8 October 2026)
+- 8 October 2026, 20:06 CEST : Le test `does not watch a missing optional source` doit rougir avant le correctif et verdir après ; toute source présente conserve sa surveillance. (8 October 2026)
+- 8 October 2026, 20:11 CEST : Les deux branches sont testées : un dossier facultatif absent n’est pas surveillé, un dossier facultatif présent l’est ; la suite `AssetsService.test.js` passe à 82 tests. (8 October 2026)
