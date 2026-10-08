@@ -276,6 +276,21 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 - 8 October 2026 : Vérifier séparément avec `./node_modules/.bin/vitest run scripts/AssetsFeedbackCapture.test.js` puis `./node_modules/.bin/vitest run scripts/AssetsService.test.js --maxWorkers=1` ; lancer les suites séquentiellement pour éviter les délais de nettoyage. (8 October 2026)
 - 8 October 2026 : Recharger le daemon après l’arrêt de toutes les archives actives ; ensuite, lancer un vrai démarrage avec un ID de session fourni par l’hôte et vérifier le retour `transcriptCapture`. (8 October 2026)
 
+## 8 October 2026 : Une erreur de replay ne peut plus annuler un démarrage
+
+- 8 October 2026, 23:31 CEST : `bind-session` conserve la liaison déjà écrite même si `replay(sessionId)` échoue ; une capture déjà active renvoie `queued`, une autre panne renvoie `unavailable`. (8 October 2026)
+- 8 October 2026, 23:31 CEST : La session liée reste visible par le balayage périodique ; un événement local sans diagnostic brut indique que la capture sera retentée. (8 October 2026)
+- 8 October 2026, 23:31 CEST : Le test `keeps a new project ready after active replay` et son cas de panne inattendue doivent vérifier le dossier, le feedback, la surveillance et la liaison après l’erreur. (8 October 2026)
+- 8 October 2026, 23:31 CEST : Vérifier séquentiellement la suite `scripts/AssetsService.test.js`, puis `scripts/AssetsFeedbackCapture.test.js` ; recharger le daemon seulement après la fin des archives actives. (8 October 2026)
+
+## 8 October 2026 : Le démarrage ne doit jamais attendre le replay
+
+- 8 October 2026, 23:37 CEST : Correction de la section précédente : même entouré d’un `try/catch`, `await replay()` bloque sans fin si le worker ne règle jamais sa promesse. (8 October 2026)
+- 8 October 2026, 23:37 CEST : `bind-session` déclenche maintenant le replay sans l’attendre ; la liaison persistée rend la session éligible au balayage périodique, qui reste la voie de reprise. (8 October 2026)
+- 8 October 2026, 23:37 CEST : `transcriptCapture: queued` signifie que la session est liée et éligible à la capture ; cela ne prétend pas que le replay est terminé. Les erreurs asynchrones produisent seulement un événement local sans diagnostic brut. (8 October 2026)
+- 8 October 2026, 23:37 CEST : `finishes project startup when transcript replay never settles` doit prouver la fin du démarrage avec une promesse volontairement pendante. (8 October 2026)
+- 8 October 2026, 23:37 CEST : Vérifier séquentiellement les 88 tests de `scripts/AssetsService.test.js` et les 5 tests de `scripts/AssetsFeedbackCapture.test.js`, puis recharger après la file d’archives. (8 October 2026)
+
 ## 8 October 2026 : Inventaire Assets lisible par projets
 
 - 8 October 2026 : La barre de projets de `ProjectWorkspace.jsx` affiche le total de projets et la somme des fichiers suivis, avec une mosaïque de briques comme repère visuel. (8 October 2026)

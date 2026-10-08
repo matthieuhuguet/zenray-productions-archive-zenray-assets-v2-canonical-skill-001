@@ -1,22 +1,22 @@
 {
  "schemaVersion": 1,
  "projectId": "zenray-assets-v2",
- "scannedAt": "2026-10-08T21:12:25.025Z",
+ "scannedAt": "2026-10-08T21:38:32.772Z",
  "conversations": [
   {
    "projectId": "zenray-assets-v2",
-   "lines": 1267,
-   "work": 616,
-   "prompts": 48,
+   "lines": 1322,
+   "work": 643,
+   "prompts": 50,
    "first": "2026-10-07T12:25:29.615Z",
-   "last": "2026-10-08T21:12:21.622Z",
+   "last": "2026-10-08T21:38:32.344Z",
    "strength": "strong",
    "conversationId": "codex:01a11653-69f5-7492-b80e-dbcc6a785d87",
    "provider": "codex",
    "sessionId": "01a11653-69f5-7492-b80e-dbcc6a785d87",
    "title": "Conversation codex 01a11653",
-   "updatedAt": "2026-10-08T21:12:05.898Z",
-   "bytes": 200032341,
+   "updatedAt": "2026-10-08T21:38:29.875Z",
+   "bytes": 208521511,
    "boundProject": "zenray-assets-v2"
   },
   {
@@ -392,6 +392,22 @@
    "lines": 1,
    "work": 0,
    "prompts": 0,
+   "first": "2026-10-08T21:30:54.798Z",
+   "last": "2026-10-08T21:30:54.798Z",
+   "strength": "weak",
+   "conversationId": "claude:f34e2192-4574-4f42-a42a-1615ed66cbdf",
+   "provider": "claude",
+   "sessionId": "f34e2192-4574-4f42-a42a-1615ed66cbdf",
+   "title": "Son Zelda modifications premium",
+   "updatedAt": "2026-10-08T21:38:08.210Z",
+   "bytes": 20649,
+   "boundProject": null
+  },
+  {
+   "projectId": "zenray-assets-v2",
+   "lines": 1,
+   "work": 0,
+   "prompts": 0,
    "first": "2026-10-08T20:13:19.641Z",
    "last": "2026-10-08T20:13:19.641Z",
    "strength": "weak",
@@ -399,8 +415,8 @@
    "provider": "claude",
    "sessionId": "fa4b854c-d32b-463e-9994-34b34d998356",
    "title": "Montage vidéo pot tournage",
-   "updatedAt": "2026-10-08T21:12:00.028Z",
-   "bytes": 7361591,
+   "updatedAt": "2026-10-08T21:31:49.677Z",
+   "bytes": 20766,
    "boundProject": "poisson-gloss-matthieu-poterie-aix-8-octobre-2026"
   },
   {
