@@ -275,3 +275,11 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 - 8 October 2026 : `AssetsService` termine `start` dès que la liaison est enregistrée et la capture mise en file ; le détail apparaît dans `setup.transcriptCapture`. (8 October 2026)
 - 8 October 2026 : Vérifier séparément avec `./node_modules/.bin/vitest run scripts/AssetsFeedbackCapture.test.js` puis `./node_modules/.bin/vitest run scripts/AssetsService.test.js --maxWorkers=1` ; lancer les suites séquentiellement pour éviter les délais de nettoyage. (8 October 2026)
 - 8 October 2026 : Recharger le daemon après l’arrêt de toutes les archives actives ; ensuite, lancer un vrai démarrage avec un ID de session fourni par l’hôte et vérifier le retour `transcriptCapture`. (8 October 2026)
+
+## 8 October 2026 : Inventaire Assets lisible par projets
+
+- 8 October 2026 : La barre de projets de `ProjectWorkspace.jsx` affiche le total de projets et la somme des fichiers suivis, avec une mosaïque de briques comme repère visuel. (8 October 2026)
+- 8 October 2026 : Chaque projet montre son propre nombre de fichiers ; la recherche et le choix de collection ne réduisent pas le total général. (8 October 2026)
+- 8 October 2026 : Le compte d’un projet retient la plus grande mesure disponible entre la liste de fichiers, `sync.count` et `inventory.count`, afin qu’un snapshot cloud sans détails n’apparaisse pas vide. (8 October 2026)
+- 8 October 2026 : Pendant le premier chargement, les nombres affichent une attente explicite plutôt qu’un zéro qui ferait croire à un espace vide. (8 October 2026)
+- 8 October 2026 : Vérifier avec `./node_modules/.bin/vitest run src/components/assets/ProjectWorkspace.test.jsx` puis `npx vite build` ; le test couvre les totaux, le fallback de comptage et une brique de conversation. (8 October 2026)

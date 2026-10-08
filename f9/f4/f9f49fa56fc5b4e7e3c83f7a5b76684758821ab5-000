@@ -1,22 +1,22 @@
 {
  "schemaVersion": 1,
  "projectId": "zenray-assets-v2",
- "scannedAt": "2026-10-08T20:52:48.278Z",
+ "scannedAt": "2026-10-08T21:12:25.025Z",
  "conversations": [
   {
    "projectId": "zenray-assets-v2",
-   "lines": 1233,
-   "work": 600,
-   "prompts": 47,
+   "lines": 1267,
+   "work": 616,
+   "prompts": 48,
    "first": "2026-10-07T12:25:29.615Z",
-   "last": "2026-10-08T20:50:35.024Z",
+   "last": "2026-10-08T21:12:21.622Z",
    "strength": "strong",
    "conversationId": "codex:01a11653-69f5-7492-b80e-dbcc6a785d87",
    "provider": "codex",
    "sessionId": "01a11653-69f5-7492-b80e-dbcc6a785d87",
    "title": "Conversation codex 01a11653",
-   "updatedAt": "2026-10-08T20:52:46.526Z",
-   "bytes": 195120606,
+   "updatedAt": "2026-10-08T21:12:05.898Z",
+   "bytes": 200032341,
    "boundProject": "zenray-assets-v2"
   },
   {
@@ -318,8 +318,8 @@
    "conversationId": "gemini:f3054ac7-8f2b-4b39-8ca3-541e9a4c3012",
    "provider": "gemini",
    "sessionId": "f3054ac7-8f2b-4b39-8ca3-541e9a4c3012",
-   "title": "grep zenrayfreelance context j'apply faut que je réponde quoi la ? get le context via + LE PROJET zenray-freelance et toute la data base fre",
-   "updatedAt": "2026-10-07T16:07:07.197943+00:00",
+   "title": "Conversation Gemini f3054ac7",
+   "updatedAt": "2026-10-07T16:07:43.871Z",
    "bytes": 3010560,
    "boundProject": null
   },
@@ -399,8 +399,8 @@
    "provider": "claude",
    "sessionId": "fa4b854c-d32b-463e-9994-34b34d998356",
    "title": "Montage vidéo pot tournage",
-   "updatedAt": "2026-10-08T20:23:42.504Z",
-   "bytes": 20720,
+   "updatedAt": "2026-10-08T21:12:00.028Z",
+   "bytes": 7361591,
    "boundProject": "poisson-gloss-matthieu-poterie-aix-8-octobre-2026"
   },
   {
