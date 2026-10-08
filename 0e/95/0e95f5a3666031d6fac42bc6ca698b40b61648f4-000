@@ -298,3 +298,12 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 - 8 October 2026 : Le compte d’un projet retient la plus grande mesure disponible entre la liste de fichiers, `sync.count` et `inventory.count`, afin qu’un snapshot cloud sans détails n’apparaisse pas vide. (8 October 2026)
 - 8 October 2026 : Pendant le premier chargement, les nombres affichent une attente explicite plutôt qu’un zéro qui ferait croire à un espace vide. (8 October 2026)
 - 8 October 2026 : Vérifier avec `./node_modules/.bin/vitest run src/components/assets/ProjectWorkspace.test.jsx` puis `npx vite build` ; le test couvre les totaux, le fallback de comptage et une brique de conversation. (8 October 2026)
+
+## 9 October 2026 : Démarrage transcript et arrêt sûr des archives automatiques
+
+- 9 October 2026 : `transcriptCapture: queued` signifie que le projet et la liaison de session sont prêts ; la capture reste indépendante du replay, même si le balayage est actif, échoue ou ne répond jamais. (9 October 2026)
+- 9 October 2026 : `BeginProject.mjs` relancé avec la vraie session déjà liée répond en 1,67 seconde ; les tests couvrent aussi un nouvel identifiant de projet isolé sans créer de projet factice dans le registre réel. (9 October 2026)
+- 9 October 2026 : Vérifier séquentiellement `npx vitest run scripts/AssetsFeedbackCapture.test.js --maxWorkers=1`, puis `npx vitest run scripts/AssetsService.test.js --maxWorkers=1` ; mesures du contrôle courant : 5 tests de capture et 89 tests de service. (9 October 2026)
+- 9 October 2026 : La priorité de file `background` ne signifie pas que le job dépend d’un watcher ; seul `scheduleBackup` passe aussi `requireWatched: true`, contrôlé avant et après le verrou global du writer. (9 October 2026)
+- 9 October 2026 : Un job automatique en attente devient `interrupted` si la surveillance s’arrête avant son démarrage ; les archives d’arrière-plan explicites gardent leur comportement. (9 October 2026)
+- 9 October 2026 : Le contrôle de contrat doit être enregistré puis vérifié avec `node scripts/Assets/CheckSkillContract.mjs --record` et `node scripts/Assets/CheckSkillContract.mjs`. (9 October 2026)
