@@ -215,3 +215,10 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 
 - 8 October 2026 : `statusItemWidth` est retiré des réglages ; `NSStatusItem.variableLength` mesure la place requise par `externaldrive.fill` et « Assets ». (8 October 2026)
 - 8 October 2026 : Les fixtures natives contrôlent un titre « Assets » sur 50 à 100 points ; le rendu mesuré est de 82 points et System Events lit 84 points. (8 October 2026)
+
+## 8 October 2026 : Popover centré sur l’action
+
+- 8 October 2026 : Le popover ne répète plus le titre « Assets » ni « Connecté » quand le service fonctionne ; il commence directement par l’opération ou par « Tout est à jour ». (8 October 2026)
+- 8 October 2026 : La connexion n’apparaît en première ligne qu’au démarrage ou quand le service est indisponible ; les opérations, leur projet, leur étape, l’attente et les erreurs restent visibles. (8 October 2026)
+- 8 October 2026 : La phase de vérification dit « Vérification des fichiers » pour préciser ce qui se passe. (8 October 2026)
+- 8 October 2026 : Les sept fixtures natives et leur capture rendue vérifient le nouvel ordre ; l’emplacement réel du bouton attend le déverrouillage du Mac. (8 October 2026)

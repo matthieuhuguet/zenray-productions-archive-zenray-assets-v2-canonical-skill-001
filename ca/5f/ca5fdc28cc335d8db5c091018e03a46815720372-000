@@ -94,3 +94,10 @@
 - 8 October 2026 : Les sept fixtures vérifient le titre, le nom accessible et la largeur ; System Events lit le bouton à `(940, 4)`, taille `84 × 24`. (8 October 2026)
 - 8 October 2026 : La capture physique reste à faire après le déverrouillage, car une mesure Accessibility ne prouve pas que l’icône est hors du débordement macOS. (8 October 2026)
 - 8 October 2026 : Correction de la configuration précédente : `statusItemWidth` n’existe plus ; `NSStatusItem.variableLength` adapte la largeur au symbole et au titre réellement visibles. (8 October 2026)
+
+## 8 October 2026 : Popover centré sur l’action
+
+- 8 October 2026 : Le popover retire son titre redondant et l’état vert « Connecté » quand le service répond ; l’action utile commence la vue. (8 October 2026)
+- 8 October 2026 : Au démarrage ou en cas de panne, le message de connexion reste visible ; sinon la vue montre l’action, le projet, une étape expliquée, l’attente et les erreurs connues. (8 October 2026)
+- 8 October 2026 : La phase générique est précisée en « Vérification des fichiers » ; `Verify.mjs` valide les sept états natifs et écrit les images des vues rendues. (8 October 2026)
+- 8 October 2026 : Ces images vérifient le contenu du panneau, pas la présence physique du bouton hors du chevron macOS ; cette preuve attend le déverrouillage du bureau. (8 October 2026)
