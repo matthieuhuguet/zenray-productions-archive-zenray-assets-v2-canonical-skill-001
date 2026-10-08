@@ -138,3 +138,8 @@
 - 9 October 2026 : Les actions restent désactivées pendant les jobs actifs ; le dialogue de déchargement explique que les sources et la copie cloud restent intactes. (9 October 2026)
 - 9 October 2026 : `Actions.test.mjs` vérifie les actions et leurs refus sûrs ; `Verify.mjs` contrôle neuf rendus, dont les vues Mac et Cloud. (9 October 2026)
 - 9 October 2026 : Les fixtures prouvent le rendu de la fenêtre, pas le placement physique du bouton dans la barre macOS. Pour voir le nouveau service, attendre la fin de ses archives avant de le recharger ; le LaunchAgent de la vue native se recharge séparément. (9 October 2026)
+
+## 9 October 2026 : Actions intégrées à la brique choisie
+
+- 9 October 2026 : Le projet sélectionné garde ses boutons Sauvegarder, Charger sur Mac ou Décharger du Mac dans sa brique Lego, sans carte de détail répétée. (9 October 2026)
+- 9 October 2026 : La fixture principale exige que le nom du projet choisi n’apparaisse qu’une fois ; les neuf états natifs passent. (9 October 2026)

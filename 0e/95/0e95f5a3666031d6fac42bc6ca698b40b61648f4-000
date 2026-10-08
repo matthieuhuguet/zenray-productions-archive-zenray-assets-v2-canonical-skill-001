@@ -315,3 +315,5 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 - 9 October 2026 : Les actions « Sauvegarder », « Charger sur Mac » / « Ajouter au Mac » et « Décharger du Mac » passent par le service Assets, avec plans vérifiés et aucune suppression cloud. (9 October 2026)
 - 9 October 2026 : Lire `references/NativeDashboard.md` pour l’architecture, les tests, l’installation et les preuves ; `scripts/Assets/NativeDashboard/README.md` porte les commandes opératoires du dépôt. (9 October 2026)
 - 9 October 2026 : Le panneau natif peut être reconstruit et relancé séparément ; ne recharger le daemon d’archives qu’après la fin des écritures actives. (9 October 2026)
+
+- 9 October 2026 : Dans la vue native, les actions du projet sélectionné restent intégrées à sa brique Lego afin de garder son nom et ses comptes uniques. (9 October 2026)
