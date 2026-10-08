@@ -144,3 +144,15 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 - 8 October 2026 : Lorsqu’un fichier archivé garde la même taille et la même date de modification mais change de ctime, comparer son SHA local au SHA cloud avant de le déclarer en attente. Le SHA doit être lu depuis le descripteur sécurisé et le jeton complet doit rester stable pendant la lecture. (8 October 2026)
 - 8 October 2026 : Si les empreintes correspondent, actualiser le jeton local de la sauvegarde ; si les octets diffèrent, conserver le statut à sauvegarder même quand la taille et la date sont identiques. Les anciens jetons retrouvent la date par leur avant-dernier champ ; les nouveaux enregistrements gardent aussi `mtimeMs`. (8 October 2026)
 - 8 October 2026 : Les tests de `scripts/AssetsService.test.js` prouvent les deux sens avec chmod, date restaurée et octets comparés ; recharger le daemon seulement après la fin de ses archives actives, puis relire `Client.mjs inventory <project-id>`. (8 October 2026)
+
+## 8 October 2026 : Instantané sûr après un changement de ctime
+
+- 8 October 2026 : Pendant une archive, `snapshotSourceFile` tolère un nouveau ctime seulement si l’appareil, l’inode, la taille et le mtime restent ceux de l’inventaire. (8 October 2026)
+- 8 October 2026 : La copie est hachée depuis un descripteur sans suivi de lien symbolique ; le jeton reste stable pendant la lecture, puis le chemin et son identité sont vérifiés à nouveau. (8 October 2026)
+- 8 October 2026 : Le SHA et le nouveau jeton ctime décrivent les octets exacts copiés ; le test doit accepter le toucher ctime seul et refuser un fichier dont le mtime ou les octets changent pendant la copie. (8 October 2026)
+- 8 October 2026 : Correction de la ligne précédente : le test refuse les octets ou le mtime changés entre l’inventaire et la copie ; la stabilité pendant la lecture est aussi contrôlée par le code. (8 October 2026)
+
+## 8 October 2026 : Clones d’archive depuis le cache vérifié
+
+- 8 October 2026 : Si Git bloque lors du clone sparse de `zenray-data`, transmettre à `archive-folder.mjs` le cache existant par `ZR_ARCHIVE_REFERENCE_REPO`. Le clone distant reste la source de référence ; `--dissociate` rend le clone de travail indépendant. (8 October 2026)
+- 8 October 2026 : Sur le dépôt mesuré, le clone sparse seul dépasse 180 secondes ; avec le cache Git local vérifié, il atteint le même HEAD distant en 10,9 secondes. (8 October 2026)
