@@ -55,3 +55,32 @@
 - 8 October 2026 : Le popover et sa vue racine prennent la même hauteur mesurée ; cela évite de laisser un grand espace blanc après une opération courte. (8 October 2026)
 - 8 October 2026 : Sept états natifs passent dans `node scripts/Assets/NativeDashboard/Verify.mjs <Assets-workshop-path>` ; les captures locales `NativeDashboardProof-20261008/` montrent la file regroupée et les erreurs simplifiées. (8 October 2026)
 - 8 October 2026 : Le LaunchAgent `com.zenray.assets.dashboard` a été rechargé séparément du service d’archives ; System Events retrouve le bouton intitulé « Assets », mais le bureau verrouillé ne permet pas de certifier son placement physique. (8 October 2026)
+
+
+## 8 October 2026 : Résumé compact et bouton étroit
+
+- Le panneau interroge l’action `dashboard`, qui renvoie l’état des opérations et des erreurs sans sérialiser les fichiers des projets. (8 October 2026)
+- Un test avec 10 000 fichiers garde la réponse sous 5 Ko et exclut inventaires, sources, événements et chemins privés. (8 October 2026)
+- Le bouton natif garde le texte « Assets » et son nom d’accessibilité, mais retire l’image décorative du disque pour occuper moins de place. (8 October 2026)
+- Vérification du code : 81 tests du service et du writer, quatre tests du modèle, contrôle de type Swift et compilation de production passent. Les fixtures natives et une capture réelle du bureau restent à faire après le rechargement du service ; la position physique reste non vérifiée tant que le Mac est verrouillé. (8 October 2026)
+
+## 8 October 2026 : Correction de largeur du bouton texte
+
+- 8 October 2026 : Le bouton garde le texte « Assets » et son nom accessible « ZenRay Assets », sans image décorative ; la fixture simultanée mesure 62 points. (8 October 2026)
+- 8 October 2026 : `Verify.mjs` accepte de 50 à 70 points et les sept fixtures passent après installation. (8 October 2026)
+- 8 October 2026 : L’ancienne largeur de 18 points décrivait l’icône seule ; le placement physique hors du débordement exige toujours une capture réelle après déverrouillage. (8 October 2026)
+- 8 October 2026 : Correction des vérifications encore annoncées comme à faire : l’application est installée et relancée, les sept fixtures natives passent, et le service répond par son résumé compact ; seule la capture physique après déverrouillage manque. (8 October 2026)
+
+## 8 October 2026 : Vue Assets sans cartes
+
+- 8 October 2026 : Le bouton de barre affiche seulement `externaldrive.fill` dans une largeur réglée à 18 points ; son nom d’accessibilité et son infobulle restent « ZenRay Assets ». (8 October 2026)
+- 8 October 2026 : Le panneau retire les cartes et montre le service, l’opération active, son projet, sa phase et le nombre d’opérations en attente. (8 October 2026)
+- 8 October 2026 : Si rien ne tourne, le panneau dit « Tout est à jour », « N opérations en attente » ou « N projets à vérifier » ; les causes courtes restent lisibles et les détails bruts ne vont pas dans l’infobulle. (8 October 2026)
+- 8 October 2026 : `minimumHeight` et `statusItemWidth` sont réglés dans `Settings.json` ; les sept fixtures valident le bouton de 18 points et les états natifs. (8 October 2026)
+- 8 October 2026 : Le LaunchAgent utilise `KeepAlive.SuccessfulExit=false`, donc un arrêt anormal relance le panneau tandis qu’une fermeture normale réussie reste fermée. (8 October 2026)
+- 8 October 2026 : Une capture du bureau après déverrouillage reste nécessaire pour prouver que l’icône est hors du débordement de la barre. (8 October 2026)
+
+## 8 October 2026 : Erreur visible pendant une sauvegarde
+
+- 8 October 2026 : Si un autre projet a un problème pendant qu’une opération tourne ou attend, une seule ligne rouge « N projets à vérifier » reste visible au lieu de cacher l’erreur. (8 October 2026)
+- 8 October 2026 : La fixture `busy-queue` associe une sauvegarde active, quatre opérations en attente et un problème cloud ; le texte et l’infobulle vérifient chacun leur état. (8 October 2026)

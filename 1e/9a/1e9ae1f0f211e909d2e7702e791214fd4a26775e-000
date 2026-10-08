@@ -844,3 +844,29 @@ Le [journal global](/Users/zenray/.claude/PROGRESS.md) conserve les étapes, les
 - 8 October 2026 : Chaque chemin d’un projet exige un ID accepté par `assertWorkspaceId`; les autres chemins sont refusés. La lecture sans SHA demandé retourne le contenu courant, mais toute écriture conserve une comparaison du SHA attendu pour éviter l’écrasement d’une version concurrente. (8 October 2026)
 - 8 October 2026 : Le publisher ne passe plus ces métadonnées par `/api/page`, évitant l’erreur GitHub 401 de Pages sans lire ni transmettre de secret supplémentaire. (8 October 2026)
 - 8 October 2026 : Preuves locales : `AssetsCloudGitWriter.test.js` valide les deux chemins et le refus d’un writer périmé ; `AssetsCloudPublisher.test.js` confirme l’absence d’écriture Pages et préserve un registre partagé de plus d’un mégaoctet. (8 October 2026)
+
+
+## 8 October 2026 : Entretien Git détaché dans le cache Assets
+
+- La mesure a trouvé 71 groupes `git maintenance run --auto --detach`, chacun avec trois processus Git et le même répertoire de travail dans le clone sparse ZenRayAssets ; les 71 groupes ont reçu SIGTERM après vérification de chaque chemin et processus. (8 October 2026)
+- Le dépôt garde `maintenance.auto=false` ; `AssetsCloudGitWriter` passe aussi `-c maintenance.auto=false` à ses commandes de clone, configuration, lecture et publication. (8 October 2026)
+- Après un `git status`, aucun groupe d’entretien ne réapparaît, aucun verrou ni paquet temporaire ne reste, et le HEAD du cache est `e8759f188`. (8 October 2026)
+- Le test du writer vérifie cette option sur chaque commande Git ; avec le test service compact, 81 tests passent en exécution séquentielle. (8 October 2026)
+
+## 8 October 2026 : Rotation des petits lots entre sources
+
+- 8 October 2026 : Pendant la reprise, les jobs de Louisiana Bayou et VegetationCollection01 n’archivaient que les deux fichiers d’index en première source ; 28 fichiers de production restaient en attente parce que `autoBatchLimit` vaut 1 et que l’ordre repartait du début. (8 October 2026)
+- 8 October 2026 : `AssetsService.mjs` conserve maintenant l’identifiant de la source suivante après chaque lot confirmé ; les passes automatiques bornées tournent entre sources et une erreur garde le même curseur pour retenter le lot. (8 October 2026)
+- 8 October 2026 : Le test séquentiel crée deux sources, modifie de nouveau l’index de la première, puis prouve que le lot suivant archive la seconde ; les 80 tests `AssetsService.test.js` passent. (8 October 2026)
+- 8 October 2026 : Le service actuellement lancé garde encore l’ancien code ; ne le recharger qu’après la fin des jobs déjà en file, puis rétablir les surveillances et vérifier le drainage des sources restantes. (8 October 2026)
+
+## 8 October 2026 : Largeur native mesurée
+
+- 8 October 2026 : La fixture simultanée mesure 62 points pour le bouton texte « Assets » ; le test accepte 50 à 70 points, et les sept états natifs passent après installation. (8 October 2026)
+- 8 October 2026 : La place physique hors du groupe de débordement macOS reste à prouver par capture réelle après déverrouillage. (8 October 2026)
+
+## 8 October 2026 : Service et fixtures natifs rechargés
+
+- 8 October 2026 : Correction de la ligne précédente sur l’ancien service : après l’achèvement des jobs déjà en file, le daemon a été rechargé avec `39068e35` ; `dashboard` répond pour 19 projets en 2308 octets et aucun job n’est actif au relevé. (8 October 2026)
+- 8 October 2026 : L’application native est installée et relancée ; les sept fixtures passent avec le bouton « Assets » mesuré à 62 points. (8 October 2026)
+- 8 October 2026 : Le job Assets `957434fd-ee58-4389-bd1f-ffdc1de8c1fb` échoue après un changement de source et laisse sept fichiers en attente ; les surveillances restent à réactiver après ce rechargement. (8 October 2026)

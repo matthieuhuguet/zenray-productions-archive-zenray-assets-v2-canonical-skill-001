@@ -156,3 +156,48 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 
 - 8 October 2026 : Si Git bloque lors du clone sparse de `zenray-data`, transmettre à `archive-folder.mjs` le cache existant par `ZR_ARCHIVE_REFERENCE_REPO`. Le clone distant reste la source de référence ; `--dissociate` rend le clone de travail indépendant. (8 October 2026)
 - 8 October 2026 : Sur le dépôt mesuré, le clone sparse seul dépasse 180 secondes ; avec le cache Git local vérifié, il atteint le même HEAD distant en 10,9 secondes. (8 October 2026)
+
+## 8 October 2026 : Compter les fichiers après leur sauvegarde
+
+- 8 October 2026 : Après une archive, calculer `remainingCount` depuis le dernier inventaire et les SHA de la sauvegarde ; le jeton ctime de l’inventaire initial peut être devenu ancien pendant la copie. (8 October 2026)
+- 8 October 2026 : Vérifier ce cas par un test qui change le ctime après l’inventaire, puis confirme que les mêmes octets sauvegardés donnent zéro fichier restant. (8 October 2026)
+
+
+## 8 October 2026 : Résumé natif sans inventaire complet
+
+- Le panneau interroge l’action compacte `dashboard`, jamais `list`, qui renvoie tout l’inventaire ; la réponse garde les opérations actives, le dernier état terminé, les erreurs courtes, l’état LOAD et la progression mesurée. (8 October 2026)
+- Le bouton de barre affiche seulement « Assets » pour réduire sa largeur ; son nom accessible reste « ZenRay Assets » et l’infobulle explique son action. Seule une capture réelle du bureau prouve qu’il est sorti du débordement macOS. (8 October 2026)
+- `AssetsCloudGitWriter` désactive l’entretien automatique détaché sur chaque commande Git ; le cache local garde aussi `maintenance.auto=false`. (8 October 2026)
+
+## 8 October 2026 : Rotation équitable des petits lots (8 October 2026)
+
+- 8 October 2026 : Symptôme observé dans les archives Louisiana Bayou et VegetationCollection01 : les petits lots automatiques reprennent toujours la première source, alors que ses fichiers ConversationIndex changent, et les sources suivantes restent en attente. (8 October 2026)
+- 8 October 2026 : `archiveNow` mémorise la prochaine source automatique et la choisit en premier au passage suivant ; le curseur avance seulement après un lot confirmé, si bien qu’une erreur retente la même source. (8 October 2026)
+- 8 October 2026 : Une archive complète garde l’ordre normal ; seule une passe bornée par `autoBatchLimit` tourne entre les sources. (8 October 2026)
+- 8 October 2026 : Le test `rotates bounded archive batches across sources while the first source changes` vérifie qu’une source suivante reçoit son lot alors que l’index de la première redevient modifié. (8 October 2026)
+- 8 October 2026 : Avant le rechargement du service, laisser finir les jobs déjà engagés ; après le rechargement, réactiver chaque surveillance et vérifier que le nombre de fichiers en attente diminue jusqu’à zéro. (8 October 2026)
+
+## 8 October 2026 : Largeur mesurée du bouton Assets (8 October 2026)
+
+- 8 October 2026 : Le bouton ne porte que le texte « Assets », sans image décorative ; les sept états natifs mesurent 62 points dans la fixture simultanée. (8 October 2026)
+- 8 October 2026 : Le contrôle de largeur admet 50 à 70 points afin de couvrir les variantes de police système ; les sept fixtures passent après installation. (8 October 2026)
+- 8 October 2026 : Cette largeur ne prouve pas que macOS place le bouton hors du débordement ; seule une capture réelle après déverrouillage du Mac le prouve. (8 October 2026)
+
+## 8 October 2026 : Application et service rechargés
+
+- 8 October 2026 : Correction de l’état précédent : après la fin des jobs déjà engagés, `com.zenray.assets` a été rechargé avec le commit `39068e35` et répond maintenant à `dashboard`. (8 October 2026)
+- 8 October 2026 : Le panneau natif a été installé puis relancé ; les sept fixtures passent, le bouton texte mesure 62 points, et le service rapporte 19 projets dans 2308 octets. (8 October 2026)
+- 8 October 2026 : Un job Assets échoue sur `Source changed since inventory` et laisse sept fichiers à reprendre ; les surveillances doivent redémarrer pour retenter la sauvegarde avec le nouveau curseur. (8 October 2026)
+
+## 8 October 2026 : Vue Assets compacte et reprise du panneau
+
+- 8 October 2026 : Le bouton du menu utilise seulement le symbole système `externaldrive.fill` sur 18 points ; son nom accessible et son infobulle restent « ZenRay Assets ». (8 October 2026)
+- 8 October 2026 : Le panneau n’utilise plus de cartes ; il affiche la connexion, l’opération active et son projet, la phase mesurée, puis le nombre d’opérations en attente ou les projets à vérifier. (8 October 2026)
+- 8 October 2026 : `minimumHeight` et `statusItemWidth` se règlent dans `Settings.json` ; lancer `node scripts/Assets/NativeDashboard/Verify.mjs <dossier-de-preuve>` pour contrôler les sept états natifs. (8 October 2026)
+- 8 October 2026 : Le LaunchAgent redémarre un arrêt anormal avec `KeepAlive.SuccessfulExit=false` ; une fermeture réussie de l’application reste fermée. (8 October 2026)
+- 8 October 2026 : Un processus natif actif et `NSStatusItem.isVisible` ne prouvent pas le placement physique hors du débordement ; une capture réelle du bureau après déverrouillage reste nécessaire. (8 October 2026)
+
+## 8 October 2026 : Garder les erreurs visibles dans le panneau Assets
+
+- 8 October 2026 : Pendant une sauvegarde ou une attente, si un projet a un problème, afficher une seule ligne « N projets à vérifier » en rouge et garder ses causes courtes dans l’infobulle. (8 October 2026)
+- 8 October 2026 : La fixture `busy-queue` vérifie la coexistence d’une sauvegarde, de quatre opérations en attente et d’une erreur cloud. (8 October 2026)
