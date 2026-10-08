@@ -120,3 +120,10 @@
 
 - 8 October 2026, 20:06 CEST : `japanese-environment` déclare `game-assets` facultatif, mais le chemin `Content/ModelingJapan_01` est absent et contient zéro fichier enregistré. (8 October 2026)
 - 8 October 2026, 20:06 CEST : Le test du service vérifie que `setWatch` saute ce dossier absent sans arrêter les sources présentes ; les balayages périodiques restent actifs. (8 October 2026)
+
+## 8 October 2026 : Résumé natif en trois lignes
+
+- 8 October 2026, 21:40 CEST : Une opération se lit maintenant en trois repères : action et projet, étape courante, puis attente et problèmes réunis sur une seule ligne. (8 October 2026)
+- 8 October 2026, 21:40 CEST : L’état `busy-queue` affiche exactement `Sauvegarde de ZenRayProgress`, `Vérification des fichiers`, puis `4 opérations en attente · 1 projet à vérifier`. (8 October 2026)
+- 8 October 2026, 21:40 CEST : `Install.mjs` reconstruit l’application et `Verify.mjs` confirme les sept états natifs, bouton « Assets » compris. (8 October 2026)
+- 8 October 2026, 21:40 CEST : Le LaunchAgent relance le nouveau binaire avec le PID 64154 ; System Events ne retourne aucun élément Assets dans cette session verrouillée, donc la capture physique reste à faire après déverrouillage. (8 October 2026)

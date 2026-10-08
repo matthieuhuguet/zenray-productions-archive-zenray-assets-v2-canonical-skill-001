@@ -237,3 +237,41 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 - 8 October 2026, 20:06 CEST : Les balayages périodiques gardent l’inventaire et découvrent la source si son dossier est créé plus tard. (8 October 2026)
 - 8 October 2026, 20:06 CEST : Le test `does not watch a missing optional source` doit rougir avant le correctif et verdir après ; toute source présente conserve sa surveillance. (8 October 2026)
 - 8 October 2026, 20:11 CEST : Les deux branches sont testées : un dossier facultatif absent n’est pas surveillé, un dossier facultatif présent l’est ; la suite `AssetsService.test.js` passe à 82 tests. (8 October 2026)
+
+## 8 October 2026 : Reprendre une archive après un refus permanent (8 October 2026)
+
+- 8 October 2026 : Un refus définitif du dépôt déclenchait un événement `rollover`, mais le lot suivant reprenait le même dépôt et échouait encore. (8 October 2026)
+- 8 October 2026 : `AssetsService` conserve le suffixe de dépôt par source et transmet `ZR_ARCHIVE_REPO_SUFFIX` à `archive-folder.mjs` ; les nouveaux dépôts sont nommés `-r02`, puis `-r03` après un autre refus définitif. (8 October 2026)
+- 8 October 2026 : Une panne réseau temporaire garde le suffixe actuel, car elle ne prouve pas que le dépôt doit tourner. (8 October 2026)
+- 8 October 2026 : La vérification locale passe sur les deux suites complètes : 90 tests de `AssetsService.test.js` et `archive-route.test.js`. (8 October 2026)
+- 8 October 2026 : Recharger le daemon seulement après la fin des écritures actives, puis vérifier le nouveau dépôt et les SHA des fichiers dans le cloud. (8 October 2026)
+
+## 8 October 2026 : Reconnaître le refus dans l’erreur enveloppée (8 October 2026)
+
+- 8 October 2026 : Le daemon préfixe les erreurs du processus enfant par `Asset engine failed` ; le marqueur `push-refus-definitif` se trouve plus loin dans sa pile. (8 October 2026)
+- 8 October 2026 : Vérifier le marqueur `Error: push-refus-definitif <dépôt>` et le comparer au dépôt de l’événement `rollover`, pour que seule la vraie destination refusée change de route. (8 October 2026)
+- 8 October 2026 : Le test de régression emploie cette erreur enveloppée ; les erreurs réseau gardent l’ancienne route, et les deux suites passent à 90 tests. (8 October 2026)
+- 8 October 2026 : Après le redémarrage réel, lire le suffixe conservé, confirmer l’archive distante par SHA et taille, puis reprendre les autres surveillances. (8 October 2026)
+
+## 8 October 2026 : Diagnostic sûr d’un refus d’archive GitHub
+
+- 8 October 2026 : Avant de relancer une source après un refus permanent GitHub, examiner uniquement ses fichiers texte en attente avec `node scripts/Assets/ScanGithubTokenShapes.mjs <project-id>`. Le rapport contient les chemins et les nombres, jamais les valeurs détectées. (8 October 2026)
+- 8 October 2026 : Ajouter les résultats aux exclusions de la source avec `--apply` seulement après arrêt de sa surveillance et fin de ses archives actives ; les fichiers locaux originaux restent intacts. (8 October 2026)
+- 8 October 2026 : `archive-folder.mjs` classe un refus permanent, par exemple protection de secrets ou règles du dépôt, sans écrire le diagnostic brut du serveur dans le journal du job. (8 October 2026)
+- 8 October 2026 : `ScanGithubTokenShapes.test.mjs`, `archive-route.test.js` et `AssetsService.test.js` couvrent le rapport privé, les exclusions gardées, le classement du refus et la rotation de dépôt. (8 October 2026)
+- 8 October 2026 : Le contrôle Conversations mesure 859 fichiers texte en attente et 6 505 571 543 octets, sans motif de jeton ; les 18 chemins trouvés auparavant restent exclus localement. (8 October 2026)
+- 8 October 2026 : Un fichier sûr archivé dans `-r03` est téléchargé de GitHub ; ses 3 321 octets et son SHA256 concordent avec le fichier local et son manifeste. (8 October 2026)
+
+## 8 October 2026 : Résumé compact du menu natif
+
+- 8 October 2026, 21:40 CEST : Le panneau natif regroupe une opération en trois lignes : action et projet, étape, puis attente et problèmes. (8 October 2026)
+- 8 October 2026, 21:40 CEST : Après un changement Swift, reconstruire avec `node scripts/Assets/NativeDashboard/Install.mjs`, relancer le LaunchAgent, puis vérifier les sept états avec `node scripts/Assets/NativeDashboard/Verify.mjs <dossier-de-preuve>`. (8 October 2026)
+- 8 October 2026, 21:40 CEST : Une fixture prouve le contenu dessiné, pas la place réelle dans la barre ; demander une capture seulement après le déverrouillage du Mac. (8 October 2026)
+
+## 8 October 2026 : Capture transcript non bloquante au démarrage
+
+- 8 October 2026 : Un balayage complet peut occuper `drain()` pendant plusieurs secondes ; `replay(sessionId)` met alors la session en file au lieu de faire échouer `bind-session`. (8 October 2026)
+- 8 October 2026 : La prochaine passe remet son curseur à zéro et le writer canonique déduplique par identifiant d’événement ; la réponse `transcriptCapture: queued` confirme la mise en file, pas encore la capture terminée. (8 October 2026)
+- 8 October 2026 : `AssetsService` termine `start` dès que la liaison est enregistrée et la capture mise en file ; le détail apparaît dans `setup.transcriptCapture`. (8 October 2026)
+- 8 October 2026 : Vérifier séparément avec `./node_modules/.bin/vitest run scripts/AssetsFeedbackCapture.test.js` puis `./node_modules/.bin/vitest run scripts/AssetsService.test.js --maxWorkers=1` ; lancer les suites séquentiellement pour éviter les délais de nettoyage. (8 October 2026)
+- 8 October 2026 : Recharger le daemon après l’arrêt de toutes les archives actives ; ensuite, lancer un vrai démarrage avec un ID de session fourni par l’hôte et vérifier le retour `transcriptCapture`. (8 October 2026)
