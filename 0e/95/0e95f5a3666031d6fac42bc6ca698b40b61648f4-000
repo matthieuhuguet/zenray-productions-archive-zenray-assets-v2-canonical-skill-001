@@ -201,3 +201,17 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 
 - 8 October 2026 : Pendant une sauvegarde ou une attente, si un projet a un problème, afficher une seule ligne « N projets à vérifier » en rouge et garder ses causes courtes dans l’infobulle. (8 October 2026)
 - 8 October 2026 : La fixture `busy-queue` vérifie la coexistence d’une sauvegarde, de quatre opérations en attente et d’une erreur cloud. (8 October 2026)
+
+
+## 8 October 2026 : Bouton Assets conservé après chaque actualisation
+
+- 8 October 2026 : Le panneau garde un bouton `externaldrive.fill` nommé « Assets » à largeur variable ; chaque lecture du service rétablit ce titre au lieu de le vider. (8 October 2026)
+- 8 October 2026 : Le nouvel `autosaveName` repart de l’emplacement mémorisé pour le bouton nommé ; les sept fixtures contrôlent le titre, le nom accessible et la largeur mesurée. (8 October 2026)
+- 8 October 2026 : Une capture réelle après déverrouillage reste nécessaire pour prouver que macOS ne range pas le bouton derrière son débordement. (8 October 2026)
+- 8 October 2026 : Le détail d’implémentation et les preuves vivent dans `references/NativeDashboard.md`. (8 October 2026)
+
+
+## 8 October 2026 : Largeur du bouton gérée par AppKit
+
+- 8 October 2026 : `statusItemWidth` est retiré des réglages ; `NSStatusItem.variableLength` mesure la place requise par `externaldrive.fill` et « Assets ». (8 October 2026)
+- 8 October 2026 : Les fixtures natives contrôlent un titre « Assets » sur 50 à 100 points ; le rendu mesuré est de 82 points et System Events lit 84 points. (8 October 2026)

@@ -84,3 +84,13 @@
 
 - 8 October 2026 : Si un autre projet a un problème pendant qu’une opération tourne ou attend, une seule ligne rouge « N projets à vérifier » reste visible au lieu de cacher l’erreur. (8 October 2026)
 - 8 October 2026 : La fixture `busy-queue` associe une sauvegarde active, quatre opérations en attente et un problème cloud ; le texte et l’infobulle vérifient chacun leur état. (8 October 2026)
+
+
+## 8 October 2026 : Garder le bouton Assets visible après actualisation
+
+- 8 October 2026 : La lecture du service vidait le titre du bouton après chaque actualisation ; l’entrée « Assets » disparaissait alors de la barre. (8 October 2026)
+- 8 October 2026 : Le bouton garde maintenant le symbole `externaldrive.fill` et le titre « Assets », avec une largeur variable adaptée à son contenu. (8 October 2026)
+- 8 October 2026 : Un nouvel `autosaveName` évite de reprendre l’emplacement enregistré pour l’ancien bouton réduit à une icône. (8 October 2026)
+- 8 October 2026 : Les sept fixtures vérifient le titre, le nom accessible et la largeur ; System Events lit le bouton à `(940, 4)`, taille `84 × 24`. (8 October 2026)
+- 8 October 2026 : La capture physique reste à faire après le déverrouillage, car une mesure Accessibility ne prouve pas que l’icône est hors du débordement macOS. (8 October 2026)
+- 8 October 2026 : Correction de la configuration précédente : `statusItemWidth` n’existe plus ; `NSStatusItem.variableLength` adapte la largeur au symbole et au titre réellement visibles. (8 October 2026)
