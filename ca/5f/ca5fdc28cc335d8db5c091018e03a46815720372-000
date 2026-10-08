@@ -143,3 +143,9 @@
 
 - 9 October 2026 : Le projet sélectionné garde ses boutons Sauvegarder, Charger sur Mac ou Décharger du Mac dans sa brique Lego, sans carte de détail répétée. (9 October 2026)
 - 9 October 2026 : La fixture principale exige que le nom du projet choisi n’apparaisse qu’une fois ; les neuf états natifs passent. (9 October 2026)
+
+## 9 October 2026 : Entrée compacte de la barre macOS
+
+- 9 October 2026 : Le bouton réduit `externaldrive.fill` à 14 points dans une réservation de 18 points afin de mieux tenir dans une barre encombrée ; l’accessibilité garde « ZenRay Assets » et une aide complète. (9 October 2026)
+- 9 October 2026 : Après reconstruction et relance, System Events mesure sa position à `(980, 2)` et sa taille à `20 × 28` ; cela ne prouve pas seul l’absence du groupe de débordement. (9 October 2026)
+- 9 October 2026 : La propriété `isVisible` reste vraie même si macOS cache temporairement l’élément par manque de place ; la capture de la barre reste la preuve visuelle à obtenir. ([documentation Apple](https://developer.apple.com/documentation/appkit/nsstatusitem/isvisible)) (9 October 2026)
