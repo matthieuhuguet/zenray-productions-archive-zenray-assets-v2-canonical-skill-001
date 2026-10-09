@@ -345,3 +345,9 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 - 9 October 2026 : Si la carte existait et change, le service relit son `lstat`, actualise taille, dates et `changeToken`, invalide l’ancien SHA, puis ajuste les octets de la source. (9 October 2026)
 - 9 October 2026 : Le test `refreshes the generated file-map fingerprint before an archive snapshot` prouve que le prochain snapshot lit les octets après écriture. (9 October 2026)
 - 9 October 2026 : Contrôle complet : `./node_modules/.bin/vitest run scripts/AssetsService.test.js --maxWorkers=1`. (9 October 2026)
+
+## 9 October 2026 : Limite des lots d’archives
+
+- 9 October 2026 : `scripts/AssetsConfig.json` fixe `storage.batchBytes` à 268435456 octets (256 MiB) et garde `storage.batchFiles` à 200. (9 October 2026)
+- 9 October 2026 : Avant un redémarrage du daemon après ce réglage, vérifier que la file d’archives est inactive afin de ne pas interrompre un transfert. (9 October 2026)
+- 9 October 2026 : Après le redémarrage mesuré, contrôler les 20 projets, les 19 surveillances attendues, la pause volontaire de `agent-conversations` et l’absence d’erreur du service. (9 October 2026)
