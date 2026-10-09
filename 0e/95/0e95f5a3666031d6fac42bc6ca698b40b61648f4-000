@@ -351,3 +351,12 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 - 9 October 2026 : `scripts/AssetsConfig.json` fixe `storage.batchBytes` à 268435456 octets (256 MiB) et garde `storage.batchFiles` à 200. (9 October 2026)
 - 9 October 2026 : Avant un redémarrage du daemon après ce réglage, vérifier que la file d’archives est inactive afin de ne pas interrompre un transfert. (9 October 2026)
 - 9 October 2026 : Après le redémarrage mesuré, contrôler les 20 projets, les 19 surveillances attendues, la pause volontaire de `agent-conversations` et l’absence d’erreur du service. (9 October 2026)
+
+
+## 9 October 2026: Antigravity prompts in FEEDBACK
+
+- 9 October 2026: `AssetsFeedbackCapture.mjs` reads bound conversations from `.gemini/antigravity/conversations/<session-id>.db` through `ReadGeminiConversation.py` and sends visible prompts and responses to the configured canonical FEEDBACK writer. (9 October 2026)
+- 9 October 2026: The reader paginates backward by native step index; the capture cursor records the last imported step and a change token for the database and its WAL file. A replay scans again, while stable event IDs let the writer skip duplicates. (9 October 2026)
+- 9 October 2026: Only a session bound to a project is appended; the source database is read through the snapshot reader and is never edited by FEEDBACK capture. (9 October 2026)
+- 9 October 2026: Verify with `./node_modules/.bin/vitest run scripts/AssetsFeedbackCapture.test.js --maxWorkers=1`, `python3 scripts/Assets/ReadGeminiConversation.test.py`, and an isolated scratch capture whose original database SHA remains unchanged. (9 October 2026)
+- 9 October 2026: The native Antigravity database path is covered; the Gemini web application and a universal host capture hook remain outside this reader. (9 October 2026)
