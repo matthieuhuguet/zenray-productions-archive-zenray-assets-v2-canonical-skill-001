@@ -917,3 +917,5 @@ Le [journal global](/Users/zenray/.claude/PROGRESS.md) conserve les étapes, les
 - 9 October 2026 : Le delta chiffré public est actualisé au `2026-10-09T18:33:41.575Z` ; une Gallery déjà ouverte reçoit maintenant son nouvel index sans rechargement ni copie des images. (9 October 2026)
 - 9 October 2026 : Contrôle du service : 20 projets inscrits, 19 surveillés, zéro erreur de scan et zéro conflit ; 15 fichiers restent en file sur six projets, traités par le service actif. (9 October 2026)
 - 9 October 2026 : `agent-conversations` reste suspendu comme décidé ; les nouveaux dossiers ne sont pas auto-rattachés à une identité projet, car le parent TMP partagé contient des chantiers différents. (9 October 2026)
+
+- 9 October 2026, 20:45 CEST : Après l’échec temporaire de la préservation d’une scène modifiée en cours d’archive, le service a créé une nouvelle tentative et l’a démarrée automatiquement ; son erreur courante est nulle, watcher actif, 7 fichiers Louisiana restent en traitement et le conflit de version reste visible. (9 October 2026)
