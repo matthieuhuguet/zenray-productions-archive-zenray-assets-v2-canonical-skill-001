@@ -52,6 +52,7 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 
 - 9 October 2026 : Au démarrage, `AssetsService.startWatching()` rétablit chaque surveillance explicitement conservée dans l’état du projet, puis relance la sauvegarde automatique. (9 October 2026)
 - 9 October 2026 : Le scan descend récursivement dans une source déclarée ; le watcher détecte les changements, le balayage complet rattrape les événements manqués et une archive en erreur se retente après `retryMs`. (9 October 2026)
+- 9 October 2026 : L’indexeur GitHub peut se bloquer sans réponse réseau et retenir toute la file ; `indexProcessTimeoutMs` l’arrête après deux minutes, garde `pendingIndex` intact et laisse la prochaine tentative automatique reprendre le travail. `processKillGraceMs` lui accorde cinq secondes avant l’arrêt forcé. Tests : arrêt réel d’un enfant bloqué, conservation des chemins et retry automatique dans `scripts/AssetsService.test.js`. (9 October 2026)
 - 9 October 2026 : Une racine temporaire qui contient plusieurs chantiers doit rester séparée par source de projet ; l’auto-découverte d’un parent mixte risquerait d’envoyer des fichiers au mauvais projet. (9 October 2026)
 - 9 October 2026 : Une divergence entre l’original et une copie chargée est préservée sous `versions/` avec son SHA avant de poursuivre ; une sélection manuelle ambiguë est refusée. (9 October 2026)
 - 9 October 2026 : Garder le redémarrage autonome couvert par `npx vitest run scripts/AssetsService.test.js -t "resumes a persisted project watcher" --maxWorkers=1`. (9 October 2026)
