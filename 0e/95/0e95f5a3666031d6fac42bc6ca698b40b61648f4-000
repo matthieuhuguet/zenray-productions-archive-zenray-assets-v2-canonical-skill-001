@@ -361,3 +361,17 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 - 9 October 2026: Verify with `./node_modules/.bin/vitest run scripts/AssetsFeedbackCapture.test.js --maxWorkers=1`, `python3 scripts/Assets/ReadGeminiConversation.test.py`, and an isolated scratch capture whose original database SHA remains unchanged. (9 October 2026)
 - 9 October 2026: The native Antigravity database path is covered; the Gemini web application and a universal host capture hook remain outside this reader. (9 October 2026)
 - 9 October 2026: Paginated messages spool to a private 0600 file in Assets state and replay oldest page first; the scratch spool is removed in `finally`, and a page cursor that does not move backward fails visibly. (9 October 2026)
+
+
+## 9 October 2026 : Registre partagé des extensions de nœuds
+
+- 9 October 2026 : `server/extensionsNoeuds.js` porte la liste canonique des suffixes et des jumeaux de page, dont `.comment.json` ; les opérations de déplacement simple et groupé utilisent ce même contrat. (9 October 2026)
+- 9 October 2026 : L’arbre, les enfants de dossier et l’index de recherche partagent le même filtre ; l’API conserve `truncated`, puis la recherche globale complète l’arbre frais avec l’index entier. (9 October 2026)
+- 9 October 2026 : Pour ajouter un type, étendre le registre et ses tests au lieu de dupliquer des expressions régulières ; `delete` supprime le chemin exact, tandis que l’interface gère explicitement les jumeaux pour la corbeille, la restauration et la purge. (9 October 2026)
+- 9 October 2026 : Le commit `73b2a452` passe 1 995 tests, avec un test ignoré, 52 tests ciblés et `npm run build` ; le déploiement Pages et ses deux bundles ont été comparés au build local. (9 October 2026)
+
+
+## 9 October 2026 : Correction des décomptes de test Assets
+
+- 9 October 2026 : Les contrôles séquentiels du 9 October 2026 à 08:29 CEST passent avec six tests `AssetsFeedbackCapture.test.js` et 91 tests `AssetsService.test.js`. (9 October 2026)
+- 9 October 2026 : Cette mesure corrige les anciens totaux de cinq et 89 tests, qui décrivaient les versions précédentes des suites ; les deux commandes et leurs résultats restent consultables dans l’historique du projet. (9 October 2026)
