@@ -42,6 +42,12 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 - Toute modification du programme met à jour cette documentation dans le même travail. Modifier seulement la source `~/.claude/skills/zenray-assets/`, puis skill-sync et CheckSkillContract.mjs --record, suivi du contrôle sans --record. Un contrat vert signifie des fichiers concordants, pas que tous les scénarios ont été exécutés. (7 October 2026)
 - Conserver les preuves de comportement, y compris les refus attendus, dans le projet concerné. Tester la fonction modifiée avant d’enregistrer son contrat ; ne jamais effacer une erreur de validation pour fabriquer du vert. (7 October 2026)
 
+## Gallery d’images des projets (9 October 2026)
+
+- 9 October 2026 : `LinkedAssetsGallery` s’abonne aux changements de l’index local ; une indexation en arrière-plan doit actualiser une Gallery déjà ouverte. (9 October 2026)
+- 9 October 2026 : Vérifier ce cas avec `npx vitest run src/components/LinkedAssetsGallery.test.jsx src/search/searchIndexClient.eagle.test.js src/search/searchIndexClient.cache.test.js src/lib/linkedGalleryAssets.test.js --maxWorkers=1`. (9 October 2026)
+- 9 October 2026 : Avant de déplacer ou réarchiver des concepts, vérifier leurs manifestes cloud et l’index chiffré ; un dossier TMP parent peut contenir plusieurs projets sans appartenir à leur source. (9 October 2026)
+
 ## Cas de démarrage et preuves de capture (7 October 2026)
 
 - Pour un projet réellement nouveau, choisir son ID stable une fois et exécuter `node scripts/Assets/BeginProject.mjs <new-project-id> --name="<nom>" --session-id=<vrai-id-hôte>`, puis BeginConversation avec l’agent réel et ce même ID. Pour une reprise, résoudre l’ID existant par le mapping avant BeginConversation ; ne pas recréer une identité depuis le titre. Une session déjà liée ailleurs conserve son projet. (7 October 2026)

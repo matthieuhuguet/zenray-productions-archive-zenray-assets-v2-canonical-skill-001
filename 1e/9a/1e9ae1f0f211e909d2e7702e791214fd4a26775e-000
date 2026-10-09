@@ -895,3 +895,10 @@ Le [journal global](/Users/zenray/.claude/PROGRESS.md) conserve les étapes, les
 - 9 October 2026, 16:24 CEST : Avec 128 fenêtres, la lecture locale rend le prompt et trois messages de réponse, `promptAnchorFound=true`, sans modifier l’original. (9 October 2026)
 - 9 October 2026, 16:24 CEST : Le test de régression réduit la taille des fenêtres, place le prompt à la même distance de 92 balayages et prouve l’échec à 72 puis la réussite à 128. (9 October 2026)
 - 9 October 2026, 16:24 CEST : Le daemon live date d’avant ce correctif ; son rechargement reste subordonné à la fin des archives Assets. (9 October 2026)
+
+## 9 October 2026 : Gallery Louisiana Bayou après rafraîchissement d’index
+
+- 9 October 2026 : Les six concepts de `02_sources/references` possèdent déjà leurs manifestes cloud ; les six copies parallèles de `tmp-3D-houdini/RefEnviro` ont les mêmes tailles et SHA-256. (9 October 2026)
+- 9 October 2026 : Le delta chiffré contient les 1 020 chemins Assets Louisiana vérifiés ; l’index local stale-while-revalidate était toutefois copié une seule fois par la Gallery ouverte. (9 October 2026)
+- 9 October 2026 : `subscribeSearchIndex` signale maintenant le nouvel index à la Gallery après un rafraîchissement réseau, une hydratation IndexedDB ou un changement optimiste local ; la navigation ouverte affiche ainsi les concepts sans dupliquer ni déplacer les images. (9 October 2026)
+- 9 October 2026 : Les tests couvrent l’index périmé remplacé par le CDN, l’actualisation d’une Gallery ouverte, l’injection et l’annulation de chemins ; conserver la preuve de déploiement et le contrôle du site avec le journal de session. (9 October 2026)
