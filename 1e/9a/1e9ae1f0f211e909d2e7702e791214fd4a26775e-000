@@ -919,3 +919,5 @@ Le [journal global](/Users/zenray/.claude/PROGRESS.md) conserve les étapes, les
 - 9 October 2026 : `agent-conversations` reste suspendu comme décidé ; les nouveaux dossiers ne sont pas auto-rattachés à une identité projet, car le parent TMP partagé contient des chantiers différents. (9 October 2026)
 
 - 9 October 2026, 20:45 CEST : Après l’échec temporaire de la préservation d’une scène modifiée en cours d’archive, le service a créé une nouvelle tentative et l’a démarrée automatiquement ; son erreur courante est nulle, watcher actif, 7 fichiers Louisiana restent en traitement et le conflit de version reste visible. (9 October 2026)
+
+- 9 October 2026, 20:48 CEST : Une seconde tentative rencontre le même garde-fou de cohérence ; le service met immédiatement un troisième job en cours, erreur courante nulle, surveillance active et conflit de version toujours visible. Les octets de la dernière source attendent qu’elle reste stable. (9 October 2026)
