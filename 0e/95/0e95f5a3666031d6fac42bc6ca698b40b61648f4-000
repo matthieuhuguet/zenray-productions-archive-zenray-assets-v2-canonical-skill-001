@@ -412,3 +412,9 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 - 9 October 2026 : L’historique dérivé réunit aussi les anciens doublons Codex quand source, seconde et texte correspondent ; `duplicateCount` compte les blocs bruts conservés. (9 October 2026)
 - 9 October 2026 : Les doublons déjà archivés ne se suppriment pas ; ajouter une correction append-only qui cite les événements concernés. (9 October 2026)
 - 9 October 2026 : Contrôler avec les tests `AssetsFeedbackCapture` et `ConversationCatalog`, puis enregistrer et vérifier `SkillContract.json`. (9 October 2026)
+
+## 9 October 2026 : Lecture initiale au-delà des fenêtres techniques
+
+- 9 October 2026 : La fin d’un transcript peut contenir seulement des outils ; à l’ouverture, le lecteur traverse jusqu’à `emptyPageScanLimit` fenêtres avant de montrer l’état vide. (9 October 2026)
+- 9 October 2026 : Il s’arrête dès qu’une fenêtre contient des messages visibles ; s’il n’en trouve aucun, `emptyPagesScanned` et `nextBefore` permettent à l’interface d’indiquer l’avancée et de continuer dans la même limite. (9 October 2026)
+- 9 October 2026 : Vérifier avec `vitest run scripts/Assets/ConversationCatalog.test.js src/components/assets/ConversationView.test.jsx`, puis les suites de capture, d’historique et AssetsService ainsi que `npm run build`. (9 October 2026)
