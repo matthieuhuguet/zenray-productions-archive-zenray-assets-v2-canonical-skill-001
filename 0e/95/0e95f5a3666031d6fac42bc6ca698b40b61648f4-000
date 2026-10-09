@@ -399,3 +399,8 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 - Le petit index des projets est relu sans cache ; le détail `.workspace.json` du projet sélectionné utilise aussi `fresh=1`, car le CDN brut garde sinon son ancienne version cinq minutes. (9 October 2026)
 - `workspaceSnapshotRequest` valide le dossier du projet et associe toujours `fresh: true` à cette seule lecture ; son test couvre le chemin valide et le refus d’un chemin traversant. (9 October 2026)
 - Vérifier avec `npx vitest run src/lib/assetsWorkspaceViewModel.test.js src/lib/assetsWorkspaceCatalogue.test.js`, puis `npm run build`. (9 October 2026)
+
+## 9 October 2026 : Apparence claire et sombre du panneau macOS
+
+- 9 October 2026 : Pour vérifier le thème du panneau natif, lire [NativeDashboard.md](references/NativeDashboard.md) ; le popover, ses briques et les compteurs suivent l’apparence Aqua ou Dark Aqua. (9 October 2026)
+- 9 October 2026 : Après installation, exécuter `node scripts/Assets/NativeDashboard/Verify.mjs <workshop-path>` ; les contrôles vérifient le thème hérité et la luminance mesurée des briques. (9 October 2026)

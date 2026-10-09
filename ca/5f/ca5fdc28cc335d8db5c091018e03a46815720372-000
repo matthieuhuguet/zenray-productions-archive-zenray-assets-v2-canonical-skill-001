@@ -158,3 +158,9 @@
 - 9 October 2026 : `secret-protection` se traduit par « Protection des secrets », visible dans le résumé des problèmes et dans la brique Conversations des agents. (9 October 2026)
 - 9 October 2026 : Le bouton utilise l’icône `externaldrive.fill` sur 18 points, avec le nom accessible « ZenRay Assets » ; System Events indique `(980, 4)`, `20 × 24` après relance, ce qui reste une mesure d’accessibilité. (9 October 2026)
 - 9 October 2026 : Le rendu live est enregistré dans `~/.claude/tmp/tmp-zenray-assets-v2/NativeDashboardProof-20261009-Lego/NativeDashboardLive.json.png` ; il ne capture que la vue rendue par l’application native. (9 October 2026)
+
+## Apparence claire et sombre (9 October 2026)
+
+- 9 October 2026 : La vue racine reprend l’apparence effective de l’application pour que la fenêtre séparée du popover suive le thème de macOS. (9 October 2026)
+- 9 October 2026 : Les briques de projet, les compteurs Mac et Cloud et leurs tenons recalculent leurs couleurs sémantiques selon l’apparence effective de chaque vue. (9 October 2026)
+- 9 October 2026 : `Verify.mjs` ouvre le popover en Aqua et Dark Aqua, vérifie le thème hérité par chaque brique et mesure la luminance de leur fond. (9 October 2026)
