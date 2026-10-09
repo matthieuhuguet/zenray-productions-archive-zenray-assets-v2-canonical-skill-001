@@ -463,7 +463,7 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 
 ## 9 October 2026 : Veille pendant les transferts cloud
 
-- 9 October 2026 : `storage.preventIdleSleepDuringTransfers` vaut `true` par défaut ; le service lance `/usr/bin/caffeinate -i` seulement tant qu’un job `archive`, `restore` ou `recover` tourne. (9 October 2026)
+- 9 October 2026 : `storage.preventIdleSleepDuringTransfers` vaut `true` par défaut ; le service lance `/usr/bin/caffeinate -i` seulement tant qu’un job `archive`, `restore` ou `recover` tourne, lié au PID du daemon pour disparaître aussi si le daemon tombe. (9 October 2026)
 - 9 October 2026 : Le service arrête l’assertion après succès, erreur ou fermeture ; si le helper quitte pendant le transfert, il signale l’incident et réessaie après `retryMs`. (9 October 2026)
 - 9 October 2026 : `caffeinate -i` bloque la veille due à l’inactivité, sans empêcher l’écran de s’éteindre ; la fermeture du capot, la perte d’alimentation ou l’arrêt du Mac restent des limites système. (9 October 2026)
 - 9 October 2026 : Vérifier le cycle actif et sa libération avec `npx vitest run scripts/AssetsService.test.js -t 'holds idle sleep only during active cloud transfers|starts and stops the macOS idle-sleep helper' --maxWorkers=1`, puis vérifier l’assertion réelle avec `pmset -g assertions`. (9 October 2026)
