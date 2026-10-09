@@ -409,5 +409,6 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 
 - 9 October 2026 : Les transcripts Codex peuvent écrire la réponse finale dans `response_item` puis la répéter dans `event_msg` `task_complete`. (9 October 2026)
 - 9 October 2026 : Le captureur FEEDBACK et le lecteur comparent le `turn_id`, le type et le texte ; deux réponses identiques de tours distincts restent visibles. (9 October 2026)
+- 9 October 2026 : L’historique dérivé réunit aussi les anciens doublons Codex quand source, seconde et texte correspondent ; `duplicateCount` compte les blocs bruts conservés. (9 October 2026)
 - 9 October 2026 : Les doublons déjà archivés ne se suppriment pas ; ajouter une correction append-only qui cite les événements concernés. (9 October 2026)
 - 9 October 2026 : Contrôler avec les tests `AssetsFeedbackCapture` et `ConversationCatalog`, puis enregistrer et vérifier `SkillContract.json`. (9 October 2026)

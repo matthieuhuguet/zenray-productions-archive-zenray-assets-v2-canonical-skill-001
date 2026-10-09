@@ -52,5 +52,6 @@ Correction des anciens noms d onglets de ce guide : Historique et discussions re
 
 - 9 October 2026 : Un transcript Codex peut représenter la même réponse finale par `response_item` et `event_msg` `task_complete` ; lorsque leur `turn_id` concorde, il s’agit d’un seul message. (9 October 2026)
 - 9 October 2026 : La capture FEEDBACK et le lecteur de conversation partagent une clé fondée sur le tour, le type et le texte ; une réponse identique pendant un autre tour reste séparée. (9 October 2026)
+- 9 October 2026 : La chronologie réunit les anciens doublons quand le fichier transcript, la seconde et le texte correspondent, tout en indiquant `duplicateCount`. (9 October 2026)
 - 9 October 2026 : Ne jamais supprimer les anciens blocs de FEEDBACK ; signaler un doublon déjà archivé dans une nouvelle note append-only. (9 October 2026)
 - 9 October 2026 : Vérifier par `vitest run scripts/AssetsFeedbackCapture.test.js scripts/Assets/ConversationCatalog.test.js` puis `node scripts/Assets/CheckSkillContract.mjs`. (9 October 2026)
