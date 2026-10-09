@@ -393,3 +393,9 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 - Pour tout nouveau travail et toute reprise, `zenray-assets` est le seul workflow actif ; il porte le démarrage, le mapping, le feedback et le développement du service. (9 October 2026)
 - `zenray-assets-v2` ne possède plus de procédure autonome : son skill est un alias conservé pour rediriger les anciennes commandes vers ce skill canonique. (9 October 2026)
 - L’identifiant de projet `zenray-assets-v2`, ses dossiers cloud, mappings et conversations restent inchangés ; ils désignent des données historiques, pas un second skill actif. (9 October 2026)
+
+## 9 October 2026 : Chargement frais du détail sélectionné
+
+- Le petit index des projets est relu sans cache ; le détail `.workspace.json` du projet sélectionné utilise aussi `fresh=1`, car le CDN brut garde sinon son ancienne version cinq minutes. (9 October 2026)
+- `workspaceSnapshotRequest` valide le dossier du projet et associe toujours `fresh: true` à cette seule lecture ; son test couvre le chemin valide et le refus d’un chemin traversant. (9 October 2026)
+- Vérifier avec `npx vitest run src/lib/assetsWorkspaceViewModel.test.js src/lib/assetsWorkspaceCatalogue.test.js`, puis `npm run build`. (9 October 2026)
