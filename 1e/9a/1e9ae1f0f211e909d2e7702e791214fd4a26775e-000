@@ -910,3 +910,10 @@ Le [journal global](/Users/zenray/.claude/PROGRESS.md) conserve les étapes, les
 - 9 October 2026, 20:28 CEST : Sur 20 projets locaux, 19 sont surveillés, zéro inventaire n’a de scanError, et le projet suspendu `agent-conversations` reste à l’arrêt comme demandé précédemment. (9 October 2026)
 - 9 October 2026, 20:28 CEST : Louisiana passe de 1 conflit et 4 en attente à zéro conflit et 2 en attente pendant le contrôle ; le service garde la surveillance active et un job automatique est en file. (9 October 2026)
 - 9 October 2026, 20:28 CEST : `AssetsService.test.js` prouve maintenant qu’un watcher persistant est réattaché au démarrage et qu’une sauvegarde automatique est relancée. (9 October 2026)
+
+## 9 October 2026 : Gallery publiée et preuve de fonctionnement autonome
+
+- 9 October 2026 : Le correctif Gallery est commit `0faf9f6f`, publié sur Cloudflare Pages Production/main avec le déploiement `6b4b0a0c-7d13-4228-b983-291ed81ff5a2` ; la page et le module Gallery répondent 200, et leurs SHA-256 correspondent exactement au build local. (9 October 2026)
+- 9 October 2026 : Le delta chiffré public est actualisé au `2026-10-09T18:33:41.575Z` ; une Gallery déjà ouverte reçoit maintenant son nouvel index sans rechargement ni copie des images. (9 October 2026)
+- 9 October 2026 : Contrôle du service : 20 projets inscrits, 19 surveillés, zéro erreur de scan et zéro conflit ; 15 fichiers restent en file sur six projets, traités par le service actif. (9 October 2026)
+- 9 October 2026 : `agent-conversations` reste suspendu comme décidé ; les nouveaux dossiers ne sont pas auto-rattachés à une identité projet, car le parent TMP partagé contient des chantiers différents. (9 October 2026)
