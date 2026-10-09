@@ -418,3 +418,11 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 - 9 October 2026 : La fin d’un transcript peut contenir seulement des outils ; à l’ouverture, le lecteur traverse jusqu’à `emptyPageScanLimit` fenêtres avant de montrer l’état vide. (9 October 2026)
 - 9 October 2026 : Il s’arrête dès qu’une fenêtre contient des messages visibles ; s’il n’en trouve aucun, `emptyPagesScanned` et `nextBefore` permettent à l’interface d’indiquer l’avancée et de continuer dans la même limite. (9 October 2026)
 - 9 October 2026 : Vérifier avec `vitest run scripts/Assets/ConversationCatalog.test.js src/components/assets/ConversationView.test.jsx`, puis les suites de capture, d’historique et AssetsService ainsi que `npm run build`. (9 October 2026)
+
+## 9 October 2026 : Relier le dernier prompt à sa réponse
+
+- 9 October 2026 : À l’ouverture d’un transcript Codex, le lecteur balaie au plus 72 fenêtres de 2 MiB pour afficher le dernier prompt disponible avec la réponse qui le suit. (9 October 2026)
+- 9 October 2026 : La session réelle a nécessité 56 fenêtres, soit 117 MiB ; la lecture locale rend trois messages lisibles, dont un prompt et deux réponses, en 203 ms, sans modifier l’original. (9 October 2026)
+- 9 October 2026 : Si le dernier échange n’a pas encore de réponse, l’ouverture s’arrête aux messages récents ; si la limite est atteinte avant le prompt, l’interface le dit et garde le curseur pour continuer. (9 October 2026)
+- 9 October 2026 : Les pages suivantes gardent leur budget de 24 fenêtres ; vérifier les scénarios avec `vitest run scripts/Assets/ConversationCatalog.test.js src/components/assets/ConversationView.test.jsx`. (9 October 2026)
+- 9 October 2026 : Ne pas recharger `com.zenray.assets` tant que la file des archives contient des éléments ; le lecteur du daemon ne prend le nouveau code qu’au prochain lancement sûr. (9 October 2026)

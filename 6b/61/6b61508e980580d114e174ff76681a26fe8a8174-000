@@ -61,3 +61,8 @@ Correction des anciens noms d onglets de ce guide : Historique et discussions re
 - 9 October 2026 : À l’ouverture, le lecteur saute au plus `emptyPageScanLimit` fenêtres sans message pour retrouver les derniers échanges visibles. (9 October 2026)
 - 9 October 2026 : S’il n’en trouve pas, il indique combien de fenêtres il a lues et garde le curseur pour poursuivre sans dépasser la même limite au clic suivant. (9 October 2026)
 - 9 October 2026 : Contrôler avec les tests `ConversationCatalog` et `ConversationView`. (9 October 2026)
+
+## 9 October 2026 : Lire un prompt avec sa réponse
+
+- 9 October 2026 : Ouvre l’historique de la conversation ; le lecteur cherche le dernier prompt lisible autour des réponses récentes, même si de nombreux blocs d’outils les séparent. (9 October 2026)
+- 9 October 2026 : Si le prompt dépasse la recherche bornée, un message indique comment charger les messages précédents ; le transcript original reste intact. (9 October 2026)
