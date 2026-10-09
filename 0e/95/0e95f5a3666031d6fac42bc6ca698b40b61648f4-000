@@ -360,3 +360,4 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 - 9 October 2026: Only a session bound to a project is appended; the source database is read through the snapshot reader and is never edited by FEEDBACK capture. (9 October 2026)
 - 9 October 2026: Verify with `./node_modules/.bin/vitest run scripts/AssetsFeedbackCapture.test.js --maxWorkers=1`, `python3 scripts/Assets/ReadGeminiConversation.test.py`, and an isolated scratch capture whose original database SHA remains unchanged. (9 October 2026)
 - 9 October 2026: The native Antigravity database path is covered; the Gemini web application and a universal host capture hook remain outside this reader. (9 October 2026)
+- 9 October 2026: Paginated messages spool to a private 0600 file in Assets state and replay oldest page first; the scratch spool is removed in `finally`, and a page cursor that does not move backward fails visibly. (9 October 2026)
