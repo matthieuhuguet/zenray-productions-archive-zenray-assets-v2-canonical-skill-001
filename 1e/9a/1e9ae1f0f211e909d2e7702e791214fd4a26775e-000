@@ -870,3 +870,10 @@ Le [journal global](/Users/zenray/.claude/PROGRESS.md) conserve les étapes, les
 - 8 October 2026 : Correction de la ligne précédente sur l’ancien service : après l’achèvement des jobs déjà en file, le daemon a été rechargé avec `39068e35` ; `dashboard` répond pour 19 projets en 2308 octets et aucun job n’est actif au relevé. (8 October 2026)
 - 8 October 2026 : L’application native est installée et relancée ; les sept fixtures passent avec le bouton « Assets » mesuré à 62 points. (8 October 2026)
 - 8 October 2026 : Le job Assets `957434fd-ee58-4389-bd1f-ffdc1de8c1fb` échoue après un changement de source et laisse sept fichiers en attente ; les surveillances restent à réactiver après ce rechargement. (8 October 2026)
+
+## 9 October 2026 : Empreinte FileMap actualisée avant l’archive (9 October 2026)
+
+- 9 October 2026 : `inventory()` peut modifier `FileMap.md` après le scan des sources, puisque son contenu dépend du nouvel inventaire. (9 October 2026)
+- 9 October 2026 : Si la carte existait et change, le service relit son `lstat`, actualise taille, dates et `changeToken`, invalide l’ancien SHA, puis ajuste les octets de la source. (9 October 2026)
+- 9 October 2026 : Le test `refreshes the generated file-map fingerprint before an archive snapshot` prouve que le prochain snapshot lit les octets après écriture. (9 October 2026)
+- 9 October 2026 : Contrôle complet : `./node_modules/.bin/vitest run scripts/AssetsService.test.js --maxWorkers=1`. (9 October 2026)

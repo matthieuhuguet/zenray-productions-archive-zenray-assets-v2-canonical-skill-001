@@ -319,3 +319,29 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 - 9 October 2026 : Dans la vue native, les actions du projet sélectionné restent intégrées à sa brique Lego afin de garder son nom et ses comptes uniques. (9 October 2026)
 
 - 9 October 2026 : L’entrée native emploie l’icône SF Symbol `externaldrive.fill` sur 18 points, avec le nom accessible « ZenRay Assets » ; `isVisible` seul ne prouve pas qu’elle échappe au débordement macOS. (9 October 2026)
+
+- 9 October 2026 : La vérification native ouvre le vrai popover et son mode `live-dashboard` vérifie l’application contre le daemon en service ; le bouton compact garde le nom accessible « ZenRay Assets ». (9 October 2026)
+- 9 October 2026 : `secret-protection` devient « Protection des secrets » dans le panneau pour que le refus et les fichiers à envoyer soient compréhensibles. (9 October 2026)
+
+## 9 October 2026 : Images cloud Assets dans les Galeries ZenRayProgress (9 October 2026, 01:48 CEST)
+
+- 9 October 2026 : Pour afficher les images déjà sauvegardées d’un projet Assets dans une Gallery, ajouter `assetsProjects: [{ id: '<project-id>', name: '<display-name>' }]` à l’entrée correspondante de `src/config/pointerGalleries.js`. (9 October 2026)
+- 9 October 2026 : L’identifiant doit être celui d’un projet existant dans le registre Assets ; `name` ne sert qu’au titre affiché. (9 October 2026)
+- 9 October 2026 : La Gallery lit les images indexées déjà présentes dans le cloud, y compris les images archivées comme fichiers ; elle ne copie, n’envoie, ne déplace et ne renomme aucun fichier. (9 October 2026)
+- 9 October 2026 : Les filtres par source et dossier, la recherche et Quick Look ne modifient que l’affichage ; la procédure complète et les limites de prévisualisation sont dans `docs/PROJECT-GALLERY-CLOUD-IMAGES.md` du dépôt ZenRayProgress. (9 October 2026)
+
+## 9 October 2026 : Références Gallery séparées des fichiers cloud (9 October 2026, 01:55 CEST)
+
+- 9 October 2026 : La Gallery garde deux vues explicites : `Mes références` contient les images et groupes rangés manuellement ; `Fichiers cloud` parcourt les images déjà sauvegardées dans Assets. (9 October 2026)
+- 9 October 2026 : Le tri, les groupes, les dossiers et les dispositions existants restent dans `Mes références` ; changer de vue ne modifie pas leur ordre ni leur contenu. (9 October 2026)
+- 9 October 2026 : La vue cloud expose les sources comme dossiers, ouvre les sous-dossiers et fournit un fil d’Ariane cliquable ; les filtres et la recherche ne font que réduire les résultats visibles. (9 October 2026)
+- 9 October 2026 : La mention antérieure du filtre par dossier décrit l’ancienne interface ; la navigation par dossiers et fil d’Ariane la remplace, tandis que le filtre par source reste disponible. (9 October 2026)
+- 9 October 2026 : Si plusieurs projets Assets sont liés à une Gallery, un sélecteur n’affiche qu’un projet à la fois pour éviter de mêler leurs fichiers. (9 October 2026)
+- 9 October 2026 : Tests de référence : `src/components/GalleryView.test.jsx`, `src/components/LinkedAssetsGallery.test.jsx` et `src/lib/linkedGalleryAssets.test.js` dans ZenRayProgress. (9 October 2026)
+
+## 9 October 2026 : Empreinte FileMap actualisée avant l’archive (9 October 2026)
+
+- 9 October 2026 : `inventory()` peut modifier `FileMap.md` après le scan des sources, puisque son contenu dépend du nouvel inventaire. (9 October 2026)
+- 9 October 2026 : Si la carte existait et change, le service relit son `lstat`, actualise taille, dates et `changeToken`, invalide l’ancien SHA, puis ajuste les octets de la source. (9 October 2026)
+- 9 October 2026 : Le test `refreshes the generated file-map fingerprint before an archive snapshot` prouve que le prochain snapshot lit les octets après écriture. (9 October 2026)
+- 9 October 2026 : Contrôle complet : `./node_modules/.bin/vitest run scripts/AssetsService.test.js --maxWorkers=1`. (9 October 2026)

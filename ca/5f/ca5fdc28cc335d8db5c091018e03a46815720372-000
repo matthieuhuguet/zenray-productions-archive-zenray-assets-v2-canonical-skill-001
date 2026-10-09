@@ -149,3 +149,12 @@
 - 9 October 2026 : Le bouton réduit `externaldrive.fill` à 14 points dans une réservation de 18 points afin de mieux tenir dans une barre encombrée ; l’accessibilité garde « ZenRay Assets » et une aide complète. (9 October 2026)
 - 9 October 2026 : Après reconstruction et relance, System Events mesure sa position à `(980, 2)` et sa taille à `20 × 28` ; cela ne prouve pas seul l’absence du groupe de débordement. (9 October 2026)
 - 9 October 2026 : La propriété `isVisible` reste vraie même si macOS cache temporairement l’élément par manque de place ; la capture de la barre reste la preuve visuelle à obtenir. ([documentation Apple](https://developer.apple.com/documentation/appkit/nsstatusitem/isvisible)) (9 October 2026)
+
+## 9 October 2026 : Rendu natif et vérification live
+
+- 9 October 2026 : `Verify.mjs` ouvre le vrai `NSPopover` sur le cas Lego, puis vérifie `popoverShown` et `popoverWindowVisible`. (9 October 2026)
+- 9 October 2026 : Le dixième mode `live-dashboard` relie l’application compilée au daemon réel ; la preuve du 9 October 2026 compte 20 projets et 45 037 fichiers, avec un inventaire connu pour chaque projet. (9 October 2026)
+- 9 October 2026 : Sans transfert actif, le service renvoie zéro octet par seconde et l’interface affiche `0 KB/s` pour Upload et Download. (9 October 2026)
+- 9 October 2026 : `secret-protection` se traduit par « Protection des secrets », visible dans le résumé des problèmes et dans la brique Conversations des agents. (9 October 2026)
+- 9 October 2026 : Le bouton utilise l’icône `externaldrive.fill` sur 18 points, avec le nom accessible « ZenRay Assets » ; System Events indique `(980, 4)`, `20 × 24` après relance, ce qui reste une mesure d’accessibilité. (9 October 2026)
+- 9 October 2026 : Le rendu live est enregistré dans `~/.claude/tmp/tmp-zenray-assets-v2/NativeDashboardProof-20261009-Lego/NativeDashboardLive.json.png` ; il ne capture que la vue rendue par l’application native. (9 October 2026)
