@@ -902,3 +902,11 @@ Le [journal global](/Users/zenray/.claude/PROGRESS.md) conserve les étapes, les
 - 9 October 2026 : Le delta chiffré contient les 1 020 chemins Assets Louisiana vérifiés ; l’index local stale-while-revalidate était toutefois copié une seule fois par la Gallery ouverte. (9 October 2026)
 - 9 October 2026 : `subscribeSearchIndex` signale maintenant le nouvel index à la Gallery après un rafraîchissement réseau, une hydratation IndexedDB ou un changement optimiste local ; la navigation ouverte affiche ainsi les concepts sans dupliquer ni déplacer les images. (9 October 2026)
 - 9 October 2026 : Les tests couvrent l’index périmé remplacé par le CDN, l’actualisation d’une Gallery ouverte, l’injection et l’annulation de chemins ; conserver la preuve de déploiement et le contrôle du site avec le journal de session. (9 October 2026)
+
+## 9 October 2026 : Reprise autonome des sauvegardes Assets
+
+- 9 October 2026, 20:28 CEST : Le LaunchAgent `com.zenray.assets` porte `RunAtLoad=true` et `KeepAlive=true` ; le service écoute sur `127.0.0.1:3100` au relevé. (9 October 2026)
+- 9 October 2026, 20:28 CEST : `AssetsService.startWatching()` relie les chemins des projets dont `watched=true` est sauvegardé, puis programme leur prochain passage ; les nouvelles sources mappées sont parcourues récursivement. (9 October 2026)
+- 9 October 2026, 20:28 CEST : Sur 20 projets locaux, 19 sont surveillés, zéro inventaire n’a de scanError, et le projet suspendu `agent-conversations` reste à l’arrêt comme demandé précédemment. (9 October 2026)
+- 9 October 2026, 20:28 CEST : Louisiana passe de 1 conflit et 4 en attente à zéro conflit et 2 en attente pendant le contrôle ; le service garde la surveillance active et un job automatique est en file. (9 October 2026)
+- 9 October 2026, 20:28 CEST : `AssetsService.test.js` prouve maintenant qu’un watcher persistant est réattaché au démarrage et qu’une sauvegarde automatique est relancée. (9 October 2026)
