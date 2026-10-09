@@ -120,6 +120,18 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 - 8 October 2026 : Un appelant qui ne connaît pas encore le SHA peut lire le fichier courant ; un SHA est comparé seulement s’il a été fourni, et la sauvegarde exige toujours sa valeur de départ. (8 October 2026)
 - 8 October 2026 : Tests ciblés : `vitest run scripts/AssetsCloudGitWriter.test.js scripts/AssetsCloudPublisher.test.js server/page-large-save.test.js`, puis `vitest run scripts/AssetsService.test.js` et `npm run build`. Après chargement du nouveau daemon, vérifier une publication réelle par son job, son état de synchronisation et le SHA Git distant. (8 October 2026)
 
+## 9 October 2026 : Index léger des projets Assets
+
+- 9 October 2026 : `pages/.zr-assets-workspaces-index.json` contient les résumés de projet, les comptes de fichiers, leurs sources sûres, les couvertures et les métadonnées de conversation ; il omet les listes détaillées de fichiers afin de ne pas télécharger le registre complet pour ouvrir Assets. (9 October 2026)
+- 9 October 2026 : La page charge le `.workspace.json` du projet sélectionné seulement et ne garde qu’un instantané détaillé en mémoire ; les dossiers non sélectionnés restent résumés dans l’index. (9 October 2026)
+- 9 October 2026 : `pages/.zr-assets-workspaces.json` reste la source de migration en lecture seule ; le publisher crée l’index léger depuis ses projets, puis ne réécrit plus l’ancien registre. (9 October 2026)
+- 9 October 2026 : La lecture de l’ancien registre n’a lieu que si le nouvel index est confirmé absent ; une panne réseau ou un index mal formé donne une erreur visible et ne déclenche pas le téléchargement de 44 Mo. (9 October 2026)
+- 9 October 2026 : Le writer sparse inclut l’index et le chemin demandé ; l’ancien registre géant n’entre dans le checkout que pendant la migration initiale. (9 October 2026)
+- 9 October 2026 : `src/lib/assetsWorkspaceCatalogue.js` et son test sont listés dans `CheckSkillContract.mjs`, afin que le format, la sécurité de chemin et le repli de migration restent surveillés. (9 October 2026)
+- 9 October 2026 : Mesure avant migration sur `origin/main` au commit `6dc4d881` : 20 projets et 600 conversations dans un blob de 44 287 750 octets ; la projection complète calculée mesure 312 637 octets, soit 99,29 % de moins. (9 October 2026)
+- 9 October 2026 : Contrôles : `vitest run src/lib/assetsWorkspaceCatalogue.test.js scripts/AssetsCloudPublisher.test.js scripts/AssetsCloudGitWriter.test.js`, `vitest run scripts/AssetsService.test.js --maxWorkers=1`, les tests Gallery, la suite complète et `npm run build`. (9 October 2026)
+- 9 October 2026 : La taille ci-dessus est une projection locale ; seule la lecture du nouvel index publié avec sa taille et son SHA prouve la migration distante. (9 October 2026)
+
 
 ## 8 October 2026 : Lisibilité native et visibilité réelle du bouton
 
@@ -375,3 +387,9 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 
 - 9 October 2026 : Les contrôles séquentiels du 9 October 2026 à 08:29 CEST passent avec six tests `AssetsFeedbackCapture.test.js` et 91 tests `AssetsService.test.js`. (9 October 2026)
 - 9 October 2026 : Cette mesure corrige les anciens totaux de cinq et 89 tests, qui décrivaient les versions précédentes des suites ; les deux commandes et leurs résultats restent consultables dans l’historique du projet. (9 October 2026)
+
+## 9 October 2026 : Harmonisation du nom Assets
+
+- Pour tout nouveau travail et toute reprise, `zenray-assets` est le seul workflow actif ; il porte le démarrage, le mapping, le feedback et le développement du service. (9 October 2026)
+- `zenray-assets-v2` ne possède plus de procédure autonome : son skill est un alias conservé pour rediriger les anciennes commandes vers ce skill canonique. (9 October 2026)
+- L’identifiant de projet `zenray-assets-v2`, ses dossiers cloud, mappings et conversations restent inchangés ; ils désignent des données historiques, pas un second skill actif. (9 October 2026)

@@ -877,3 +877,13 @@ Le [journal global](/Users/zenray/.claude/PROGRESS.md) conserve les étapes, les
 - 9 October 2026 : Si la carte existait et change, le service relit son `lstat`, actualise taille, dates et `changeToken`, invalide l’ancien SHA, puis ajuste les octets de la source. (9 October 2026)
 - 9 October 2026 : Le test `refreshes the generated file-map fingerprint before an archive snapshot` prouve que le prochain snapshot lit les octets après écriture. (9 October 2026)
 - 9 October 2026 : Contrôle complet : `./node_modules/.bin/vitest run scripts/AssetsService.test.js --maxWorkers=1`. (9 October 2026)
+
+## 9 October 2026 : Index compact des espaces cloud Assets
+
+- 9 October 2026 : L’ancien `pages/.zr-assets-workspaces.json` mesure 44 287 750 octets sur `origin/main` au commit `6dc4d881`, pour 20 projets et 600 conversations. (9 October 2026)
+- 9 October 2026 : `createWorkspaceCatalogue()` projette ces métadonnées dans `pages/.zr-assets-workspaces-index.json` en 312 637 octets, une baisse mesurée de 99,29 % ; les détails des fichiers restent dans le `.workspace.json` de leur projet. (9 October 2026)
+- 9 October 2026 : La première publication lit le registre historique, crée l’index et garde l’ancien blob intact ; les suivantes lisent et écrivent uniquement le petit index et les métadonnées du projet demandé. (9 October 2026)
+- 9 October 2026 : `loadWorkspaceCatalogue()` utilise l’ancien registre seulement après un 404 confirmé ; erreur réseau ou index non valide reste une erreur visible, sans repli silencieux de 44 Mo. (9 October 2026)
+- 9 October 2026 : La vue navigateur conserve en mémoire le seul instantané détaillé sélectionné ; chaque changement de projet remplace ce détail et garde les autres cartes légères. (9 October 2026)
+- 9 October 2026 : Les tests couvrent le maintien des comptes, la conservation des conversations, le refus des chemins non conformes, la migration idempotente, l’absence de lecture répétée de l’ancien blob et l’absence de repli après panne. (9 October 2026)
+- 9 October 2026 : La migration de production reste à prouver par le SHA et la taille de l’index distant après publication ; les chiffres ci-dessus décrivent le blob source et sa projection locale. (9 October 2026)

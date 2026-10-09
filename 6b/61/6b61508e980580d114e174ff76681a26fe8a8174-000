@@ -42,3 +42,8 @@ Dans Emplacements, telecharge la fiche .md du projet : elle recense son identifi
 Dans Fichiers, choisis Icones, Liste, Colonnes ou Galerie. Combine les filtres de famille, extension, origine et etat ; Filtres precis ajoute recherche par nom, dates avec heure et taille. Nom, Type, Date et Taille se trient dans les deux sens. Sans selection, Telecharger recupere les resultats filtres disponibles. (3 October 2026)
 
 Correction des anciens noms d onglets de ce guide : Historique et discussions reunit chronologie, prompts et feedbacks avec filtre. Conversation capturee indique une source Codex ou Claude liee ; Compte rendu de fin de tour est la consignation explicite par un agent et ne remplace pas une conversation native Antigravity ou Gemini complete. Le skill demande cette consignation en fin de chaque tour de travail ; le service ne peut pas forcer une autre application a invoquer un skill. (3 October 2026)
+
+## 9 October 2026 : Nom courant du skill
+
+- Pour commencer ou reprendre un projet, invoquer `zenray-assets` ; ce nom ouvre le workflow actuel et son feedback intégré. (9 October 2026)
+- L’ancien nom `zenray-assets-v2` reste une redirection de compatibilité ; l’identifiant de projet homonyme ne change pas. (9 October 2026)
