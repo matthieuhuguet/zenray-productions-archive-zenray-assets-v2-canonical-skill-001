@@ -887,3 +887,11 @@ Le [journal global](/Users/zenray/.claude/PROGRESS.md) conserve les étapes, les
 - 9 October 2026 : La vue navigateur conserve en mémoire le seul instantané détaillé sélectionné ; chaque changement de projet remplace ce détail et garde les autres cartes légères. (9 October 2026)
 - 9 October 2026 : Les tests couvrent le maintien des comptes, la conservation des conversations, le refus des chemins non conformes, la migration idempotente, l’absence de lecture répétée de l’ancien blob et l’absence de repli après panne. (9 October 2026)
 - 9 October 2026 : La migration de production reste à prouver par le SHA et la taille de l’index distant après publication ; les chiffres ci-dessus décrivent le blob source et sa projection locale. (9 October 2026)
+
+
+## 9 October 2026 : Le lecteur Codex dépasse sa limite initiale
+
+- 9 October 2026, 16:24 CEST : Sur le transcript réel de 719 894 867 octets, le prompt du 9 October à 09:40:23 UTC se trouve au-delà des 72 fenêtres ; la lecture limitée rend trois réponses et aucun prompt. (9 October 2026)
+- 9 October 2026, 16:24 CEST : Avec 128 fenêtres, la lecture locale rend le prompt et trois messages de réponse, `promptAnchorFound=true`, sans modifier l’original. (9 October 2026)
+- 9 October 2026, 16:24 CEST : Le test de régression réduit la taille des fenêtres, place le prompt à la même distance de 92 balayages et prouve l’échec à 72 puis la réussite à 128. (9 October 2026)
+- 9 October 2026, 16:24 CEST : Le daemon live date d’avant ce correctif ; son rechargement reste subordonné à la fin des archives Assets. (9 October 2026)

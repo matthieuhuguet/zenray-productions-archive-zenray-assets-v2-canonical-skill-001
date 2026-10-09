@@ -426,3 +426,10 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 - 9 October 2026 : Si le dernier échange n’a pas encore de réponse, l’ouverture s’arrête aux messages récents ; si la limite est atteinte avant le prompt, l’interface le dit et garde le curseur pour continuer. (9 October 2026)
 - 9 October 2026 : Les pages suivantes gardent leur budget de 24 fenêtres ; vérifier les scénarios avec `vitest run scripts/Assets/ConversationCatalog.test.js src/components/assets/ConversationView.test.jsx`. (9 October 2026)
 - 9 October 2026 : Ne pas recharger `com.zenray.assets` tant que la file des archives contient des éléments ; le lecteur du daemon ne prend le nouveau code qu’au prochain lancement sûr. (9 October 2026)
+
+
+## 9 October 2026 : Correction après mesure du lecteur Codex réel
+
+- 9 October 2026, 16:24 CEST : La session Codex réelle demande 92 fenêtres de 2 MiB pour retrouver son dernier prompt texte ; la limite précédente de 72 affiche des réponses récentes mais manque ce prompt. (9 October 2026)
+- 9 October 2026, 16:24 CEST : Le budget initial passe à 128 fenêtres au maximum ; le test reproduit l’échec à 72 puis vérifie que le prompt et la réponse apparaissent ensemble à 128. (9 October 2026)
+- 9 October 2026, 16:24 CEST : Vérifier avec `npx vitest run scripts/Assets/ConversationCatalog.test.js src/components/assets/ConversationView.test.jsx`. (9 October 2026)
