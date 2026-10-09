@@ -448,3 +448,10 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 - 9 October 2026, 16:24 CEST : La session Codex réelle demande 92 fenêtres de 2 MiB pour retrouver son dernier prompt texte ; la limite précédente de 72 affiche des réponses récentes mais manque ce prompt. (9 October 2026)
 - 9 October 2026, 16:24 CEST : Le budget initial passe à 128 fenêtres au maximum ; le test reproduit l’échec à 72 puis vérifie que le prompt et la réponse apparaissent ensemble à 128. (9 October 2026)
 - 9 October 2026, 16:24 CEST : Vérifier avec `npx vitest run scripts/Assets/ConversationCatalog.test.js src/components/assets/ConversationView.test.jsx`. (9 October 2026)
+
+## 9 October 2026, 22:30 CEST : Reprises automatiques bornées
+
+- 9 October 2026, 22:30 CEST : `storage.archiveProcessTimeoutMs` limite chaque lot cloud à 900000 ms ; à l’échéance le service arrête le groupe de processus, attend `processKillGraceMs` puis force l’arrêt, et `scheduleBackup` retente l’archive après `retryMs`. (9 October 2026)
+- 9 October 2026, 22:30 CEST : `storage.indexProcessTimeoutMs` garde l’indexation limitée à 120000 ms ; `pendingIndex` reste sauvegardé si l’index distant échoue, puis le prochain passage reprend les mêmes chemins. (9 October 2026)
+- 9 October 2026, 22:30 CEST : L’arrêt vise aussi les processus descendants, par exemple Git lancé par l’indexeur, afin qu’un enfant bloqué ne continue pas après la reprise automatique. (9 October 2026)
+- 9 October 2026, 22:30 CEST : Vérifier les délais, la conservation des chemins, l’arrêt d’un processus bloqué et la reprise automatique avec `npx vitest run scripts/AssetsService.test.js --maxWorkers=1`. (9 October 2026)
