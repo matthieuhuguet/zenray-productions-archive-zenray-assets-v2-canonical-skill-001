@@ -485,3 +485,11 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 - 10 October 2026 : prepareUnloadProof est partagé par le plan et UNLOAD : fichiers initiaux de Current.json, ajouts inventoriés, hash exact, fichiers imprévus et .DS_Store conservés. Le panneau macOS demande le plan complet sans réduire la sélection aux seules sources de travail. (10 October 2026)
 - 10 October 2026 : Après un arrêt au milieu du déplacement des .DS_Store, RECOVER cherche leurs octets conservés dans retained-metadata ou dans releases/<release-id> ; il vérifie chemin, taille et SHA-256 avant de les copier sans écraser, et conserve les deux emplacements de preuve. (10 October 2026)
 - 10 October 2026 : La source historique v2-alias du registre est optional=true après suppression du skill ; ses archives restent accessibles, la surveillance ignore son chemin absent et ne recrée aucun ancien skill. Le workflow canonique conserve sa propre source surveillée. (10 October 2026)
+
+## 10 October 2026 : Ouvrir les projets Assets historiques sans identifiant de source
+
+- 10 October 2026 : Certains projets de l’ancien registre décrivent une source avec `localPath` et `target`, mais sans `id` ; leurs fiches cloud peuvent aussi omettre `sourceId`. (10 October 2026)
+- 10 October 2026 : Pour afficher un fichier cloud historique, ne cherche jamais une source avec `source.id === file.sourceId` avant d’avoir validé les deux identifiants. Deux valeurs absentes sont égales en JavaScript et peuvent sélectionner à tort une source incomplète. (10 October 2026)
+- 10 October 2026 : `assetsFileLocations` accepte uniquement un identifiant conforme au schéma et une correspondance exacte avec un identifiant source valide ; il conserve le chemin d’archive connu et n’invente pas de chemin Mac ou cloud attendu. (10 October 2026)
+- 10 October 2026 : Garde `sourceCloudFolder` strict pour les sources de workspace nouvelles ou mutables ; le lecteur historique doit ignorer la source non mappée au lieu d’affaiblir ce validateur. (10 October 2026)
+- 10 October 2026 : Vérifier le clic et le rendu de fichier avec `npx vitest run src/lib/assetsFileLocations.test.js src/components/assets/ProjectWorkspace.test.jsx --maxWorkers=1`. (10 October 2026)
