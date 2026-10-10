@@ -1,22 +1,22 @@
 {
  "schemaVersion": 1,
  "projectId": "zenray-assets-v2",
- "scannedAt": "2026-10-10T10:55:28.117Z",
+ "scannedAt": "2026-10-10T11:25:03.075Z",
  "conversations": [
   {
    "projectId": "zenray-assets-v2",
-   "lines": 3204,
-   "work": 1556,
+   "lines": 3217,
+   "work": 1563,
    "prompts": 130,
    "first": "2026-10-07T12:25:29.615Z",
-   "last": "2026-10-10T10:50:09.827Z",
+   "last": "2026-10-10T11:05:07.829Z",
    "strength": "strong",
    "conversationId": "codex:01a11653-69f5-7492-b80e-dbcc6a785d87",
    "provider": "codex",
    "sessionId": "01a11653-69f5-7492-b80e-dbcc6a785d87",
    "title": "Conversation codex 01a11653",
-   "updatedAt": "2026-10-10T10:55:18.850Z",
-   "bytes": 848948660,
+   "updatedAt": "2026-10-10T11:23:20.125Z",
+   "bytes": 849340748,
    "boundProject": "zenray-assets-v2"
   },
   {
@@ -143,8 +143,8 @@
    "provider": "claude",
    "sessionId": "2562b086-836d-49c5-80c7-0c935a98513c",
    "title": "Vegetations Creating Materials October 2026",
-   "updatedAt": "2026-10-10T10:55:25.113Z",
-   "bytes": 1229352882,
+   "updatedAt": "2026-10-10T11:24:46.201Z",
+   "bytes": 23875,
    "boundProject": "vegetation-assets-collection-01"
   },
   {
@@ -334,7 +334,7 @@
    "conversationId": "gemini:f3054ac7-8f2b-4b39-8ca3-541e9a4c3012",
    "provider": "gemini",
    "sessionId": "f3054ac7-8f2b-4b39-8ca3-541e9a4c3012",
-   "title": "Conversation Gemini f3054ac7",
+   "title": "grep zenrayfreelance context j'apply faut que je réponde quoi la ? get le context via + LE PROJET zenray-freelance et toute la data base fre",
    "updatedAt": "2026-10-08T23:47:39.172Z",
    "bytes": 3915776,
    "boundProject": null
