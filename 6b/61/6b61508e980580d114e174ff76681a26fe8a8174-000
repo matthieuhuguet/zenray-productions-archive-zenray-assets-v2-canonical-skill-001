@@ -66,3 +66,8 @@ Correction des anciens noms d onglets de ce guide : Historique et discussions re
 
 - 9 October 2026 : Ouvre l’historique de la conversation ; le lecteur cherche le dernier prompt lisible autour des réponses récentes, même si de nombreux blocs d’outils les séparent. (9 October 2026)
 - 9 October 2026 : Si le prompt dépasse la recherche bornée, un message indique comment charger les messages précédents ; le transcript original reste intact. (9 October 2026)
+
+## 10 October 2026 : Retrait du nom historique
+
+- 10 October 2026 : Invoquer uniquement zenray-assets pour commencer ou reprendre un travail ; aucun alias zenray-assets-v2 n’est installé. (10 October 2026)
+- 10 October 2026 : Le projet zenray-assets-v2 garde son identifiant et ses données ; le nom du projet ne change pas le nom du skill. (10 October 2026)

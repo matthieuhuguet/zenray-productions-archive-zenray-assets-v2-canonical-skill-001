@@ -467,3 +467,9 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 - 9 October 2026 : Le service arrête l’assertion après succès, erreur ou fermeture ; si le helper quitte pendant le transfert, il signale l’incident et réessaie après `retryMs`. (9 October 2026)
 - 9 October 2026 : `caffeinate -i` bloque la veille due à l’inactivité, sans empêcher l’écran de s’éteindre ; la fermeture du capot, la perte d’alimentation ou l’arrêt du Mac restent des limites système. (9 October 2026)
 - 9 October 2026 : Vérifier le cycle actif et sa libération avec `npx vitest run scripts/AssetsService.test.js -t 'holds idle sleep only during active cloud transfers|starts and stops the macOS idle-sleep helper' --maxWorkers=1`, puis vérifier l’assertion réelle avec `pmset -g assertions`. (9 October 2026)
+
+## 10 October 2026 : Suppression du skill historique v2
+
+- 10 October 2026 : zenray-assets est l’unique skill Assets installé ; zenray-assets-v2 n’est plus un skill ni un alias et ne doit pas être recréé. (10 October 2026)
+- 10 October 2026 : L’audit de contenu confirme que les instructions utiles sont dans ce skill, references/DailyUse.md, references/LegacyMigration.md et l’historique complet references/AssetsV2History.md. (10 October 2026)
+- 10 October 2026 : L’identifiant de projet zenray-assets-v2, ses archives, mappings et conversations restent inchangés ; cet identifiant de données ne désigne pas un skill. (10 October 2026)
