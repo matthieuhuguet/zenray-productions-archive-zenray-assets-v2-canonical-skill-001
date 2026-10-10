@@ -1,7 +1,7 @@
 {
  "schemaVersion": 1,
  "projectId": "zenray-assets-v2",
- "scannedAt": "2026-10-09T23:22:54.938Z",
+ "scannedAt": "2026-10-10T09:07:01.419Z",
  "conversations": [
   {
    "projectId": "zenray-assets-v2",
@@ -143,8 +143,8 @@
    "provider": "claude",
    "sessionId": "2562b086-836d-49c5-80c7-0c935a98513c",
    "title": "Vegetations Creating Materials October 2026",
-   "updatedAt": "2026-10-09T22:17:14.132Z",
-   "bytes": 23854,
+   "updatedAt": "2026-10-10T08:55:53.735Z",
+   "bytes": 23861,
    "boundProject": "vegetation-assets-collection-01"
   },
   {
@@ -165,6 +165,22 @@
   },
   {
    "projectId": "zenray-assets-v2",
+   "lines": 8,
+   "work": 1,
+   "prompts": 3,
+   "first": "2026-10-10T08:31:16.258Z",
+   "last": "2026-10-10T09:05:01.297Z",
+   "strength": "strong",
+   "conversationId": "codex:01a124f0-0c66-7462-b1ff-038af6783afb",
+   "provider": "codex",
+   "sessionId": "01a124f0-0c66-7462-b1ff-038af6783afb",
+   "title": "Conversation codex 01a124f0",
+   "updatedAt": "2026-10-10T09:06:21.955Z",
+   "bytes": 12735367,
+   "boundProject": "conversation-codex-aec1fa9e2736c44185ca1c87"
+  },
+  {
+   "projectId": "zenray-assets-v2",
    "lines": 6,
    "work": 1,
    "prompts": 2,
@@ -175,8 +191,8 @@
    "provider": "codex",
    "sessionId": "01a11870-f407-78e3-b98a-37cbf5040dbf",
    "title": "Conversation codex 01a11870",
-   "updatedAt": "2026-10-07T22:17:10.398Z",
-   "bytes": 326465,
+   "updatedAt": "2026-10-10T08:31:52.585Z",
+   "bytes": 328304,
    "boundProject": null
   },
   {
@@ -318,8 +334,8 @@
    "conversationId": "gemini:f3054ac7-8f2b-4b39-8ca3-541e9a4c3012",
    "provider": "gemini",
    "sessionId": "f3054ac7-8f2b-4b39-8ca3-541e9a4c3012",
-   "title": "Conversation Gemini f3054ac7",
-   "updatedAt": "2026-10-08T23:47:39.172Z",
+   "title": "grep zenrayfreelance context j'apply faut que je réponde quoi la ? get le context via + LE PROJET zenray-freelance et toute la data base fre",
+   "updatedAt": "2026-10-08T23:46:56.976361+00:00",
    "bytes": 3915776,
    "boundProject": null
   },
