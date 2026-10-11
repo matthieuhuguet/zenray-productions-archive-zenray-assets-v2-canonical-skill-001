@@ -1,0 +1,21 @@
+---
+name: zenray-assets-upload
+description: Archiver les fichiers d’un projet dans ZenRay Assets avec le service V2, son mapping et ses preuves cloud. Utiliser pour /zenray-assets-upload ou une demande de centralisation de projet ; les médias ponctuels vers Create utilisent zenray-assets.
+---
+
+# Project archive entrypoint (7 October 2026)
+
+- Read `/Users/zenray/.claude/skills/zenray-assets/SKILL.md` and its `references/LegacyMigration.md` for an old JSON plan. This command routes to V2 and owns no second upload engine. (7 October 2026)
+- Resolve the existing project and read its context and feedback; initialize only a genuinely new project. Register scoped sources, preserve shared-folder selections and retained originals, then inventory and archive through `scripts/Assets/Client.mjs`. (7 October 2026)
+- A queued job is not a saved file. Verify completion and the selected files’ current archive records. Never invoke legacy `free`; UNLOAD is limited to managed LOAD copies with verified recovery. (7 October 2026)
+
+## 11 October 2026 : Sous-titres obligatoires pour toute vidéo en streaming HLS/DASH
+
+- 11 October 2026 : Workflow vidéo streaming, dans cet ordre, pour chaque film ou épisode :
+  1. Upload de l'archive chiffrée : `node scripts/upload-mapped-git.mjs <plan.json>` (plan `[{src, dest, name}]`, `ZR_ZDATA_CLONE=<clone zenray-data>`).
+  2. Packaging HLS/DASH : `node scripts/AttachVideoCmafDashHls.mjs --source <fichier envoyé> --manifest <clone>/<dest>/<nom>.media.json --manifest-clone <clone>`.
+  3. Sous-titres : `node scripts/AttachSubtitleTracks.mjs --source <ORIGINAL> --manifest <même .media.json> --commit`. Pistes texte fr, ja, en (3 au plus), PGS ignoré, `.srt`/`.ass` voisins inclus, rangées dans `manifest.subtitles` (gzip+base64) ; aucun fichier ni vidéo à réuploader. `--dry` pour voir ce qui serait attaché.
+  4. Vérification cloud : `node scripts/VerifyVideoCloud.mjs` ; elle fige l'empreinte du manifeste, donc l'étape 3 vient toujours avant.
+  5. Déchargement local : `node scripts/UnloadVideoCloud.mjs`, seulement après la vérification ; une copie filtrée reste sur disque jusque-là.
+  Contrôle avant un lot : passer une vidéo test de 5 s avec une piste `subrip` fre par les étapes 1 à 3, puis vérifier l'affichage dans VideoPlayer2 sur ZenRayProgress. (11 October 2026)
+- 11 October 2026 : Détail, contrat du lecteur et pièges : skill `zenray-assets`, section du 11 October 2026 sur les sous-titres. (11 October 2026)
