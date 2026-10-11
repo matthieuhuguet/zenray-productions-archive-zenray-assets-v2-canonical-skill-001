@@ -1,0 +1,93 @@
+#!/usr/bin/env python3
+# 10 October 2026: Preserve original audio/video while filtering explicitly identified subtitle languages.
+import argparse
+import json
+import os
+import re
+import shutil
+import subprocess
+from pathlib import Path
+
+ALLOWED = {'fre', 'fra', 'eng', 'jpn'}
+
+def probe(source):
+    return json.loads(subprocess.check_output(['ffprobe', '-v', 'error', '-show_streams', '-show_format', '-of', 'json', str(source)]))
+
+def subtitle_language(stream):
+    tags = stream.get('tags', {})
+    language = tags.get('language', 'und')
+    if language != 'und':
+        return language
+    title = tags.get('title', '').lower()
+    if re.search(r'\ben-us\b|\benglish\b', title):
+        return 'eng'
+    if re.search(r'\bes-419\b', title):
+        return 'spa'
+    if re.search(r'\bpt-br\b', title):
+        return 'por'
+    if title in ('mongolian (cyrillic)', 'khk (cyrillic)', 'cyrillic', 'ekk'):
+        return 'excluded-known-language'
+    if re.search(r'\.th(?:\.|$)', title):
+        return 'tha'
+    return 'und'
+
+def prepare(source, output, verified_languages=None):
+    source, output = Path(source), Path(output)
+    if output.exists():
+        raise RuntimeError('Output exists; inspect its receipt before reuse')
+    original_stat = source.stat()
+    before = probe(source)
+    for stream in before['streams']:
+        if stream['codec_type'] == 'subtitle' and str(stream['index']) in (verified_languages or {}):
+            stream.setdefault('tags', {})['language'] = verified_languages[str(stream['index'])]
+    subtitles = [s for s in before['streams'] if s['codec_type'] == 'subtitle']
+    unidentified = [s['index'] for s in subtitles if subtitle_language(s) == 'und']
+    if unidentified:
+        raise RuntimeError(f'Unidentified subtitles require inspection: {unidentified}')
+    retained = [s for s in subtitles if subtitle_language(s) in ALLOWED]
+    if shutil.disk_usage(output.parent).free < original_stat.st_size + 5 * 1024 ** 3:
+        raise RuntimeError('Insufficient staging space with 5 GiB reserve')
+    identify = json.loads(subprocess.check_output(['mkvmerge', '-J', str(source)]))
+    subtitle_tracks = [t for t in identify['tracks'] if t['type'] == 'subtitles']
+    if len(subtitle_tracks) != len(subtitles):
+        raise RuntimeError('ffprobe/mkvmerge track mapping disagrees')
+    selected_ids = [str(t['id']) for t, s in zip(subtitle_tracks, subtitles) if subtitle_language(s) in ALLOWED]
+    partial = output.with_name(output.stem + '.partial.mkv')
+    args = ['mkvmerge', '--engage', 'dont_normalize_parameter_sets', '-o', str(partial)]
+    args += ['--subtitle-tracks', ','.join(selected_ids)] if selected_ids else ['--no-subtitles']
+    for track, stream in zip(subtitle_tracks, subtitles):
+        language = subtitle_language(stream)
+        if language in ALLOWED:
+            args += ['--language', f"{track['id']}:{language}"]
+    args.append(str(source))
+    result = subprocess.run(args)
+    if result.returncode not in (0, 1):
+        raise RuntimeError('mkvmerge failed; original and partial retained')
+    after = probe(partial)
+    def signature(s):
+        return (s['codec_type'], s['codec_name'], s.get('sample_rate'), s.get('channels'), s.get('width'), s.get('height'), s.get('tags', {}).get('language', 'und'))
+    expected = [signature(s) for s in before['streams'] if s['codec_type'] in ('audio', 'video')]
+    actual = [signature(s) for s in after['streams'] if s['codec_type'] in ('audio', 'video')]
+    if expected != actual or len([s for s in after['streams'] if s['codec_type'] == 'subtitle']) != len(retained):
+        raise RuntimeError('Track preservation check failed; partial retained')
+    def stream_hashes(filename):
+        return subprocess.check_output(['ffmpeg', '-v', 'error', '-i', str(filename), '-map', '0:v', '-map', '0:a', '-c', 'copy', '-f', 'streamhash', '-hash', 'sha256', '-'], text=True)
+    original_hashes = stream_hashes(source)
+    prepared_hashes = stream_hashes(partial)
+    if original_hashes != prepared_hashes:
+        raise RuntimeError('Video/audio payload hash mismatch; original and partial retained')
+    current = source.stat()
+    if (current.st_size, current.st_mtime_ns, current.st_ino) != (original_stat.st_size, original_stat.st_mtime_ns, original_stat.st_ino):
+        raise RuntimeError('Source changed during preparation')
+    os.rename(partial, output)
+    receipt = {'source': str(source), 'output': str(output), 'sourceBytes': original_stat.st_size, 'outputBytes': output.stat().st_size, 'audioVideoTracksPreserved': expected, 'subtitleSourceIndices': [s['index'] for s in retained], 'subtitleLanguages': [subtitle_language(s) for s in retained], 'originalUntouched': True, 'payloadHashVerification': 'All audio/video stream hashes identical', 'streamHashes': original_hashes}
+    output.with_suffix('.receipt.json').write_text(json.dumps(receipt, indent=2))
+    print(json.dumps(receipt))
+
+if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument('source')
+    parser.add_argument('output')
+    parser.add_argument('--language-map')
+    arguments = parser.parse_args()
+    prepare(arguments.source, arguments.output, json.loads(Path(arguments.language_map).read_text()) if arguments.language_map else None)

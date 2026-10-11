@@ -1,0 +1,432 @@
+---
+name: zenray-upload
+description: "Skill UNIQUE d'upload média ZenRayProgress — route fichiers locaux vidéo/image/audio et liens YouTube vers ZenRayShards v2. Vidéo privée chiffrée+hvc1 ; image publique jsDelivr ; audio public jsDelivr mais chiffré AES-GCM en parts dont le ciphertext ne dépasse jamais 19 MiB. Intègre aussi toutes les règles Git bulk : dès 100 fichiers ou pour toute réparation/migration/réindexation, inventaire local puis clone/pull/commit/push Git, jamais REST/raw dans une boucle. Déclencheurs — upload ZenRayShards, upload vidéo/image/audio/musique, chemin local ou lien youtube.com/youtu.be destiné à Create. Si le dossier cible manque, DEMANDER, jamais deviner."
+---
+
+# zenray-upload : LE skill d'upload unique (fichiers locaux + liens YouTube)
+
+Fusion définitive (2026-07-06, décision Matthieu) des 4 anciens skills d'upload en UN SEUL point
+d'entrée, aligné sur l'architecture ZenRayShards v2 du 2026-07-05/06. Repo :
+`/Users/zenray/Create/Build/Productions/GithubProductions/ZenRayProgress`.
+
+**AVANT TOUT UPLOAD, lire `docs/INDEX-ERREURS-FEATURES.md` du repo** (index court des bugs déjà payés
+et des règles dures) — c'est la mémoire permanente du projet, elle prime sur toute improvisation.
+
+> **2 October 2026, règle de rangement des photos (voir la section datée en fin de fichier) :** toute photo ou vidéo de téléphone uploadée sous `pages/Photos/<appareil>/` se range dans `<AAAA>/<MM> <Month>/`, mois EN TOUTES LETTRES en anglais, numéro devant pour le tri : `01 January`, `02 February`, `03 March`, `04 April`, `05 May`, `06 June`, `07 July`, `08 August`, `09 September`, `10 October`, `11 November`, `12 December`. Date lue dans l'EXIF. (2 October 2026)
+
+## Garde obligatoire : petit upload ou opération de masse
+
+1. Compter les fichiers et classer l'action **avant** de lancer un script.
+2. **Moins de 100 fichiers, ajout direct uniquement** : les runners ci-dessous sont autorisés. Ils ont encore
+   quelques appels REST bornés (skip + écriture des manifestes), acceptables pour un geste interactif court.
+3. **100 fichiers ou plus**, ou toute réparation/migration/déplacement/régénération/réindexation de manifestes :
+   appliquer le protocole Git bulk intégré ci-dessous AVANT toute écriture. Réutiliser ou créer un clone sparse
+   de `zenray-data`, faire l'inventaire et les skips sur disque, écrire localement, puis `git commit` + `git push`.
+   Aucun `gh api`, `api.github.com`, `raw.githubusercontent.com` ou Contents API dans une boucle.
+4. `gh auth token` peut seulement fournir l'authentification au transport Git et `gh repo create` peut créer
+   UN shard neuf. **`gh api` est REST** : il est interdit pour les données ou manifestes de masse.
+5. Si le runner ciblé ne sait pas encore faire cette passe Git-only, NE PAS le lancer sur un gros lot : arrêter,
+   expliquer l'écart et corriger/choisir le pipeline Git avant de consommer le quota.
+
+## Étape 1 — router l'entrée (4 cas, détection automatique)
+
+| Entrée fournie par Matthieu | Cas | Pipeline |
+|---|---|---|
+| Chemin(s) local(aux) dont `kindForName()` = video | A | `scripts/upload-vidraw-list.mjs` (ZenRayShards v2 privé) |
+| Chemin(s) local(aux) dont `kindForName()` = image / image-lib | B | `scripts/upload-img-list.mjs` (ZenRayShards v2 public jsDelivr) |
+| Chemin(s) local(aux) dont `kindForName()` = audio | C | `scripts/upload-audio-list-git.mjs` (public jsDelivr + contenu chiffré) |
+| Lien(s) youtube.com / youtu.be | D | `src/lib/youtubeLink.js` (nœud référence, zéro stockage) |
+
+Détection de type : TOUJOURS `kindForName()` de `src/lib/fileKinds.js` (source unique upload+viewer),
+jamais une liste d'extensions ad hoc. Lot mixte local (A+B+C) : lancer les pipelines requis l'un après
+l'autre vers le même `<dest>`, rapporter le résultat consolidé. Cas D avec mots "musique"/"piste"/
+"chanson"/"OST" -> `audioOnly:true` (widget compact YouTube Music) ; sinon vidéo 16:9 classique.
+Fichier ni vidéo, image, audio, ni lien YouTube : SIGNALER explicitement, ne jamais deviner ni ignorer.
+
+## Upload via l'UI DU SITE (bouton New / drag-drop), desktop ET mobile — et POLITIQUE DE DÉCOUPAGE FINALE (2026-07-21)
+
+Le site (zenray-progress.vercel.app) uploade avec le MÊME routage auto-adaptatif que ce skill, via
+`src/capture/universalCapture.js` (classification `classify.js`, source unique partagée avec les
+pipelines Node). Fonctionne depuis DESKTOP et MOBILE (aucun Node côté client) pour : images, audio,
+PDF et tout autre binaire (familles img/audio/pdf/doc, public chiffré AES-GCM). SEULE exception : la
+VIDÉO (transcodeur natif local requis, localhost only — message clair affiché sur le site déployé).
+Quand Matthieu parle d'uploader « depuis le site/l'interface/mobile » : ne PAS lancer les runners
+Node — l'UI le fait ; ce skill reste le chemin des vidéos, des lots ≥100 et des réparations Git bulk.
+
+**POLITIQUE DE DÉCOUPAGE FINALE ET DÉFINITIVE (décision Matthieu 2026-07-21, identique UI et Node,
+gravée aussi dans le CLAUDE.md du projet)** :
+- fichier **≤ 95 Mo** → chunks de STOCKAGE de **19 MiB** (dernier plus petit), servis par **jsDelivr**
+  (pastille VERTE). Ex. 50 Mo = 19 + 19 + 12. Le moins de chunks possible sous la limite ~20 Mo du CDN.
+- fichier **> 95 Mo** → chunks de **95 Mo**, servis par **raw.githubusercontent** (pastille BLEUE —
+  jsDelivr refuse ces tailles ; la lecture saute le CDN quand chunkSize > 20 Mo).
+- **La taille se décide PAR FICHIER INDIVIDUEL** (jamais sur le total d'un dossier) : un lot de 200 petites
+  images = chacune ≤ 95 Mo → 19 Mo/jsDelivr ; un seul gros .zip de 400 Mo dans le même lot → 95 Mo/raw.
+- **JAMAIS de chunks de stockage de 3 Mo** : le 3 Mo n'est que le TRANSPORT vers /api/upload-shard
+  (plafond body Vercel), réassemblé côté serveur en UN blob par chunk de stockage (putBlobLarge).
+- Manifeste privé (zenray-data) : chunkSize RÉEL + ivs[] ; clair par chunk = cible − 16 octets (tag GCM).
+- **SOURCE DE VÉRITÉ UNIQUE : `src/config/chunkPolicy.js`** (refactor 2026-07-21). Les nombres 19/95/20/3 Mo
+  et la décision `storageChunkFor(size, {perChunkEncrypted})` n'existent QU'À CET ENDROIT ; navigateur ET
+  TOUS les pipelines Node (img-pipeline, media-ingest, video-fmp4/dash/raw, upload-audio-list-git, archive-folder)
+  l'importent. NE JAMAIS recopier un `19 * 1024 * 1024` en dur dans un runner : importer la constante.
+  Images = spécialisation assumée « toujours 19 Mo jsDelivr, un seul chemin de lecture » (décision 2026-07-07),
+  mais le nombre 19 Mo vient quand même de la source unique. (Bug historique corrigé le 2026-07-21 : le chemin
+  Node `media-ingest.ingestMediaBulk` de la fonction Archive stockait encore des chunks de 3 Mo — aligné.)
+
+Nuance TRANSPORT vs LECTURE : à l'upload les octets transitent par la fonction serveur
+/api/upload-shard (le token GitHub vit côté serveur, jamais dans le navigateur — structurel). À la
+LECTURE : ZÉRO Vercel pour le public — audio/vidéo via SW range-shim (vidStream.js → jsDelivr,
+déchiffrement client), PDF/HTML/texte via blob déchiffré client (loadChunked), download via
+downloadChunkedToDisk. /api/stream est DÉPRÉCIÉ (réponse plafonnée ~4,5 Mo → fichiers tronqués),
+réservé aux manifestes privés et replis. Pastilles : VERT jsDelivr · BLEU raw.github · JAUNE Vercel
+(src/lib/mediaProvenance.js). Les URLs de parts passent TOUJOURS par buildJsDelivrUrl/buildRawUrl
+(préfixe OWNER — les manifestes stockent le repo sans owner).
+
+## Règles dures v2 (mémoire permanente, ne JAMAIS y déroger)
+
+1. **Shard neuf seulement après inventaire local non vide** : `zenrayshards-<type>-<hex12>` (nom aléatoire
+   façon workflow). Aucun check de place distant par média : le compteur local ouvre le shard suivant avant
+   ~4,3 Go. Ne pas cloner un ancien shard binaire ; pour les manifestes `zenray-data`, un clone sparse Git
+   est au contraire obligatoire dès que l'opération est de masse.
+2. **Visibilité par convention de nom** : `zenrayshards-img-*` et `zenrayshards-audio-*` = PUBLICS
+   (jsDelivr l'exige) ; le contenu audio public reste illisible sans la clé car AES-256-GCM. Les autres
+   types (vid/blob/pdf/doc) sont PRIVÉS, lus via api.github.com Accept:raw + token (`/api/raw-token`).
+3. **hvc1 obligatoire** : tout remux HEVC->MP4 porte `-tag:v hvc1` (déjà dans `remuxFaststart()` —
+   sans lui, hev1 = illisible iPhone/Apple ; bug payé le 2026-07-05). h264 non concerné.
+4. **Ne JAMAIS recréer un repo avec un ancien nom** (zenray-vidraw-NN, zenray-img-public-NN, 313
+   renommés le 2026-07-06) : les vieux manifestes vivent sur la redirection GitHub ancien->nouveau.
+5. **Chiffrement AES-256-GCM par part** (vidéo), clé maître unique (`.zenray-media-key` /
+   `ZENRAY_MEDIA_KEY`) — jamais régénérer une clé existante.
+6. Conteneur ISO-BMFF `.mp4/.mov/.m4v` : conservé tel quel s'il est déjà faststart ; sinon remux lossless
+   vers MP4. Autres conteneurs (mkv/avi/webm...) : remux auto vers .mp4 en stream-copy (aucun réencodage).
+   Seule la 1re piste vidéo + 1re piste audio survivent ; sous-titres embarqués perdus -> vérifier
+   `ffprobe` avant d'uploader un fichier multi-pistes (hardsub via skill `anime-hardsub-hevc` sinon).
+
+## Cas A — vidéos locales -> ZenRayShards v2 (ajout direct <100)
+
+> `upload-vidraw-list.mjs` utilise encore REST pour le skip et les manifestes. À partir de 100 vidéos,
+> ne pas l'exécuter tel quel : basculer vers le workflow Git-only ci-dessus avant l'upload.
+
+```bash
+cd /Users/zenray/Create/Build/Productions/GithubProductions/ZenRayProgress
+GITHUB_TOKEN=$(gh auth token) node scripts/upload-vidraw-list.mjs "<dest>" "<vid1>" "<vid2>" ...
+```
+Trie court->long, saute les vidéos déjà en ligne (relance sûre), manifeste committé PAR vidéo (chaque
+épisode visible au fil de l'eau), clone local nettoyé en fin de lot.
+
+**Run long (>500 Mo ou plusieurs vidéos) -> fond :**
+```bash
+mkdir -p ~/.zr-runs
+GITHUB_TOKEN=$(gh auth token) nohup node scripts/upload-vidraw-list.mjs \
+  "<dest>" "<fichiers...>" > ~/.zr-runs/vidraw-$(date +%Y%m%d-%H%M).log 2>&1 &
+disown
+```
+**Suivi : TOUJOURS `node scripts/vidraw-progress.mjs`** (% réel en octets + vidéo en cours), jamais
+un simple tail. Jamais de boucle de sleeps courts.
+
+## Cas B — images locales -> ZenRayShards v2 (public jsDelivr, ajout direct <100)
+
+> `upload-img-list.mjs` utilise encore REST pour le skip et les commits de manifestes. À partir de 100 images,
+> ne pas l'exécuter tel quel : basculer vers le workflow Git-only ci-dessus avant l'upload.
+
+```bash
+cd /Users/zenray/Create/Build/Productions/GithubProductions/ZenRayProgress
+GITHUB_TOKEN=$(gh auth token) node scripts/upload-img-list.mjs "<dest>" "<img1>" "<img2>" ...
+```
+Chiffré (IV déterministe = dédup du blob), vignette WebP 1080px/q90 auto (sans upscale, avec
+`thumb`/`thumbIv`/`thumbW`/`thumbH` ; standard THUMB_QUALITY_PCT centralisé dans src/config/thumbnail.js,
+SEUL fichier à éditer pour changer la qualité partout — audit SSIM 2026-07-14, q100 interdit). **DÉCOUPAGE EN MORCEAUX ≤19 Mo
+(2026-07-07)** : jsDelivr refuse de servir un fichier > ~20 Mo — au lieu d'un dérivé recompressé,
+l'original chiffré est découpé en morceaux ≤19 Mo (`cdnChunks[]`, TOUJOURS présent, même 1 seul
+élément pour une petite image — logique uniforme, aucun cas particulier par taille). Le client
+reconstitue en concaténant les morceaux dans l'ordre avant de déchiffrer : l'image affichée/téléchargée
+EST l'original bit-exact, jamais recompressée, et sert TOUJOURS via jsDelivr (raw.github plus utilisé
+pour les nouveaux uploads image — c'était l'ancien schéma, `cdnPath` mono-fichier, qui consommait le
+quota raw.github à CHAQUE vue plein écran). Par défaut, le script ingère des lots d’environ 900 Mo, pousse
+une fois puis committe les manifestes par tranches de 200 ; `ZR_IMG_BATCH_MB=0` rétablit la visibilité
+image par image, plus lente. Après chaque lot, il vérifie une URL représentative par couple `(repo, commit)` :
+comme le commit jsDelivr est immuable, ce test valide que l’arbre correspondant est servi sans multiplier
+les requêtes pour chaque morceau. Depuis le 2026-07-11, le script saute une image dont le manifeste exact existe
+déjà : relancer le même lot après interruption est sûr et ne crée plus de tuile en double. Le skip est basé
+sur `<dest>/<nom original>.img.json`, pas sur le hash : pour remplacer un fichier MODIFIÉ qui garde le même
+nom, ne pas compter sur la relance — déplacer/supprimer volontairement l'ancien manifeste ou changer le nom.
+Images déjà en ligne AVANT le 2026-07-07 (ancien schéma `cdnPath`) : jamais migrées, toujours lues via
+raw.github comme avant — décision Matthieu, aucune urgence à les convertir.
+
+## Cas C — audio local -> ZenRayShards v2 public, chiffré, Git-only
+
+L'audio local vit dans **Create > Music** ; l'ancienne application noire « Audio » est dépréciée et ne doit
+jamais être recréée. Les cartes audio et playlists utilisent une pochette carrée 1:1. Une pochette fournie par
+`--cover` est convertie en WebP (1600 px max, qualité 90, sans upscale) et publiée en clair sous un chemin opaque ;
+les octets audio, eux, restent toujours chiffrés.
+
+```bash
+cd /Users/zenray/Create/Build/Productions/GithubProductions/ZenRayProgress
+GITHUB_TOKEN=$(gh auth token) node scripts/upload-audio-list-git.mjs \
+  "pages/<dossier Create>" "<audio1>" "<audio2>" --cover "<pochette>"
+```
+
+Invariants :
+
+- repo `zenrayshards-audio-<hex12>` public pour jsDelivr, rollover avant ~4,3 Go ;
+- AES-256-GCM par part avec la clé maître existante, jamais une nouvelle clé ;
+- taille claire maximale `19 MiB - 16 octets`, donc ciphertext **toujours <= 19 MiB** après ajout du tag GCM ;
+- manifeste `.media.json` avec `type:'raw'`, `mime:'audio/…'`, `parts[]` contenant URL épinglée, offsets,
+  taille et IV ; le Service Worker déchiffre et sert les ranges directement au `<audio>` ;
+- transport binaire en lots Git ~900 Mo, jamais un appel GitHub Contents/REST par part ;
+- formats reconnus uniquement via `kindForName()`/`mimeForName()` : MP3, AAC/M4A, WAV, FLAC, ALAC,
+  Opus/Ogg, AIFF, CAF, WMA, APE, WV, TTA, MKA, AC3/EAC3/DTS, AMR, DSF/DFF, MIDI et variantes déclarées ;
+- relance idempotente : un manifeste exact de même `contentHash` est sauté avant toute création de shard ;
+- un upload audio doit être ajouté à l'index public de recherche après commit, comme image et vidéo.
+
+Le navigateur peut conserver son petit transport API borné pour un collage interactif isolé ; cela ne constitue
+jamais une autorisation de l'utiliser en boucle. À partir de 100 éléments, utiliser exclusivement le transport Git.
+
+## Cas D — liens YouTube (vidéo OU audio) -> nœud référence, zéro stockage
+
+Prérequis : serveur local `:3000` (`zsh scripts/dev-server.sh`, vérifier `curl -s -o /dev/null -w
+"%{http_code}" http://localhost:3000/` = 200).
+
+```bash
+cd /Users/zenray/Create/Build/Productions/GithubProductions/ZenRayProgress
+node --input-type=module -e "
+import { createYoutubeLinkNode, createYoutubeLinkNodesBatch } from './src/lib/youtubeLink.js'
+// UNE vidéo :   await createYoutubeLinkNode('<url>', '<dest>')
+// UNE musique : await createYoutubeLinkNode('<url>', '<dest>', { audioOnly: true })
+// LOT (un lien par ligne) : await createYoutubeLinkNodesBatch(text, '<dest>', null, { audioOnly: true|false })
+const res = await createYoutubeLinkNode('URL_ICI', 'pages/DEST_ICI')
+console.log(JSON.stringify(res, null, 2))
+"
+```
+Titre/auteur/vignette via oEmbed public (jamais bloquant : repli sur l'ID brut si indispo). Batch =
+séquentiel + 1 seul commit d'index. `audioOnly:true` -> widget compact façon YouTube Music
+(transport shuffle/prev/play/next/repeat, téléchargement MP3 via yt-dlp en LOCAL uniquement).
+
+## Cherchable dans la searchbar (correctif 2026-07-14, plus jamais à faire à la main pour les images)
+
+**Bug trouvé par Matthieu** : les images uploadées via `upload-img-list.mjs` / `upload-img-list-git.mjs`
+n'apparaissaient PAS dans la recherche du site. Ce n'était PAS un problème de champ `tags` (absent de toute
+la logique de scoring — vérifié par grep exhaustif : la recherche matche sur le CHEMIN normalisé + le nom,
+jamais sur `tags`). Le vrai mécanisme : un fichier n'est cherchable que s'il est dans l'index public
+(`zenray-index-public/delta.json`, chiffré) OU dans le gros index reconstruit à la main
+(`build-search-index.mjs --apply`, jamais automatique). L'app appelle ce mécanisme après chaque drop/Ctrl-V
+(`action=index-add` sur `/api/page`) ; **les scripts CLI ne l'appelaient jamais**.
+
+**Corrigé** : `upload-img-list.mjs` et `upload-img-list-git.mjs` appellent maintenant automatiquement
+`appendPublicDelta`/`thumbsForPaths` (ré-exportées de `server/page.js`) après leur commit zenray-data —
+chaque image uploadée par CES DEUX runners est cherchable immédiatement, sans action manuelle. Best-effort
+(un échec n'invalide jamais l'upload lui-même, juste rattrapable).
+
+**Rattrapage manuel si besoin** (déjà en ligne mais pas indexé, ou runner qui a loggé `⚠ index-add échoué`) :
+```bash
+GITHUB_TOKEN=$(gh auth token) node scripts/index-add-paths.mjs --dir "pages/<dossier du site>"
+```
+
+**Corrigé aussi pour la vidéo (2026-07-14, même jour)** : `upload-vidraw-list.mjs` (Cas A) appelle désormais
+le même `appendPublicDelta`/`thumbsForPaths` après chaque vidéo uploadée — plus aucun trou : **TOUT média
+(image ou vidéo) uploadé via ce skill est cherchable immédiatement, sans étape manuelle, pour toujours**.
+Vignette du delta vide pour la vidéo (`thumbsForPaths` ne résout que `.img.json`) : le CHEMIN est cherchable
+tout de suite, la vignette suit au prochain rebuild complet — cosmétique, pas fonctionnel.
+
+**2e piège, plus vicieux, trouvé en VÉRIFIANT ce premier fix (pas en le supposant bon)** : `appendPublicDelta`
+lit son état courant via `raw.githubusercontent.com`, qui a son propre cache CDN ~5 min (documenté dans
+server/page.js). La toute première version de ce correctif appelait `appendPublicDelta` UNE FOIS PAR LOT de
+200 chemins — pour un épisode de 300-400 frames (le cas normal), ça fait 2 appels séquentiels rapprochés qui
+lisent le MÊME instantané périmé et s'ÉCRASENT l'un l'autre au lieu de s'accumuler. Un rattrapage sur 4949
+chemins annonçait "4949/4949 OK" alors que le delta réel n'en contenait que 518 — le code retour "ok" ne
+prouve RIEN sur un système avec cache, seule une relecture directe (déchiffrer delta.json, ou tester une
+vraie recherche dans le navigateur) le prouve. Corrigé pour de bon : `appendPublicDelta` retry en interne sur
+un ref-update rejeté (server/page.js, même patron que sa fonction sœur `commitTree`) ET, plus important, les
+4 scripts (3 uploaders + index-add-paths.mjs) résolvent les vignettes par lots de 200 mais n'appellent
+`appendPublicDelta` qu'**UNE SEULE FOIS** avec la liste complète du run — zéro lecture-modification-écriture
+répétée, donc zéro risque d'écrasement. Vérifié par lecture directe du blob chiffré (5033 chemins, HOTD=3701
+exact) ET par recherche réelle dans le navigateur (dev local) après propagation du cache (~5-10 min).
+
+## Protocole Git bulk intégré — source de vérité
+
+Ce protocole remplace entièrement l'ancien skill séparé `zenray-git-bulk-safety`.
+
+### 1. Prévol obligatoire avant toute écriture distante
+
+1. Inspecter `git status --short`, `git worktree list`, les clones de travail et les processus/jobs actifs.
+2. Réutiliser le clone local `zenray-data` existant si sain ; sinon faire un clone sparse neuf. Ne jamais cloner
+   chaque shard pour y pousser des blobs : un worktree temporaire initialisé sur le repo binaire suffit.
+3. Mettre le clone à jour (`git pull --rebase`) avec authentification Git non interactive.
+4. Construire et conserver une table d'association déterministe :
+   `source | manifeste cible | hash source | dimensions/durée | ancien dérivé | nouveau dérivé | action`.
+5. Rejeter avant upload toute collision de nom/hash, source non appariée, manifeste ambigu ou destination devinée.
+6. Calculer les skips sur les manifestes locaux. Si rien n'est à écrire, **STOP sans créer de repo vide**.
+
+### 2. Écriture bornée et réversible
+
+- Les chemins de manifestes et blobs sont déterministes ; une relance reprend sans tuile en double.
+- Garder un checkpoint après chaque push/commit de lot. Un crash doit perdre au plus le lot en mémoire (~900 Mo),
+  jamais l'inventaire ni l'association.
+- Rollover : chaque média mémorise son propre couple repo/commit ; un lot à cheval sur deux shards ne doit pas
+  réécrire tous les manifestes vers le dernier shard.
+- Stager uniquement les fichiers de l'opération, jamais `git add -A` dans un clone partagé ou sale.
+- Vérifier `git diff --check` et inspecter le diff staged avant chaque commit.
+- Commit générique, push unique par lot ; si rejet non-fast-forward : fetch/pull --rebase puis retry borné. Jamais
+  de force-push, de reset destructif, ni de boucle infinie.
+
+### 3. Interdictions absolues
+
+- aucun `gh api`, `api.github.com`, `raw.githubusercontent.com`, Contents API ou fetch REST **dans une boucle** ;
+- REST autorisé seulement comme control plane borné : auth, création d'un shard neuf, une vérification ponctuelle ;
+- ne jamais fractionner artificiellement un gros lot en mini-runs pour contourner cette règle ;
+- ne jamais lancer deux writers sur le même clone/dossier cible ;
+- ne jamais supposer qu'un code retour « ok » prouve la cohérence d'un index soumis au cache CDN.
+
+### 4. Validation obligatoire après push
+
+1. `git show HEAD:<manifest>` sur des échantillons début/milieu/fin et validation du schéma exact.
+2. Compter sources, actions, skips, manifestes écrits et erreurs : les totaux doivent se réconcilier.
+3. Une seule vérification jsDelivr épinglée par couple `(repo, commit)` représentatif, pas par fichier.
+4. Ouvrir ensuite quelques tuiles réelles dans le navigateur : ratio, vignette, plein format/audio, recherche.
+5. STOP immédiat si association ambiguë, clone sale inattendu, conflit non résolu, index incohérent ou vérification
+   CDN échouée ; ne jamais poursuivre « pour voir ».
+
+## Vérification post-upload (tous cas)
+
+```bash
+curl -s "http://localhost:3000/api/page?action=children&dir=<dest>" | python3 -m json.tool
+```
+Tuile visible + lecture au clic. Pour le stockage d'un fichier précis : clic droit -> « Stockage
+(Index) » dans l'app, ou la vue Index de la sidebar (repos, parts, tailles).
+
+Pour une opération Git-only de masse, ne pas utiliser cette API locale pour inventorier ou valider chaque
+fichier : vérifier les manifestes dans le clone (`git show HEAD:<chemin>`), `git diff --check`, puis une URL
+jsDelivr épinglée représentative par commit de shard. Ouvrir ensuite quelques tuiles réelles dans le navigateur.
+
+## Gestion d'erreur
+
+- `✗ ÉCHEC <fichier>` : lire le log complet avant toute relance, jamais de boucle aveugle.
+- Un lot >=100 qui appelle encore REST : STOP. Ne pas « essayer quand même » ni fractionner artificiellement
+  pour contourner le garde-fou ; reprendre depuis l'inventaire local avec le protocole Git bulk intégré.
+- Clé maître introuvable : la récupérer (`Identity/Matthieu1.md`, repo Memory) — JAMAIS en générer.
+- Crash à mi-lot vidéo : relancer la même commande (skip auto) ; parts orphelines inoffensives.
+- Lien YouTube non reconnu : formats acceptés youtu.be/<id>, watch?v=, /embed/, /shorts/.
+- Lecture privée morte en prod : vérifier que le code du drive a été saisi (le SW reçoit le secret
+  via la page — bug résolu le 2026-07-06, cf. INDEX-ERREURS-FEATURES).
+
+## Cloud, tri local et purge de worktrees temporaires (2026-07-26)
+
+- « Cloud » signifie le site ZenRayProgress, sous `Create`, jamais un service tiers implicite.
+- Pour un dossier source, commencer par le trier en `Photos/`, `Videos/` et `Other/`. Router uniquement les
+  fichiers reconnus par `kindForName()` ; les extensions non reconnues restent dans `Other/` local tant
+  qu'un pipeline explicite n'est pas ajouté à ce skill.
+- Une purge locale ne vise jamais les shards distants. Avant de supprimer un worktree temporaire : `git fetch`
+  du dépôt principal et HEAD égal à `origin/main`, aucun writer actif, puis pour chaque clone candidat : HEAD
+  valide, `git status --porcelain` vide et zéro commit local en avance sur son upstream. Ne supprimer que les
+  chemins vérifiés ; un clone incomplet ou ambigu est exclu et diagnostiqué séparément. Rapporter les GiB libérés.
+
+## Construire une liste de fichiers en zsh : deux pièges payés (2026-09-03)
+
+Incident réel : un lot de 158 photos, dont un fichier disparu deux fois de la liste envoyée au
+script, pour deux causes DIFFÉRENTES, et un shard GitHub quasi vide créé pour rien. Aucune image
+n'a été perdue, mais le quota d'un appel `gh repo create` a été gaspillé et une correction a coûté
+un aller-retour.
+
+**Piège 1, `mapfile` est une builtin BASH, absente en zsh.** Le shell par défaut de Matthieu est
+zsh (voir l'environnement de session). `mapfile FILES < fichier` en zsh échoue avec `command not
+found: mapfile`, MAIS le script Bash continue quand même après cette erreur si elle n'est pas dans
+un bloc `set -e` actif au bon endroit : le tableau `FILES` reste vide, et la commande suivante
+(`node scripts/upload-img-list-*.mjs "$DEST" "${FILES[@]}"`) s'exécute avec ZÉRO argument fichier.
+Le script d'upload, lui, ne valide pas qu'il reçoit au moins un fichier RÉEL avant d'ouvrir un
+shard : il a créé un dépôt GitHub public neuf puis échoué sur un chemin vide (`ENOENT: no such file
+or directory, open ''`). **Ne jamais utiliser `mapfile` : construire le tableau en zsh natif**,
+`FILES=(); while IFS= read -r l; do FILES+=("$l"); done < fichier`, ou `FILES=("${(@f)$(<fichier)}")`.
+
+**Piège 2, un fichier de liste sans retour à la ligne final perd sa DERNIÈRE entrée.** Un
+`while IFS= read -r line; do ...; done < fichier` construit avec un heredoc ou une sortie qui
+n'ajoute pas de `\n` après la dernière ligne saute silencieusement cette ligne, en zsh comme en
+bash : `read` échoue sur la lecture finale sans newline et la boucle s'arrête sans l'avoir traitée.
+Sur 125 fichiers attendus, seuls 124 sont partis, sans un message d'erreur. `wc -l` masque le même
+défaut (il compte les `\n`, pas les lignes), donc `wc -l fichier` peut annoncer un compte FAUX qui
+semble cohérent avec le tableau tronqué : les deux se trompaient pareil, ce qui a caché le problème
+un moment. **Toujours compter les VRAIES entrées avec `python3 -c "print(len([l for l in
+open(f) if l.strip()]))"` ou `grep -c .`, jamais `wc -l` seul sur un fichier de liste.**
+
+**La parade commune aux deux pièges, à appliquer AVANT tout appel qui dépense (crée un shard, pousse
+un commit) : comparer le compte du tableau construit au compte de la source, et refuser de continuer
+si les deux ne concordent pas.**
+
+```zsh
+# Construction native zsh, jamais mapfile
+FILES=()
+while IFS= read -r line; do FILES+=("$line"); done < /tmp/liste.txt
+attendu=$(python3 -c "print(len([l for l in open('/tmp/liste.txt') if l.strip()]))")
+[ "${#FILES[@]}" -eq "$attendu" ] || { echo "MISMATCH : ${#FILES[@]} construits pour $attendu attendus, STOP"; exit 1; }
+```
+
+## Deux writers sur le même clone : ZenRayCloud tourne peut-être déjà (2026-09-03)
+
+Avant toute opération Git bulk sur `zenray-data`, vérifier qu'aucun autre processus n'écrit déjà
+dans le clone visé : `ZenRayCloud` (sauvegarde continue de Downloads) lance en tâche de fond
+`scripts/archive-folder.mjs` sur le MÊME clone par défaut (`~/.zr-thumb-bulk/zdata-clone`), et peut
+être actif à tout moment sans que rien ne le signale à l'écran.
+
+```zsh
+ps aux | grep -iE "archive-folder|upload-img|upload-audio|upload-vidraw" | grep -v grep
+```
+
+Si un writer tourne déjà, ne jamais partager son clone : cloner un exemplaire ISOLÉ, dédié à
+l'opération du jour, via `ZR_ZDATA_CLONE=<chemin neuf>` passé aux runners de ce skill (`git clone
+--filter=blob:none --sparse`, puis `git sparse-checkout set pages`, puis `git remote set-url origin
+https://x-access-token:$(gh auth token)@github.com/matthieuhuguet/zenray-data.git` (jamais imprimer
+cette URL, le token y est en clair)). Ce clone frais peut afficher un `git status` « sale » dès le
+clone à cause d'un artefact de normalisation Unicode macOS (NFC/NFD) sur les noms de fichiers
+accentués du dépôt : vérifier avec `git diff` (pas `--stat`) sur un fichier concerné avant de
+s'inquiéter : si le diff est VIDE, c'est un artefact de nom, pas un contenu modifié, et il est sans
+danger de le laisser partir dans le prochain commit du runner.
+
+## Suppression locale après upload : jamais avant une revérification FRAÎCHE (2026-09-03)
+
+Quand Matthieu demande de nettoyer les fichiers locaux après upload (le geste courant après un lot
+Downloads), ne supprimer qu'après avoir revérifié, dans le MÊME passage, que chaque fichier a bien
+un manifeste sur le drive, pas en se fiant au compte-rendu du script d'upload, qui peut dater de
+plusieurs minutes si d'autres étapes (rattrapage d'un fichier oublié, vérification) se sont
+intercalées entre-temps. `git pull --rebase` sur le clone avant de relire, comparer le résultat au
+fichier source des noms demandés (`diff` trié des deux listes), et ne lancer `rm` que si les deux
+comptes concordent EXACTEMENT. Une suppression se fait en une seule passe groupée plutôt qu'au fil de
+l'eau si Matthieu le demande ainsi : moins élégant, mais un seul moment où l'erreur peut se produire
+plutôt que N.
+
+## 2 October 2026 : les photos se rangent en `Années/Mois/` (règle de Matthieu)
+
+- 2 October 2026 : toute photo ou vidéo de téléphone uploadée sous `pages/Photos/<appareil>/` va dans `<AAAA>/<MM> <Month>/<fichier>` (ex. `pages/Photos/Iphone-9qpx/2026/09 September/IMG_7632.JPG`). (2 October 2026)
+- 2 October 2026 : la date se lit dans l'EXIF (`DateTimeOriginal`, sinon `CreateDate`, sinon date de modification en dernier recours, à signaler). Construire la table `source | AAAA/MM | destination` AVANT l'upload, puis lancer un runner par dossier `<AAAA>/<MM> <Month>` (`<dest>` = ce dossier). (2 October 2026)
+- 2 October 2026 : règle miroir dans le `CLAUDE.md` de ZenRayProgress. (2 October 2026)
+- 2 October 2026 : correction de Matthieu, le mois en chiffres seuls (`2026/09`) est refusé : mois en toutes lettres obligatoire. (2 October 2026)
+
+## 2 October 2026 : upload trié par fichier (dossier et titre propres), 100 % Git : `scripts/upload-mapped-git.mjs`
+
+- 2 October 2026 : quand chaque fichier a SA destination et SON titre (ex. album de mariage rangé par auteur, titre `<Auteur> - <nom d'origine>`), ne pas lancer un runner par dossier : utiliser `scripts/upload-mapped-git.mjs <plan.json>`. (2 October 2026)
+- 2 October 2026 : `plan.json` = `[{ "src": "/abs/file", "dest": "pages/…/<Dossier>", "name": "<Titre>.<ext>", "by": "<Auteur>" }]`. Images (`image`/`image-lib`, HEIC compris) vers un shard public, vidéos vers un shard privé en parts de 95 Mo, même code d'ingestion que `upload-img-list-git.mjs` et `upload-vidraw-list.mjs`. (2 October 2026)
+- 2 October 2026 : REST = 1 appel par shard neuf + 1 index-add final ; manifestes écrits dans un clone ISOLÉ de `zenray-data` (`ZR_ZDATA_CLONE`), un commit/push tous les 100 fichiers (point de reprise, relance sûre : les manifestes déjà dans le clone sont sautés). (2 October 2026)
+- 2 October 2026 : `--plan` affiche le tableau (fichiers par dossier, sauts, sources manquantes) sans réseau ni shard : toujours le lancer d'abord. Le runner vidéo `upload-vidraw-list.mjs` reste interdit à partir de 100 vidéos (il écrit un commit REST par vidéo). (2 October 2026)
+- 2 October 2026 : clone isolé : `git clone --depth 1 --filter=blob:none --sparse --branch main <url avec token> ~/.zr-thumb-bulk/<nom>` puis `git sparse-checkout set --cone <dossier>`, jamais le clone par défaut quand `archive-folder.mjs` tourne (`ps aux | grep archive-folder`). (2 October 2026)
+- 2 October 2026 : cas d'origine, album Google Photos « Mariage C&C » : auteurs lus dans la page (texte de chaque vignette), 748 fichiers rapprochés des fichiers locaux par heure à la seconde puis empreinte visuelle (dHash), table `mapping.csv` dans `~/.claude/tmp/tmp-wedding-authors/`. (2 October 2026)
+- 2 October 2026 : ERREUR PAYÉE : « au même endroit » pour une galerie PARTAGÉE se lit dans le lien, pas dans l'arborescence. J'ai rangé 748 fichiers dans `…/09 September/<Auteur>/` alors que le lien partagé pointe `…/09 September/marriage-clea-septembre-2026-uyap/` (les dossiers d'auteur étaient donc invisibles par le lien). Avant tout upload vers une galerie partagée : résoudre la racine du lien (`curl "<site>/api/share-token?action=resolve&token=<jeton>&kind=folder"` donne `path`), n'y envoyer que sous cette racine, puis contrôler par `/api/page?action=tree&dir=<racine>&share=<jeton>`. Réparation faite sans rien renvoyer : `git mv` des dossiers de manifestes, puis UN `appendPublicDelta(token, nouveauxChemins, vignettes, anciensChemins)` pour l'index. (2 October 2026)
+- 2 October 2026 : toute image envoyée par `scripts/img-ingest.mjs` porte aussi une vignette légère de grille (`thumbS`, 520 px de large, q80) ; pour les images déjà en ligne : `GITHUB_TOKEN=$(gh auth token) ZR_ZDATA_CLONE=<clone isolé avec le dossier et pages/.zr-resources> node scripts/backfill-grid-thumbs-git.mjs "<dossier>" --plan` puis sans `--plan`. Mesuré sur 40 photos de téléphone : 25,2 Mo et 4,5 s en médiane avec la vignette standard, 3,6 Mo et 0,5 s avec la légère. (2 October 2026)
+
+## 10 October 2026 : Exact source tracks and bounded transport scratch
+
+- The current video-raw-lib.mjs archives the input container exactly; the historical first-audio-only remux description does not govern this code. All embedded tracks remain in the archived original. Native browser playback of MKV and its tracks is a separate verification requirement. (10 October 2026)
+- For explicitly requested subtitle filtering, create a separate Matroska stream-copy with mkvmerge, retain every audio and video stream, inspect undetermined subtitle languages, compare the complete audio/video stream SHA256 hashes, and retain the original until confirmed cloud recovery and user deletion approval. (10 October 2026)
+- upload-mapped-git.mjs enables cleanupClosedShards: after a successful shard flush, release only the closed transport clone inside its isolated work directory, preserving the active clone and all source media. Pending bytes, missing pinned commits or an unsafe path refuse release. Six video-raw-lib tests pass, including retained pending scratch and neighboring sources. (10 October 2026)
+
+## 10 October 2026 : Verified subtitles, playback audio and cloud recovery
+
+- Canonical preparation implementation: /Users/zenray/.claude/skills/zenray-upload/scripts/PrepareSubtitleCopy.py. CLI: python3 /Users/zenray/.claude/skills/zenray-upload/scripts/PrepareSubtitleCopy.py <source.mkv> <derived.mkv> [--language-map=<verified-index-language.json>]. The original remains unchanged; every retained audio/video stream must have an identical complete SHA256 stream hash before accepting the derived copy. (10 October 2026)
+- mkvmerge normalizes HEVC parameter sets by default, changing packet hashes even when extracted elementary video bytes are identical. Pass --engage dont_normalize_parameter_sets and retain the strict stream-hash gate. Confirmed on a 4373786435-byte source after the first gate correctly rejected the normalized copy. (10 October 2026)
+- For original cloud verification, run node /Users/zenray/Create/Build/Productions/GithubProductions/ZenRayProgress/scripts/VerifyVideoCloud.mjs <manifest> <source> <receipt>. Pinned encrypted parts are read through Git rather than an API loop, checked and decrypted; complete recovered SHA256 must equal an unchanged source. Verified on 54221129 bytes; a malformed-offset manifest fails without creating a success receipt. (10 October 2026)
+- VideoPlayer2 audio selection now switches real HLS, DASH and exposed native audio tracks. Isolated HLS browser proof changes the measured tone from 441 to 877 Hz with no page errors; ten relevant tests and the build pass. This does not prove browser playback of all archived MKV formats. (10 October 2026)
+- Active Movies_Series batch records are /Users/zenray/.claude/tmp/tmp-movies-series-upload/UploadPlan.md. Original movie deletion still awaits complete recovery coverage and the requested user confirmation. (10 October 2026)
+
+## 10 October 2026: Slow-link video pushes and credential-safe Git
+
+- 10 October 2026: `video-raw-lib.mjs` reads `ZR_SHARD_PUSH_BATCH_MB` for the intermediate Git push threshold; the default remains 900 MiB, and the minimum remains one encrypted 95 MiB part plus its 16-byte authentication tag. This setting changes commit size only; `ZR_SHARD_CAP_GO` remains a separate shard-cap setting. (10 October 2026)
+- 10 October 2026: Measure actual transfer speed and choose a batch small enough to finish well inside the 30-minute push timeout. On 10 October 2026, 900 MiB pushes met DNS failures and HTTP 408 errors; the Movies_Series recovery run used 190 MiB batches and confirmed a private shard commit with four remote data parts totaling 301,004,134 bytes. (10 October 2026)
+- 10 October 2026: Never put a GitHub token in a Git remote URL or process argument. Pass Git HTTP authorization through `GIT_CONFIG_COUNT` and `http.https://github.com/.extraheader` environment settings; provide GitHub API authorization to curl through standard input configuration. (10 October 2026)
+- 10 October 2026: A published manifest is progress, not proof of a restorable backup. Before any local source removal, run `VerifyVideoCloud.mjs` for every source and require a successful receipt with matching complete source and restored SHA-256, unchanged source size, modification time and inode, and explicit user approval. (10 October 2026)
+- 10 October 2026: Run large media plans with a single cloud writer. Resume by letting the manifest clone skip already-published paths; keep every original source until all required cloud restore receipts are valid. (10 October 2026)

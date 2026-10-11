@@ -1,6 +1,6 @@
 ---
 name: zenray-assets
-description: Initialiser, reprendre, archiver et restaurer les projets ZenRay Assets, leurs sources et conversations. Intègre le feedback canonique, le mapping, les preuves cloud et LOAD/UNLOAD ; gouverne le service et son panneau macOS. Les médias vers Create passent par zenray-upload.
+description: Initialiser, reprendre, archiver et restaurer les projets ZenRay Assets, leurs sources et conversations. Intègre le feedback canonique, le mapping, les preuves cloud et LOAD/UNLOAD ; gouverne le service et son panneau macOS. Intègre aussi l'upload média vers Create (ex-zenray-upload, références Upload.md) avec sous-titres obligatoires pour le streaming HLS/DASH.
 ---
 
 # ZenRay Assets (7 October 2026)
@@ -493,3 +493,16 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 - 10 October 2026 : `assetsFileLocations` accepte uniquement un identifiant conforme au schéma et une correspondance exacte avec un identifiant source valide ; il conserve le chemin d’archive connu et n’invente pas de chemin Mac ou cloud attendu. (10 October 2026)
 - 10 October 2026 : Garde `sourceCloudFolder` strict pour les sources de workspace nouvelles ou mutables ; le lecteur historique doit ignorer la source non mappée au lieu d’affaiblir ce validateur. (10 October 2026)
 - 10 October 2026 : Vérifier le clic et le rendu de fichier avec `npx vitest run src/lib/assetsFileLocations.test.js src/components/assets/ProjectWorkspace.test.jsx --maxWorkers=1`. (10 October 2026)
+
+## 11 October 2026 : Upload média intégré, ex-zenray-upload
+
+- 11 October 2026 : `zenray-upload` est fusionné ici et supprimé comme skill. Son texte intégral, inchangé, est dans [references/Upload.md](references/Upload.md) : vidéo privée chiffrée et hvc1, image publique jsDelivr, audio chiffré en parts de 19 MiB au plus, règles Git bulk dès 100 fichiers. Lire cette référence avant tout upload vers Create, fichier local ou lien YouTube. (11 October 2026)
+- 11 October 2026 : `scripts/PrepareSubtitleCopy.py` (filtrage des pistes de sous-titres par langue) vit désormais dans ce skill ; le pipeline films l'appelle par ce chemin. (11 October 2026)
+
+## 11 October 2026 : Sous-titres obligatoires pour toute vidéo en streaming HLS/DASH
+
+- 11 October 2026 : Faute payée : le packaging CMAF `copy4` (`AttachVideoCmafDashHls.mjs`) ne recopie que la vidéo et l'audio. 160 films ont été publiés sans sous-titres alors que le lecteur savait les afficher. (11 October 2026)
+- 11 October 2026 : Contrat du lecteur (`VideoPlayer2.jsx`, `SubtitleLayer.jsx`, `src/lib/subtitleSidecar.js`) : `manifest.subtitles = [{ id, lang, label, format: 'ass'|'srt'|'vtt', encoding: 'gzip+base64', data }]`, rangé DANS le `.media.json`. Aucun fichier à publier, aucune vidéo à réuploader. (11 October 2026)
+- 11 October 2026 : Commande, avant la vérification cloud (sinon l'empreinte du manifeste ne correspond plus au reçu et le déchargement est refusé) : `node scripts/AttachSubtitleTracks.mjs --source <ORIGINAL> --manifest <clone>/pages/.../<nom>.media.json --commit`. Lire l'original, jamais la copie filtrée. Langues par priorité : français, japonais, anglais, trois pistes au plus ; pistes image PGS/DVD ignorées ; fichiers `.srt`/`.ass` voisins (même dossier, `subs/`, `SRT/`) pris en compte. `--dry` affiche ce qui serait attaché. (11 October 2026)
+- 11 October 2026 : Le pipeline `ProcessFilmsSequentially.py` exécute cette étape (« Étape 2b ») pour chaque film, journalise le résultat dans `SubtitleAttach.jsonl`, et garde la copie filtrée jusqu'au déchargement réussi : `mkvmerge` ne produit jamais deux fois les mêmes octets. (11 October 2026)
+- 11 October 2026 : Contrôle : le `.media.json` publié contient `subtitles` non vide pour tout film dont l'original porte une piste texte. Les sous-titres du film « Hors Normes (2019) » sont une piste de démonstration codée en dur dans le lecteur, pas un modèle de données. (11 October 2026)
