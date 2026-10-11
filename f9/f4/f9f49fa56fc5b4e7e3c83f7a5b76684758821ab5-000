@@ -1,7 +1,7 @@
 {
  "schemaVersion": 1,
  "projectId": "zenray-assets-v2",
- "scannedAt": "2026-10-10T21:35:08.894Z",
+ "scannedAt": "2026-10-11T02:57:24.164Z",
  "conversations": [
   {
    "projectId": "zenray-assets-v2",
@@ -149,18 +149,18 @@
   },
   {
    "projectId": "zenray-assets-v2",
-   "lines": 52,
+   "lines": 53,
    "work": 1,
    "prompts": 3,
    "first": "2026-10-05T08:37:26.786Z",
-   "last": "2026-10-10T21:25:42.946Z",
+   "last": "2026-10-10T22:31:33.730Z",
    "strength": "strong",
    "conversationId": "claude:2562b086-836d-49c5-80c7-0c935a98513c",
    "provider": "claude",
    "sessionId": "2562b086-836d-49c5-80c7-0c935a98513c",
    "title": "Vegetations Creating Materials October 2026",
-   "updatedAt": "2026-10-10T21:32:57.133Z",
-   "bytes": 24001,
+   "updatedAt": "2026-10-10T23:16:49.829Z",
+   "bytes": 23847,
    "boundProject": "vegetation-assets-collection-01"
   },
   {
@@ -376,6 +376,22 @@
    "lines": 2,
    "work": 0,
    "prompts": 0,
+   "first": "2026-10-10T21:07:39.124Z",
+   "last": "2026-10-10T22:01:11.344Z",
+   "strength": "weak",
+   "conversationId": "claude:e067e0eb-400b-4769-9366-225560e7a0e4",
+   "provider": "claude",
+   "sessionId": "e067e0eb-400b-4769-9366-225560e7a0e4",
+   "title": "Vidéo motion design OneKey Pro 2",
+   "updatedAt": "2026-10-10T22:56:15.940Z",
+   "bytes": 20930,
+   "boundProject": "zenray-motion-design-01"
+  },
+  {
+   "projectId": "zenray-assets-v2",
+   "lines": 2,
+   "work": 0,
+   "prompts": 0,
    "first": "2026-10-10T20:50:25.142Z",
    "last": "2026-10-10T20:53:21.351Z",
    "strength": "weak",
@@ -504,22 +520,6 @@
    "lines": 1,
    "work": 0,
    "prompts": 0,
-   "first": "2026-10-10T21:07:39.124Z",
-   "last": "2026-10-10T21:07:39.124Z",
-   "strength": "weak",
-   "conversationId": "claude:e067e0eb-400b-4769-9366-225560e7a0e4",
-   "provider": "claude",
-   "sessionId": "e067e0eb-400b-4769-9366-225560e7a0e4",
-   "title": "Vidéo motion design OneKey Pro 2",
-   "updatedAt": "2026-10-10T21:35:01.634Z",
-   "bytes": 5394000,
-   "boundProject": "zenray-motion-design-01"
-  },
-  {
-   "projectId": "zenray-assets-v2",
-   "lines": 1,
-   "work": 0,
-   "prompts": 0,
    "first": "2026-10-10T20:53:28.651Z",
    "last": "2026-10-10T20:53:28.651Z",
    "strength": "weak",
@@ -527,8 +527,8 @@
    "provider": "claude",
    "sessionId": "3e51dc3d-4e58-441b-abf8-9f6013ebbf24",
    "title": "Monitoring film upload deployment",
-   "updatedAt": "2026-10-10T21:34:57.564Z",
-   "bytes": 20852,
+   "updatedAt": "2026-10-11T02:56:33.507Z",
+   "bytes": 20882,
    "boundProject": null
   },
   {
