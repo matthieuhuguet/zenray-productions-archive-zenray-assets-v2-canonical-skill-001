@@ -1,7 +1,7 @@
 {
  "schemaVersion": 1,
  "projectId": "zenray-assets-v2",
- "scannedAt": "2026-10-12T10:20:55.538Z",
+ "scannedAt": "2026-10-12T12:28:41.820Z",
  "conversations": [
   {
    "projectId": "zenray-assets-v2",
@@ -197,18 +197,18 @@
   },
   {
    "projectId": "zenray-assets-v2",
-   "lines": 8,
+   "lines": 10,
    "work": 1,
-   "prompts": 3,
+   "prompts": 4,
    "first": "2026-10-10T08:31:16.258Z",
-   "last": "2026-10-10T09:05:01.297Z",
+   "last": "2026-10-12T10:32:37.588Z",
    "strength": "strong",
    "conversationId": "codex:01a124f0-0c66-7462-b1ff-038af6783afb",
    "provider": "codex",
    "sessionId": "01a124f0-0c66-7462-b1ff-038af6783afb",
    "title": "Conversation codex 01a124f0",
-   "updatedAt": "2026-10-10T09:06:21.955Z",
-   "bytes": 12735367,
+   "updatedAt": "2026-10-12T11:05:58.841Z",
+   "bytes": 34220895,
    "boundProject": "conversation-codex-aec1fa9e2736c44185ca1c87"
   },
   {
@@ -382,8 +382,8 @@
    "conversationId": "gemini:f3054ac7-8f2b-4b39-8ca3-541e9a4c3012",
    "provider": "gemini",
    "sessionId": "f3054ac7-8f2b-4b39-8ca3-541e9a4c3012",
-   "title": "Conversation Gemini f3054ac7",
-   "updatedAt": "2026-10-08T23:47:39.172Z",
+   "title": "grep zenrayfreelance context j'apply faut que je réponde quoi la ? get le context via + LE PROJET zenray-freelance et toute la data base fre",
+   "updatedAt": "2026-10-08T23:46:56.976361+00:00",
    "bytes": 3915776,
    "boundProject": "zenray-freelance"
   },
@@ -431,8 +431,8 @@
    "provider": "claude",
    "sessionId": "7e78b89b-c9f6-435b-aeea-a9878d6c808b",
    "title": "Motion Design GLSL",
-   "updatedAt": "2026-10-12T10:20:00.432Z",
-   "bytes": 20940,
+   "updatedAt": "2026-10-12T12:16:40.144Z",
+   "bytes": 20761,
    "boundProject": "zenray-motion-design"
   },
   {
@@ -446,9 +446,9 @@
    "conversationId": "claude:3e51dc3d-4e58-441b-abf8-9f6013ebbf24",
    "provider": "claude",
    "sessionId": "3e51dc3d-4e58-441b-abf8-9f6013ebbf24",
-   "title": "DRIVE",
-   "updatedAt": "2026-10-12T09:59:53.367Z",
-   "bytes": 20916,
+   "title": "DRIVE evolution",
+   "updatedAt": "2026-10-12T11:34:14.611Z",
+   "bytes": 20919,
    "boundProject": null
   },
   {
@@ -469,19 +469,19 @@
   },
   {
    "projectId": "zenray-assets-v2",
-   "lines": 3,
+   "lines": 4,
    "work": 0,
    "prompts": 0,
    "first": "2026-10-12T09:52:06.211Z",
-   "last": "2026-10-12T10:10:26.635Z",
+   "last": "2026-10-12T12:06:18.988Z",
    "strength": "weak",
    "conversationId": "claude:d71651de-2d57-45d0-b20d-830dd146d2ac",
    "provider": "claude",
    "sessionId": "d71651de-2d57-45d0-b20d-830dd146d2ac",
    "title": "ZenRay Assets UI rework",
-   "updatedAt": "2026-10-12T10:15:09.570Z",
-   "bytes": 20896,
-   "boundProject": null
+   "updatedAt": "2026-10-12T12:11:20.483Z",
+   "bytes": 20996,
+   "boundProject": "zenray-assets-tube-view"
   },
   {
    "projectId": "zenray-assets-v2",
@@ -495,8 +495,8 @@
    "provider": "claude",
    "sessionId": "5eff1aab-c6ea-4a74-81cf-51380f6fc653",
    "title": "ZENRAY FREELANCE",
-   "updatedAt": "2026-10-12T09:20:36.604Z",
-   "bytes": 20881,
+   "updatedAt": "2026-10-12T10:50:49.075Z",
+   "bytes": 20885,
    "boundProject": "zenray-freelance"
   },
   {
