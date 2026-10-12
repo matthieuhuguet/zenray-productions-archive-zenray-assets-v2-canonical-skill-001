@@ -1,0 +1,23 @@
+#!/bin/bash
+# RestartFilmWorker.sh (12 October 2026): restart the film upload worker WITHOUT leaving anything half done behind it.
+# FR : redemarre le worker des films proprement. Un redemarrage brutal (pkill du seul Python) laisse des processus enfants
+# vivants : un ffmpeg orphelin ecrit encore dans HlsDashWork/current et fait echouer l'empaquetage suivant (ENOTEMPTY).
+#   RestartFilmWorker.sh [--wait-upload-end]     (waits until no archive upload is running, 14 minutes at most)
+B=${ZR_FILMS_BASE:-/Users/zenray/.claude/tmp/tmp-movies-series-upload}
+if [ "$1" = "--wait-upload-end" ]; then
+  start=$(date +%s)
+  while pgrep -f "[u]pload-mapped-git.mjs" > /dev/null && [ $(( $(date +%s) - start )) -lt 840 ]; do sleep 5; done
+fi
+touch "$B/PAUSE"
+pkill -f "[P]ython Scripts/ProcessFilmsSequentially"; sleep 2
+# every child of the worker, including the ffmpeg started by the packaging
+pkill -f "[V]erifyVideoCloud.mjs"; pkill -f "[U]nloadVideoCloud.mjs"; pkill -f "[u]pload-mapped-git.mjs"
+pkill -f "[A]ttachVideoCmafDashHls.mjs"; pkill -f "[A]ttachSubtitleTracks.mjs"
+pkill -f "[f]fmpeg .*HlsDashWork"; pkill -f "[f]fmpeg .*PrepareSubtitleCopy"
+sleep 2
+# a killed writer must not leave the clone locked or in the middle of a rebase
+rm -rf "$B/ManifestClone.lock"
+cd "$B/ManifestClone" && for d in rebase-merge rebase-apply; do [ -d ".git/$d" ] && git rebase --abort 2>/dev/null; done
+rm -rf "$B/HlsDashWork/current"
+cd "$B" && rm -f PAUSE && nohup python3 Scripts/ProcessFilmsSequentially.py >> "$B/WorkerConsole.log" 2>&1 &
+echo "worker restarted at $(date +%H:%M:%S)"
