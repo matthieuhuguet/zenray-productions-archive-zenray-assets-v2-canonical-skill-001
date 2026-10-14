@@ -2,7 +2,7 @@
 
 ## Commencer ou reprendre (3 October 2026)
 
-Dis simplement à ton agent : « Utilise zenray-assets-v2 pour commencer ou reprendre mon projet Louisiana Bayou. » Il retrouve le projet existant, prépare son atelier et sa mémoire, relit son contexte et lie cette conversation au bon feedback. Aucun terminal à utiliser toi-même. (3 October 2026)
+Dis simplement à ton agent : « Utilise zenray-assets pour commencer ou reprendre mon projet Louisiana Bayou. » Il retrouve le projet existant, prépare son atelier et sa mémoire, relit son contexte et lie cette conversation au bon feedback. Aucun terminal à utiliser toi-même. (3 October 2026)
 
 Pour un nouveau projet, donne son nom une fois. Pour reprendre, garde le même nom ; une nouvelle conversation ou une nouvelle itération ne crée pas un nouveau projet. (3 October 2026)
 
@@ -46,7 +46,6 @@ Correction des anciens noms d onglets de ce guide : Historique et discussions re
 ## 9 October 2026 : Nom courant du skill
 
 - Pour commencer ou reprendre un projet, invoquer `zenray-assets` ; ce nom ouvre le workflow actuel et son feedback intégré. (9 October 2026)
-- L’ancien nom `zenray-assets-v2` reste une redirection de compatibilité ; l’identifiant de projet homonyme ne change pas. (9 October 2026)
 
 ## 9 October 2026 : Capture unique des réponses Codex
 
@@ -67,7 +66,3 @@ Correction des anciens noms d onglets de ce guide : Historique et discussions re
 - 9 October 2026 : Ouvre l’historique de la conversation ; le lecteur cherche le dernier prompt lisible autour des réponses récentes, même si de nombreux blocs d’outils les séparent. (9 October 2026)
 - 9 October 2026 : Si le prompt dépasse la recherche bornée, un message indique comment charger les messages précédents ; le transcript original reste intact. (9 October 2026)
 
-## 10 October 2026 : Retrait du nom historique
-
-- 10 October 2026 : Invoquer uniquement zenray-assets pour commencer ou reprendre un travail ; aucun alias zenray-assets-v2 n’est installé. (10 October 2026)
-- 10 October 2026 : Le projet zenray-assets-v2 garde son identifiant et ses données ; le nom du projet ne change pas le nom du skill. (10 October 2026)
