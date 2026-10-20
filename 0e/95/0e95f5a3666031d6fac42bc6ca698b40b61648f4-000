@@ -589,3 +589,5 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 - Contrôles : `src/lib/assetsProjectArticle.test.js`, `src/components/assets/ProjectArticle.test.jsx`, `src/components/assets/ProjectWorkspace.article.test.jsx`, `src/lib/assetsWorkspaceCatalogue.test.js` et `scripts/AssetsService.test.js`. Fonction préparée localement le 20 October 2026 ; déploiement et publication de UV-Match Height attendent la lecture de Matthieu. (20 October 2026)
 
 - Vérification finale locale : lecture complète testée pour .html et .htm, textes ordinaires toujours bornés à 256 KiB ; présentation des 14 fichiers du lot dans l’aperçu. Les horodatages des anciens commentaires du code sont conservés. Contrôle du contrat et build exécutés avant livraison de l’aperçu. (20 October 2026)
+
+- Articles descriptifs : « ton neutre court », contenu factuel, descriptif et bref, sans figures de style ; prompts inchangés mot pour mot. Sommaire gauche masquable et épinglable ; colonne réservée sur grand écran, fermé par défaut sous 800 px. Méthode canonique : zenray-edit/references/ProjectArticles.md. (20 October 2026)
