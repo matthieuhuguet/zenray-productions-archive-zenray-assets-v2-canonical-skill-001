@@ -13,6 +13,14 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 - Lire le contexte et le FEEDBACK.md retournés, puis la mémoire, les documents et les conversations originales utiles. `node scripts/Assets/Client.mjs context <id-ou-chemin-local>` actualise le mapping. Une nouvelle demande ne crée pas un nouveau projet. Une session liée ailleurs ne se réattribue pas. (7 October 2026)
 - Produire dans l’atelier actif retourné, ou dans une source de production explicitement reliée. Relier les nouvelles sources avec leurs sélections ; ne jamais reprendre un dossier mixte entier par facilité. (7 October 2026)
 
+## Articles : index des sources (21 October 2026)
+
+- Invoquer directement `zenray-assets` pour « créer un article dans Assets » ; charger les sources ci-dessous selon le geste, sans recopier leur méthode. (21 October 2026)
+- Création, définition JSON, fichiers liés, aperçu, validation et publication : `/Users/zenray/.claude/skills/zenray-edit/references/ProjectArticles.md`, du titre « Project articles in Assets » à la fin de « Automatic mirrors and review gate » (lignes 1 à 25). (21 October 2026)
+- Ton par défaut et sommaire : même fichier, section « Ton neutre court et sommaire » entière (lignes 26 à 32). (21 October 2026)
+- Directives détaillées du ton : `/Users/zenray/.claude/skills/zenray-neutral-tone/SKILL.md`, section « Directives de rédaction » entière (lignes 16 à 22). (21 October 2026)
+- Exemple livré et preuves : `/Users/zenray/.claude/skills/zenray-edit/references/ProjectArticles.md`, section « Publication UV-Match Height » entière (lignes 33 à 36), puis `/Users/zenray/.claude/Memory1/Projects/uv-match-height-20-october-2026/Project1.md`, section « Publication finale et arrêt demandé ». Les titres font foi si les lignes se déplacent. (21 October 2026)
+
 ## Feedback intégré (7 October 2026)
 
 - Le suivi fait partie du démarrage Assets, sans invocation séparée : FEEDBACK.md conserve les prompts, consignes, corrections et preuves dans `Memory1/Projects/<id>/`. Relire l’objectif avant une action et après une reprise. Le registre Assets remplace toute nouvelle liste de projets dans CLAUDE.md. (7 October 2026)
