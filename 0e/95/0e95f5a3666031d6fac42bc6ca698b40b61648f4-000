@@ -591,3 +591,31 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 - Vérification finale locale : lecture complète testée pour .html et .htm, textes ordinaires toujours bornés à 256 KiB ; présentation des 14 fichiers du lot dans l’aperçu. Les horodatages des anciens commentaires du code sont conservés. Contrôle du contrat et build exécutés avant livraison de l’aperçu. (20 October 2026)
 
 - Articles descriptifs : « ton neutre court », contenu factuel, descriptif et bref, sans figures de style ; prompts inchangés mot pour mot. Sommaire gauche masquable et épinglable ; colonne réservée sur grand écran, fermé par défaut sous 800 px. Méthode canonique : zenray-edit/references/ProjectArticles.md. (20 October 2026)
+
+## 20 October 2026 : miniatures Retina 720x406 et invalidation du cache navigateur
+
+- 20 October 2026 : les miniatures de couverture de projets dans la vue Assets étaient figées à 360x203 px avec une qualité de 0.72, produisant un flou visible sur les écrans Retina (DPR 2x). (20 October 2026)
+- 20 October 2026 : `COVER_THUMB` dans `src/lib/coverThumbnail.js` passe à 720x406 px avec une qualité WebP de 0.85, et la taille par défaut dans `src/components/assets/AssetsTube.jsx` passe à 720 px. (20 October 2026)
+- 20 October 2026 : la clé de cache local dans `src/lib/useProjectCovers.js` est incrémentée à `assets.covers.v2` afin de purger automatiquement les miniatures basse définition stockées dans le localStorage du navigateur des visiteurs. (20 October 2026)
+- 20 October 2026 : les couvertures enregistrées dans `pages/.zr-assets-covers.json` du dépôt `zenray-data` sont régénérées à la résolution Retina 720x406 via le script `scripts/Assets/RegenerateRetinaCovers.mjs`. (20 October 2026)
+
+## 20 October 2026 : épuration de la vue Tube et suppression des faux projets de démo
+
+- 20 October 2026 : la vue Tube conserve uniquement les noms techniques (`tmp`, `Memory`, `Houdini`, `Unreal`) ; le bouton d'alternance « Simples / Techniques » est retiré de la barre latérale. (20 October 2026)
+- 20 October 2026 : la désignation « TMP » passe en minuscules « tmp » sur l'ensemble de l'interface pour correspondre fidèlement aux répertoires locaux. (20 October 2026)
+- 20 October 2026 : l'entrée « Cloud » est retirée de la liste des emplacements dans la barre latérale pour alléger la navigation. (20 October 2026)
+- 20 October 2026 : le libellé de catégorie (« 3D » ou « Projet ») situé au-dessus du titre du projet est supprimé pour libérer la vue et rapprocher les titres. (20 October 2026)
+- 20 October 2026 : les mentions de catégories (« 3D », « Projet », « Skills », « Outil ») sous les cartes de projets de la grille Tube Home et dans la barre latérale Classique sont entièrement supprimées pour éliminer la surcharge visuelle. (20 October 2026)
+- 20 October 2026 : les deux anciens projets fictifs sans fichiers reliés (« Lorem ipsum dolor sit amet » et « zenray-html-photoshop-pdf-hda-socialmedia ») sont purgés du registre `pages/.zr-assets.json` sur `zenray-data`. (20 October 2026)
+
+## 20 October 2026 : modification et recadrage interactif des miniatures par clic droit
+
+- 20 October 2026 : détection du clic droit directement sur les miniatures de projets (cartes de la grille Tube Home, couverture de l'en-tête du projet et miniature du rail latéral). (20 October 2026)
+- 20 October 2026 : ouverture de la modale interactive `CoverAdjustModal` avec aperçu temps réel 16:9 au format 720x406 px. (20 October 2026)
+- 20 October 2026 : recadrage fluide en X et Y par glisser-déposer à la souris (drag) ou curseurs de position. (20 October 2026)
+- 20 October 2026 : zoom et dézoom à la molette de la souris ou par curseur de 10 % à 300 %, avec bandes noires automatiques (#000000) en mode letterbox ou pillarbox quand l'image est dézoomée ou adaptée. (20 October 2026)
+- 20 October 2026 : modes rapides en un clic : « Adapter (Bandes noires) », « Remplir (Plein écran) », « Centrer » et « Réinitialiser ». (20 October 2026)
+- 20 October 2026 : enregistrement fluide en WebP Retina 720x406 px à qualité 0.85, persisté dans `pages/.zr-assets-covers.json` et mis à jour instantanément dans l'état et le cache local `assets.covers.v2`. (20 October 2026)
+
+
+
