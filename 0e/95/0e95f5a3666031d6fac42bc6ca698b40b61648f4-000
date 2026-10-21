@@ -21,6 +21,8 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 - Directives détaillées du ton : `/Users/zenray/.claude/skills/zenray-neutral-tone/SKILL.md`, section « Directives de rédaction » entière (lignes 16 à 22). (21 October 2026)
 - Exemple livré et preuves : `/Users/zenray/.claude/skills/zenray-edit/references/ProjectArticles.md`, section « Publication UV-Match Height » entière (lignes 33 à 36), puis `/Users/zenray/.claude/Memory1/Projects/uv-match-height-20-october-2026/Project1.md`, section « Publication finale et arrêt demandé ». Les titres font foi si les lignes se déplacent. (21 October 2026)
 
+- Index des articles d'un projet, toujours à jour sans push : `/Users/zenray/.claude/skills/zenray-edit/references/ProjectArticles.md`, section « Index des articles d'un projet et dernière version ». (21 October 2026)
+
 ## Feedback intégré (7 October 2026)
 
 - Le suivi fait partie du démarrage Assets, sans invocation séparée : FEEDBACK.md conserve les prompts, consignes, corrections et preuves dans `Memory1/Projects/<id>/`. Relire l’objectif avant une action et après une reprise. Le registre Assets remplace toute nouvelle liste de projets dans CLAUDE.md. (7 October 2026)
