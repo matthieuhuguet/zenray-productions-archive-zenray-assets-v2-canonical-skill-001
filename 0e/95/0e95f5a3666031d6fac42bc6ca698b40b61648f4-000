@@ -672,3 +672,7 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 ## 25 October 2026 : les nouveaux articles neutres prennent le thème Papier
 
 - 25 October 2026 : tout NOUVEL article d'un projet Assets rendu par `render-project-article.mjs` (zenray-edit) prend le thème Papier éditorial (QLMarkdown B, corps 18 px) ; les articles existants restent en `galerie`. Détail et liste des définitions épinglées : `/Users/zenray/.claude/skills/zenray-edit/SKILL.md`, section du 25 October 2026. (25 October 2026)
+
+## 25 October 2026 : racine du dépôt ZenRay SFX
+
+- 25 October 2026 : `scripts/AssetsConfig.json` déclare `/Users/zenray/Create/Build/Productions/GithubProductions/ZenRaySFX` dans `additionalRoots.tmp`, comme ZenRay Motion Design, afin que le projet `zenray-sfx-25-october-2026` relie son dépôt en source `engine` (sans `.git` ni caches). Un dépôt hors racine est refusé par `register` (« Source outside configured tmp root ») : ajouter sa racine ici, enregistrer le contrat, pousser, puis recharger le service hors archive active. (25 October 2026)
