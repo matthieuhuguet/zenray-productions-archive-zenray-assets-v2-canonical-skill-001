@@ -11,6 +11,15 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 - FEEDBACK.md garde les demandes, Rules.md les consignes permanentes ; les connaissances explicatives alimentent les sources éditables de la synthèse sans duplication systématique dans Project1.md. Le service et la recherche dépendent encore de Project1.md : conserver les anciens fichiers, ne pas les supprimer ou renommer sans migration vérifiée. (1 November 2026)
 - La rédaction de la synthèse reste une responsabilité de l'agent ; inventaire, rendu, archivage et lecture locale/cloud relèvent du code existant. Ne pas annoncer un suivi universel automatique tant que sa couverture, ses horodatages, ses erreurs et ses preuves de sauvegarde ne sont pas implémentés et vérifiés. Cette section consigne la méthode, sans modifier le service. (1 November 2026)
 
+## 3 November 2026 : clôture systématique de projet = synthèse, article, index mapping et push cloud
+
+- Toute fin de travail ou de projet se clôt obligatoirement par la séquence complète :
+  1. Génération du document de synthèse HTML autonome (`Articles/index.html` et `Synthesis.html` / `index.html` avec GT Ultra inliné, figures base64, résumé neutre, inventaire replié) selon `/Users/zenray/.claude/skills/zenray-edit/references/ProjectSynthesis.md` ;
+  2. Index mapping complet : `IndexMapping.json` (fichiers, rôles, chemins, empreintes SHA256) et `ProjectInfo.json` (révisions datées, résumés et sourceDigest) ;
+  3. Déclaration de l'article dans le registre Assets via `requestAssets({ action: 'set-article', projectId, article: { fileId: 'workshop:Articles/index.html', title, sha256, thumbnailUrl } })` ;
+  4. Publication des métadonnées du projet (`requestAssets({ action: 'publish', projectId })`) et archivage cloud des fichiers (`requestAssets({ action: 'archive', projectId })`).
+- Rien n'est terminé tant que l'article n'est pas lié dans Assets et que la sauvegarde cloud n'est pas vérifiée. (3 November 2026)
+
 ## Entrée unique (7 October 2026)
 
 - Ce skill porte le démarrage, le mapping, le feedback (zenray-feedback intégré) et le service Assets. (7 October 2026)
@@ -747,3 +756,9 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 - 1 November 2026 : le daemon surveille l’identité de l’application chaque seconde ; une fermeture forcée depuis le Moniteur d’activité arrête aussi ses transferts, sans dépendre d’un callback de l’interface. `watchApplicationOwner` est testé avec un propriétaire et un travailleur réels. Le contrôleur natif a un délai de 10 s ; les commandes restent locales. (1 November 2026)
 - 1 November 2026 : preuves, 12 tests Node/Vitest verts, dont travailleur détaché ignorant TERM, processus voisin préservé et PID réutilisé protégé ; 14 fixtures natives vertes avec bouton présent, et cycle natif instrumenté start puis stop terminé avec code 0. `Verify.mjs <atelier> --offline` vérifie le panneau sans exiger ni lancer le vrai service ; le mode live reste distinct. Les fichiers de preuve sont dans `/Users/zenray/.claude/tmp/tmp-zenray-assets-v2/`. (1 November 2026)
 - 1 November 2026 : le premier essai de fermeture asynchrone avec `terminateLater` bloquait la terminaison dans la boucle native imbriquée. Correction prouvée : annuler provisoirement la demande, arrêter le service, puis redemander la fermeture après succès avec le drapeau `shutdownComplete`. L’ancienne vérification live échoue logiquement lorsque le service est arrêté ; le mode offline explicite conserve les autres contrôles. (1 November 2026)
+
+
+## 3 November 2026 : panne mémoire et relance après arrêt par signal
+
+- 3 November 2026, 15:24 Europe/Paris : le serveur a épuisé 8 Gio de mémoire ; le wrapper transformait le code null d un SIGABRT en succès (code || 0), puis KeepAlive=false le laissait arrêté pendant que l application restait ouverte. ServiceLifecycle.mjs traduit les signaux en échec et ServiceControl.mjs configure KeepAlive.SuccessfulExit=false. Un arrêt volontaire ou la disparition de l application reste une sortie réussie ; le daemon vérifie aussi l identité de l application avant chaque démarrage. Quitter décharge toujours le LaunchAgent et ne relance rien. (3 November 2026)
+- 3 November 2026 : publishProject ne matérialise plus les inventaires sans rapport avec la publication. Il conserve le projet, ses consommateurs et la fermeture transitive des dépendances déclarées et des sources partagées, avec déduplication des cycles. Ne pas revenir au snapshot de tous les projets. Tests rouges avec les anciens comportements, verts après correction : AssetsPublicationScope.test.js et Assets/ServiceLifecycle.test.js ; ServiceLifecycle.launchd.test.js vérifie une vraie relance macOS et la persistance de l arrêt après bootout. (3 November 2026)
