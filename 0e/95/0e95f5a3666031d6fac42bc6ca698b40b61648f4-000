@@ -5,6 +5,11 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 
 # ZenRay Assets (7 October 2026)
 
+## 4 November 2026 : synthèse HTML ultra-simple sans UI geek, schémas 1080p et routage Assets ou ZenRay Edit
+
+- L'agent qui finalise le travail écrit directement un document de synthèse HTML ultra-épuré selon `/Users/zenray/.claude/skills/zenray-edit/references/ProjectSynthesis.md` : 1) uniquement le titre métier du projet (`<h1>`) ; 2) directement dessous (sans sous-titre « Résumé »), 1 à 3 paragraphes courts expliquant d'abord à quoi sert le projet puis comment il fonctionne techniquement, sans aucun chemin de fichier, identifiant de conversation ni barre de métadonnées ; 3) directement dessous (sans sous-titre « Schéma » ni légende d'interface), un ou plusieurs schémas simples en résolution 1080p (1920 x 1080) avec texte anti-aliasé net ; et rien d'autre dans le HTML visible. (4 November 2026)
+- Si le travail est un projet Assets dédié, publier la synthèse dans ce projet Assets sous son nom métier (`set-article`, `publish`, `archive`). Si c'est un petit projet sans atelier Assets dédié, le ranger dans ZenRay Edit (`file-design.mjs`) pour l'exposer dans la galerie ZenRay Edit sans créer d'atelier Assets superflu. (4 November 2026)
+
 ## 1 November 2026 : synthèse HTML illustrée du projet
 
 - Pour chaque projet et atelier TMP, appliquer le contrat /Users/zenray/.claude/skills/zenray-edit/references/ProjectSynthesis.md : résumé neutre et visuel, inventaire issu d'Assets replié à l'ouverture, chaque entrée datée avec heure et fuseau, historique conservé et fraîcheur contrôlée à chaque modification. Relier le document à l'article du projet et au registre d'articles existant. (1 November 2026)
