@@ -777,3 +777,9 @@ description: Initialiser, reprendre, archiver et restaurer les projets ZenRay As
 ## 9 November 2026 : contexte par ZenRay Past (9 November 2026)
 
 - 9 November 2026 : pour retrouver le passé de ce domaine (décisions, valeur actuelle et versions dépassées, conversations, notes du jour, commits), interroger d'abord ZenRay Past, MCP `zenray-past` (`past_recall`, `past_resume`), avant de relire de gros fichiers ; voir la priorité 0 du CLAUDE.md global. (9 November 2026)
+
+## 9 November 2026 : les documents de ZenRay Edit ne sont pas des projets Assets (ZenRay Documents)
+
+- 9 November 2026 : mots de Matthieu, grammaire seule : « chaque document n'est pas un projet ZenRay Assets, c'est juste que les documents doivent être identifiés par l'agent et retrouvables très rapidement ». Un PDF, une lettre, une synthèse ou un article de ZenRay Edit se range dans `/Users/zenray/Create/ZenRayDocuments` (skill `zenray-documents`, index `index.json`), sans `BeginProject`, sans atelier TMP, sans FEEDBACK ni entrée au registre Assets. (9 November 2026)
+- 9 November 2026 : le lien se fait dans l'autre sens, par identifiant : le champ `projects` d'un document cite des identifiants Assets, et `node /Users/zenray/.claude/skills/zenray-documents/scripts/Documents.mjs for-project <assets-id>` liste les documents d'un projet. Un article de projet reste publié par `set-article` ; `file-article.mjs` le range en plus comme document `article`. Les designs `zenray-edit` du skill continuent d'être archivés par Assets (projet `zenray-edit`) ; l'index de ZenRay Documents les référence sans les copier. (9 November 2026)
+- 9 November 2026 : ne rien changer au contrat de ce skill pour les projets de production : un chantier qui produit des fichiers à livrer reste un projet Assets, un document seul (une lettre, un PDF, une synthèse) n'en est pas un. En cas de doute, `find` dans ZenRay Documents d'abord. (9 November 2026)
